@@ -1,0 +1,1865 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telephone Performance - Callsource</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/colvis/1.1.0/css/dataTables.colVis.min.css" />
+    <link rel="stylesheet" media="all" href="//reports.callsource.com/assets/application-a2c325b25639830b32ef6b4a7d1dd6d1.css" />
+
+    <link rel="stylesheet" href="//cdn.datatables.net/tabletools/2.2.3/css/dataTables.tableTools.css" />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.fileDownload/1.4.2/jquery.fileDownload.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+    <!--[if lte IE 8]><script src="//cdn.jsdelivr.net/excanvas/r3/excanvas.js" type="text/javascript"></script><![endif]-->
+
+    <script src="//reports.callsource.com/assets/application-99e05603966f937368754402bb082902.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.0/moment-timezone-with-data.min.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/colvis/1.1.0/js/dataTables.colVis.min.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/tabletools/2.2.3/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.11/sorting/datetime-moment.js" type="text/javascript"></script>
+
+    <style>
+        .page-header.navbar {
+            background: #414856
+        }
+
+        .page-sidebar {
+            background: #2C5A85;
+        }
+
+            .page-sidebar ul li a {
+                background-color: #2C5A85;
+            }
+    </style>
+
+    <meta name="csrf-param" content="authenticity_token" />
+    <meta name="csrf-token" content="OJlSlqU5/r3uT9fIZqVCU32GssYQ1VHQVcRzenymGdeBbV94TBjPpbKsLsVrzMFKlXNoCZHaMuX00fBUp8kO7A==" />
+
+    <!-- myHints install -->
+    <script type="text/javascript">!function (m, y, T, i, p, s) { m[T[1]] && m[T[1]][T[2]] && m[T[1]][T[2]](); m[T[0]] && m[T[0]][T[2]] && m[T[0]][T[2]](); m[T[0]] = function (onReadyHandler) { var l = m[T[0]], n = 'onReadyStack', h = onReadyHandler; (l[n] || (l[n] = [])) && typeof h === 'function' && l[n].push(h) }; m[T[0]].__ = { setup: { api_key: '3b4d43890c252b5024d0f5512481bfc2d094b9c5' }, version: '1.3.4', apiCallStack: [], apiDestroyStack: [] };['showTutorialList', 'startTutorial', 'withActiveTutorial', 'tutorialCount'].forEach(function (mn) { m[T[0]][mn] = function () { m[T[0]].__.apiCallStack.push([mn, arguments]) } });['destroy', 'refresh'].forEach(function (mn) { m[T[0]][mn] = function () { m[T[0]].__.apiDestroyStack.push(mn) } }); s = y.createElement('script'), s.type = 'text/javascript', s.src = 'https://myhints.co/webclient/loader.js', s.async = !0, y.getElementsByTagName('head').item(0).appendChild(s) }(window, document, ['myTips', 'myTipsApp', 'destroy'])</script>
+</head>
+
+<body class="page-header-fixed page-quick-sidebar-over-content">
+
+
+    <div class="page-header navbar navbar-fixed-top">
+        <div class="page-header-inner">
+
+            <div class="page-logo">
+                <a href="http://reports.callsource.com/">
+
+                    <img class="logo-default" width="300" src="/assets/callsource-1732ddc70ae3033bca83829cab4a2d0e.png" alt="Callsource" />
+
+                </a>      <div class="menu-toggler sidebar-toggler hide">
+                </div>
+            </div>
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            </a>
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li>
+                        <select id="account_search" class="form-control" style="width:370px">
+                            <option value="3802891">3802891 - Allen Service - Nexstar</option>
+                        </select>
+                    </li>
+                    <li class="dropdown dropdown-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <img class="img-circle" id="profile" src="/assets/default_avatar-52bd9e105b691f9e6fe4895dbfb2165b.jpg" alt="Default avatar" />
+
+                            <span class="username username-hide-on-mobile">Jas</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="/profile">
+                                    <i class="icon-user"></i> My Profile
+                                </a>
+                            </li>
+                            <li class="divider">
+
+                            </li>
+                            <li id='contact_us'>
+                                <a href="javascript:void(0);">
+                                    <i class="fa fa-envelope-o"></i> Contact Us
+                                </a>
+                            </li>
+                            <li class="divider">
+                            <li>
+                                <a target="_blank" href="/user_guide">
+                                    <i class="fa fa-info"></i> User Guide
+                                </a>
+                            </li>
+                            <li class="divider">
+                            <li>
+                                <a href="/logout">
+                                    <i class="fa fa-power-off"></i> Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- contact us modal -->
+    <div class="modal" id="contactUsModal" tabindex="-1" role="dialog" aria-labelledby="contactUsModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Contact Us</h4>
+                </div>
+
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="from" class="control-label">From:</label>
+                            <input type="text" class="form-control" name='from' id="from" value="jjackson@callsource.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="control-label">Subject:</label>
+                            <input type="text" class="form-control" name='subject' id="subject">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="control-label">Message:</label>
+                            <textarea class="form-control" name='message' id="message"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="pull-left">Or call us at 800-500-4433 to speak to Customer Service</div>
+                    <button type="button" id='close' class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Send</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- sending mail modal -->
+    <div class="modal" id="sendingModal" tabindex="-1" role="dialog" aria-labelledby="sendingModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+
+
+                <div class="modal-body" id="sendingMaiMessage">
+                    Sending your mail now...
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" id='contact_close' class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+    <div class="clearfix"></div>
+
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar-collapse collapse">
+
+                <ul class="page-sidebar-menu" data-keep-expanded="true" data-auto-scroll="true" data-slide-speed="200">
+                    <li class="sidebar-toggler-wrapper">
+                        <div class="sidebar-toggler">
+                            <i class="fa fa-chevron-circle-left"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <a data-no-turbolink="true" href="http://reports.callsource.com/">
+                            <i class="icon-home"></i><span class="title">Dashboard</span> <span class="selected"></span>
+                        </a>
+                    </li>
+
+                    <!-- Should clean up this logic as it is not scalable -->
+                    <li class="open">
+                        <a href="javascript:;"> <i class="icon-bar-chart"></i><span class="title">Reporting</span><span class="arrow open "></span> </a>
+                        <ul class="sub-menu" style="display: block;">
+
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/traffic/analysis">
+                                    <i class="group"></i> <i class="icon-speedometer"></i><span class="title">Traffic Analysis</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/calldetails">
+                                    <i class="group"></i> <i class="icon-call-end"></i><span class="title">Call Details</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/active/numbers">
+                                    <i class="group"></i> <i class="fa fa-list-ul"></i><span class="title">Active Numbers</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/ownersummary">
+                                    <i class="group"></i> <i class="fa fa-line-chart"></i><span class="title">Owner Summary</span>
+                                </a>
+                            </li>
+
+                            <li class="active">
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/telephone_performance">
+                                    <i class="group"></i> <i class="fa fa-balance-scale"></i><span class="title">Telephone Performance</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/utilization">
+                                    <i class="group"></i> <i class="fa fa-check"></i><span class="title">Utilization</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/prospect">
+                                    <i class="group"></i> <i class="fa fa-pie-chart"></i><span class="title">Prospect Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a data-no-turbolink="true" href="http://reports.callsource.com/reporting/my_reports">
+                            <i class="icon-docs"></i><span class="title">My Reports</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+        </script>
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <input type="hidden" id="is_pdf" value="">
+            <input type="hidden" id="companyType" value="HomeImprovement">
+            <input type="hidden" id="industryType" value="Home Improvement">
+            <input type="hidden" id="cache_id">
+            <input type="hidden" id="disable_links" value="false">
+
+            <input type='hidden' id='show_filter' value="true">
+            <div class="page-content telephone_performance" id="telephone_performance">
+
+                <div id="report_header" class="col-lg-12 report_header">
+
+
+                    <h3 class="page-title">
+                        Telephone Performance Analysis
+                    </h3>
+
+
+                    <div class="page-bar">
+                        <ul class='page-breadcrumb'>
+                            <li>
+                                <i class='icon-bar-chart'></i>
+                                Reporting
+                                <i class='fa fa-angle-right'></i>
+                            </li>
+                            <li>
+                                Telephone Performance Analysis
+                                <i class='fa fa-angle-right'></i>
+                            </li>
+                            <li id='location_breadcrumb' data-toggle='popover' data-trigger='manual' data-placement='bottom' data-html='true'>
+                            </li>
+                        </ul>
+
+                        <div class="page-toolbar">
+
+                            <div class="pull-right btn btn-fit-height hide" id="loading_report">
+                                Loading Report...
+                            </div>
+
+
+                            <div class="dropdown pull-right" id="schedule_report">
+                                <span class="dropdown-toggle btn btn-fit-height" data-toggle="dropdown" role="button"><i class="fa fa-clock-o" data-toggle="tooltip"></i></span>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a id='save_report'>Save</a></li>
+                                    <li><a id='schedule_pop'>Schedule</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group pull-right">
+                                <div class="grey-salt btn btn-fit-height dropdown-toggle" data-toggle="dropdown" id="export_data">
+                                    <i class="fa fa-download"></i> <span class="date-selected-text"></span> <i class="fa fa-angle-down"></i>
+                                </div>
+                                <ul class="dropdown-menu pull-right" id="export-settings-tpa">
+                                    <li>
+                                        <a data-type="pdf" href="#">PDF</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div id="filter-settings" class="pull-right btn btn-fit-height grey-salt" data-placement="top" data-toggle="tooltip">
+                                <i class="fa fa-filter"></i>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+
+
+
+                        </div>
+                        <form id="schedule_report_type">
+                            <input type="hidden" name="report_view" id="report_view_info" value="TELEPHONE_PERFORMANCE" />
+                            <input type="hidden" name="task_id" value="" />
+                            <input type="hidden" name="priority" value="0" />
+                        </form>
+
+                        <div class="modal" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Save Report</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <form id="save_form">
+
+                                                    <div class="form-group">
+                                                        <label for="save_report_name">Report Name <span id="save_report_name_error" class="hidden error">- Must not be blank</span></label>
+                                                        <input type="text" name="report_name" id="save_report_name" size="20" />
+                                                    </div>
+                                                    <div class="error hidden" id="save_date_range_error">
+                                                        Please select a default date range
+                                                    </div>
+                                                    <div class="form-group">
+                                                        Select your default date range for this report:
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="radio" name="report_time_period" value="PRIOR_DAY"> Prior Day
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="radio" name="report_time_period" value="MONTH_TO_DATE"> Month to Date
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="radio" name="report_time_period" value="PRIOR_MONTH"> Prior Month
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="radio" name="report_time_period" value="YEAR_TO_DATE"> Year to Date
+                                                    </div>
+                                                    <input type="hidden" name="account_id" id="account_id" value="3802891">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="saveReportButton">Save</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <script>
+                            //<![CDATA[
+
+                            $('#saveModal.modal').keypress(function (e) {
+                                if (e.which == '13') {
+                                    e.preventDefault();
+                                    $('#saveModal.modal #saveReportButton').click();
+                                }
+                            });
+
+                            $('#saveModal.modal').on('shown.bs.modal', function () {
+                                $('#saveModal.modal #save_report_name').focus();
+                            })
+
+//]]>
+                        </script>
+                        <div class="modal" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModal" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Report Scheduler</h3>
+                                        </div>
+                                        <div class="form-group">
+                                            <ol class="progtrckr" data-progtrckr-steps="3">
+                                                <li class="progtrckr-done">1</li>
+                                                <li class="progtrckr-todo">2</li>
+                                                <li class="progtrckr-todo">3</li>
+                                            </ol>
+                                        </div>
+                                        <h4>Select Name & Format</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <form id="schedule_form_1">
+
+                                                    <div class="form-group">
+                                                        <label for="report_name">Report Name <span id="report_name_error" class="hidden error">- Must not be blank</span></label>
+                                                        <input type="text" name="report_name" id="report_name" size="20" maxlength="120" />
+                                                    </div>
+                                                    <div class="error hidden" id="export_type_error">
+                                                        You must select an export type
+                                                    </div>
+                                                    <!-- SCH-115 comment out pdf,csv until we are ready
+                                                              {% if report_view != "TRAFFIC_ANALYSIS" %}
+                                                                  <div class="form-group" id="csvexport">
+                                                                      <img src="/assets/img/csv.png" width="50" height="50"><input type="radio" name="export_type" id="csv_export" value="csv"> .csv
+                                                                  </div>
+                                                              {% endif %}
+                                                    -->
+
+                                                    <div class="form-group" id="pdf_export_option">
+                                                        <img width="50" height="50" src="/assets/pdf-744e1dbb1a88be68097673ece394e43a.png" alt="Pdf" /><input type="radio" name="export_type" id="pdf_export" value="pdf"> PDF
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        <img width="50" height="50" src="/assets/html-7463e4dc056a98e169694a578711b4c2.png" alt="Html" /><input type="radio" name="export_type" id="html_export" value="html"> HTML
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="nextSchedule">Next</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <script>
+                            //<![CDATA[
+
+                            $('#scheduleModal.modal').keypress(function (e) {
+                                if (e.which == '13') {
+                                    e.preventDefault();
+                                    $('#scheduleModal.modal #nextSchedule').click();
+                                }
+                            });
+
+                            $('#scheduleModal.modal').on('shown.bs.modal', function () {
+                                $('#scheduleModal.modal #report_name').focus();
+                            })
+
+//]]>
+                        </script>
+                        <div class="modal" id="scheduleModal2" tabindex="-1" role="dialog" aria-labelledby="scheduleModal2" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Report Scheduler</h3>
+                                        </div>
+                                        <div class="form-group">
+                                            <ol class="progtrckr" data-progtrckr-steps="3">
+                                                <li class="progtrckr-done">1</li>
+                                                <li class="progtrckr-done">2</li>
+                                                <li class="progtrckr-todo">3</li>
+                                            </ol>
+                                        </div>
+                                        <h4>Select Frequency</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form id="schedule_form_2">
+                                            <input type="hidden" name="scheduled_start_date" value="2017-09-20">
+                                            <input type="hidden" name="scheduled_end_date" value="2035-01-01">
+                                            <input type="hidden" name="scheduled_run_days_of_week" id="scheduledRunMap" value="YYYYYYY">
+                                            <input type="hidden" name="account_id" id="schedule_account_id" value="3802891">
+                                            <input type="hidden" name="report_time_period" id="schedule_report_time_period">
+                                            <input type="hidden" name="scheduled_frequency" id="scheduled_frequency">
+                                            <input type="hidden" name="scheduled_interval" id="scheduledInterval">
+                                            <div class="row">
+                                                <div class="col-lg-9">
+                                                    <div>
+                                                        Delivery Time
+                                                        <select name="scheduled_run_time" id="schedule_start_time">
+                                                            <option value="0000">12am</option>
+                                                            <option value="0100">1am</option>
+                                                            <option value="0200">2am</option>
+                                                            <option value="0300">3am</option>
+                                                            <option value="0400">4am</option>
+                                                            <option value="0500">5am</option>
+                                                            <option value="0600">6am</option>
+                                                            <option value="0700">7am</option>
+                                                            <option value="0800">8am</option>
+                                                            <option value="0900">9am</option>
+                                                            <option value="1000">10am</option>
+                                                            <option value="1100">11am</option>
+                                                            <option value="1200">12pm</option>
+                                                            <option value="1300">1pm</option>
+                                                            <option value="1400">2pm</option>
+                                                            <option value="1500">3pm</option>
+                                                            <option value="1600">4pm</option>
+                                                            <option value="1700">5pm</option>
+                                                            <option value="1800">6pm</option>
+                                                            <option value="1900">7pm</option>
+                                                            <option value="2000">8pm</option>
+                                                            <option value="2100">9pm</option>
+                                                            <option value="2200">10pm</option>
+                                                            <option value="2300">11pm</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label> <span id="recurring_type_error" class="hidden error">Please select a timeframe</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4" id="recurring_type">
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <b>Report Timeframe</b>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="recurring_type" value="DAILY" id="daily_recurring"> Daily
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="recurring_type" value="PRIOR_WEEK" id="weekly_recurring"> Prior Week
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="recurring_type" value="MONTH_TO_DATE" id="mtd_recurring"> Month To Date
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="recurring_type" value="PRIOR_MONTH" id="monthly_recurring"> Prior Month
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7">
+
+                                                    <div class="hidden" id="weekly">
+                                                        <div class="form-group">
+                                                            <b>Desired Delivery Day(s)</b>
+                                                        </div>
+                                                        <span class="error hidden" id="weekly_error">Please select at least one day</span>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-5">
+                                                                <input type="checkbox" name="days" id="week_Sunday" value="Sunday"> Sunday <br />
+                                                                <input type="checkbox" name="days" id="week_Monday" value="Monday"> Monday <br />
+                                                                <input type="checkbox" name="days" id="week_Tuesday" value="Tuesday"> Tuesday <br />
+                                                                <input type="checkbox" name="days" id="week_Wednesday" value="Wednesday"> Wednesday
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <input type="checkbox" name="days" id="week_Thursday" value="Thursday"> Thursday<br />
+                                                                <input type="checkbox" name="days" id="week_Friday" value="Friday"> Friday<br />
+                                                                <input type="checkbox" name="days" id="week_Saturday" value="Saturday"> Saturday <br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hidden" id="monthly">
+                                                        <div class="form-group">
+                                                            <b>Desired Delivery Day(s)</b>
+                                                        </div>
+                                                        <span class="hidden error" id="monthly_error">Please select an option</span>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="monthly_type" id="recur_daily" value="DAILY">
+                                                            Daily
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="radio" name="monthly_type" id="recur_week" value="WEEKLY">
+                                                            Weekly
+                                                            <select disabled name="monthly_days" id="monthly_days">
+                                                                <option value="Sunday">Sunday</option>
+                                                                <option value="Monday">Monday</option>
+                                                                <option value="Tuesday">Tuesday</option>
+                                                                <option value="Wednesday">Wednesday</option>
+                                                                <option value="Thursday">Thursday</option>
+                                                                <option value="Friday">Friday</option>
+                                                                <option value="Saturday">Saturday</option>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="hidden" id="quarterly">
+                                                        <div class="form-group">
+                                                            <b>Desired Delivery Day(s)</b>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div id="quarterly_day_error" class="hidden error">Please enter a valid day</div>
+                                                            Day <input type="text" name="quarterly_day" id="quarterly_day" size="2" maxlength="2" class="numericOnly"> of every month
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal" data-dismiss="modal">Previous</button>
+                                        <button type="button" class="btn btn-primary" id="scheduleNext2">Next</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+                        <div class="modal" id="scheduleModal3" tabindex="-1" role="dialog" aria-labelledby="scheduleModal3" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Report Scheduler</h3>
+                                        </div>
+                                        <div class="form-group">
+                                            <ol class="progtrckr" data-progtrckr-steps="3">
+                                                <li class="progtrckr-done">1</li>
+                                                <li class="progtrckr-done">2</li>
+                                                <li class="progtrckr-done">3</li>
+                                            </ol>
+                                        </div>
+                                        <h4>Review & Schedule</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <form id="schedule_form_3">
+                                                    <div class="form-group">
+                                                        Name: <span id="report_name_output" style="word-wrap:break-word"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        Format: <span id="report_format_output"></span>
+                                                    </div>
+                                                    <!--
+                                                    <div class="form-group">
+                                                        Date Range: <span id="date_range_output"></span>
+                                                    </div>
+                                                    -->
+                                                    <div class="form-group">
+                                                        Schedule: <span id="report_schedule_output"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="error hidden" id="schedule_email">Please enter valid email addresses</div>
+                                                        <span title="Enter an email address here.  For multiple email addresses separate each by a semi-colon, comma or new line for example... bob@example.com;jane@example.com">Select Recipients <i class="glyphicon glyphicon-question-sign"></i></span>
+                                                        <textarea name="selected_recipients" id="selected_recipients" cols="50" rows="5" placeholder="Enter an email address here.  For multiple email addresses separate each by a semi-colon, comma or new line for example... bob@example.com;jane@example.com"></textarea>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#scheduleModal2" data-dismiss="modal">Previous</button>
+                                        <button type="button" class="btn btn-primary" id="scheduleNext3">Save & Schedule</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <script>
+                            //<![CDATA[
+
+                            $('#scheduleModal3.modal').keypress(function (e) {
+                                if (e.which == '13') {
+                                    e.preventDefault();
+                                    $('#scheduleModal3.modal #scheduleNext3').click();
+                                }
+                            });
+
+//]]>
+                        </script>
+                        <div class="modal" id="scheduleModal4" tabindex="-1" role="dialog" aria-labelledby="scheduleModal4" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Report Scheduler</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    Thank you! Your report has been scheduled.
+                                                </div>
+                                                <div class="form-group">
+                                                    Click on Go to My Reports to view your list of saved and scheduled reports, or click close to return to your current screen.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <a href="/reporting/my_reports" class="btn btn-primary">Go to My Reports</a>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+
+                        <div class="modal" id="saveReportConfirmation" tabindex="-1" role="dialog" aria-labelledby="saveReportConfirmation" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <div class="form-group text-center">
+                                            <h3>Save Report</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    Thank you! Your report has been saved.
+                                                </div>
+                                                <div class="form-group">
+                                                    Click on Go to My Reports to view your list of saved and scheduled reports, or click close to return to your current screen.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <a href="/reporting/my_reports" class="btn btn-primary">Go to My Reports</a>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+
+                        <div class="modal" id="scheduleFilter" tabindex="-1" role="dialog" aria-labelledby="scheduleFilter" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4>Alert</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    <strong>You are currently viewing a report with customizations in place.</strong>
+                                                </div>
+                                                <div class="form-group">
+                                                    Would you like to schedule with the current customizations?
+                                                </div>
+                                                <div class="form-group">
+                                                    or
+                                                </div>
+                                                <div class="form-group">
+                                                    Would you like to schedule with the default settings?
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="scheduleWithFilters" data-dismiss="modal" data-toggle="modal" data-target="#scheduleModal">Custom</button>
+                                        <button type="button" class="btn btn-primary" id="scheduleDefaults" data-dismiss="modal" data-toggle="modal" data-target="#scheduleModal">Defaults</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+
+                    </div>
+
+                </div>
+
+                <div id="tpa_filter_div" class="hide">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                TPA Filter
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <form id='tpa_filters' role="form">
+
+                                <div class="form-body">
+                                    <div class="form-group">
+
+                                        <div id='date_range_group' class='radio_buttons'>
+                                            <div class="row" style='margin-bottom: 0px'>
+                                                <div class="col-xs-6">
+                                                    <label>Date Range</label>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Trending Date Range</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input type="radio" name="date_range" value="month_to_date" checked><span>Month to Yesterday</span>
+                                                    <input type="radio" name="date_range" value="prior_month"><span>Prior Month</span>
+                                                    <input type="radio" name="date_range" value="prior_quarter"><span>Prior Quarter</span>
+                                                    <input type="radio" name="date_range" value="year_to_date"><span>Year to Date</span><br />
+                                                    <input type="radio" name="date_range" id='custom_date_range' value="custom_date_range"><span>Custom Date Range</span>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <input type="radio" name="trending_date_range" value="prior_week"><span>Last Week</span>
+                                                    <input type="radio" name="trending_date_range" value="prior_month"><span>Last Month</span>
+                                                    <input type="radio" name="trending_date_range" value="3_month"><span>Last 3 Months</span>
+                                                    <input type="radio" name="trending_date_range" value="6_month" checked><span>Last 6 Months</span>
+                                                </div>
+                                            </div> <!-- row -->
+
+                                            <div id='tpa_custome_date_range' class="row">
+                                                <div class="col-xs-3">
+                                                    <span>From:</span>&nbsp;
+                                                    <input type="text" name="tpa_start_date" id="tpa_start_date" value="" />
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <span>To:</span>&nbsp;
+                                                    <input type="text" name="tpa_end_date" id="tpa_end_date" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-6 filter-section">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <input type="checkbox" aria-label="View TPA Call Details" id="view_tpa_call_detail">
+                                                    </span>
+                                                    <span class="form-control" aria-label="View TPA Call Details">View TPA Call Details</span>
+                                                </div><!-- /input-group -->
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-xs-6 col-lg-6 col-sm-6">
+                                                <label>Questionnaire</label>
+                                                <select name='questionnaires' id='questionnaires' class="form-control" size='4'></select>
+                                            </div>
+
+                                            <div class="col-xs-6 col-lg-6 col-sm-6">
+                                                <label></label>
+                                                <div id='no_questionnaires_notice' class="alert alert-danger hide" role="alert">No questionnaires found. Please adjust the time frame in order to find a questionnaire.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <label>Locations</label>
+                                                <input type="text" name="filter" class="alphanumericOnly" id="locationFilter" data-listid="location" placeholder="Filter" style="width:100%" data-total_locations="" />
+                                            </div>
+                                            <div class="col-xs-3">
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <label>Employees</label>
+                                                <input type="text" name="filter" class="alphanumericOnly" id="employeeFilter" data-listid="employee" placeholder="Filter" style="width:100%" data-total_employees="" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="row">
+                                                    <div class="col-xs-6 button-container">
+                                                        <button title='Click to move selected items' type="button" id="location_rightSelected" class="filter btn btn-block btn-default"><i class="fa fa-arrow-right"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-6 button-container">
+                                                        <button title='Click to move all items' type="button" id="location_rightAll" class="btn btn-block btn-default"><i class="fa fa-arrow-right"></i><i class="fa fa-arrow-right"></i></button>
+                                                    </div>
+                                                </div>
+                                                <select name='locations' id='location' multiple="" class="form-control" size='6'>
+                                                    <option value="3802894">Allen Service - Nexstar</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="row">
+                                                    <div class="col-xs-6 button-container">
+                                                        <button type="button" id="location_leftSelected" class="btn btn-block btn-default"><i class="fa fa-arrow-left"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-6 button-container">
+                                                        <button type="button" id="location_leftAll" class="btn btn-block btn-default"><i class="fa fa-arrow-left"></i><i class="fa fa-arrow-left"></i></button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="selected_filter_locations">
+                                                <select name='locations' id='location_to' multiple="" class="form-control" size='6'></select>
+                                            </div>
+
+
+
+                                            <div class="col-xs-3">
+                                                <div class="row">
+                                                    <div class="col-xs-6 button-container">
+                                                        <button title='Click to move selected items' type="button" id="employee_rightSelected" class="filter btn btn-block btn-default"><i class="fa fa-arrow-right"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-6 button-container">
+                                                        <button title='Click to move all items' type="button" id="employee_rightAll" class="btn btn-block btn-default"><i class="fa fa-arrow-right"></i><i class="fa fa-arrow-right"></i></button>
+                                                    </div>
+                                                </div>
+                                                <select name='employees' id='employee' multiple="" class="form-control" size='6'>
+
+                                                    <option value="518613">Brenda </option>
+                                                    <option value="521814">Camille </option>
+                                                    <option value="518612">Chloe </option>
+                                                    <option value="335603">Dave Johnson</option>
+                                                    <option value="335606">Debbie Peters</option>
+                                                    <option value="335602">Jeff Allen</option>
+                                                    <option value="605229">Jenessa </option>
+                                                    <option value="335605">Maile Bergknut</option>
+                                                    <option value="473356">Marie </option>
+                                                    <option value="335604">Mary Cox</option>
+                                                    <option value="518994">Melvin </option>
+                                                    <option value="338734">None Specified</option>
+                                                    <option value="605228">Patrick </option>
+                                                    <option value="335607">Sherri Griffin</option>
+                                                    <option value="479309">Steve </option>
+                                                    <option value="559272">Unknown Employee</option>
+                                                    <option value="394741">Unknown Employee</option>
+
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="row">
+                                                    <div class="col-xs-6 button-container">
+                                                        <button type="button" id="employee_leftSelected" class="btn btn-block btn-default"><i class="fa fa-arrow-left"></i></button>
+                                                    </div>
+
+                                                    <div class="col-xs-6 button-container">
+                                                        <button type="button" id="employee_leftAll" class="btn btn-block btn-default"><i class="fa fa-arrow-left"></i><i class="fa fa-arrow-left"></i></button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="selected_filter_employees">
+                                                <select name='employees' id='employee_to' multiple="" class="form-control" size='6'></select>
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+
+
+
+
+
+
+
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                            </div>
+                                        </div>
+
+
+                                        <hr />
+
+                                    </div> <!-- form body -->
+                                    <div class="form-actions right">
+                                        <button type="button" id='tpa_cancel' class="btn default">Cancel</button>
+                                        <button type="button" class="btn blue disabled" id="view_questionnaire">View Questionnaire</button>
+                                        <button type="button" class="btn green disabled" id="view_report">View Report</button>
+                                        <span id="filter_loading" class="hide">Loading Report...</span>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row" id="tpa_main_content" style="display:none">
+                <div class="col-lg-12">
+                    <div id="table-responsive" style="margin: 0;padding: 0;">
+                        <div style="background-color:white">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist" style="background-color: #E9ECF3">
+                                <li role="presentation"><a href="#location_tab" aria-controls="location" role="tab" data-toggle="tab">Location</a></li>
+                                <li role="presentation"><a href="#employee_tab" aria-controls="employee" role="tab" data-toggle="tab">Employee</a></li>
+                                <!--
+                                          <li role="presentation"><a href="#question_summary" aria-controls="question_summary" role="tab" data-toggle="tab">Question Summary</a></li>
+                                          <li role="presentation"><a href="#questionnaire" aria-controls="questionnaire" role="tab" data-toggle="tab">Questionnaire</a></li>
+                                -->
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane portlet light" id="location_tab">
+                                    <div class='row'>
+                                        <div id="tpa_score" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-trophy green"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='green' data-counter="counterup" id="location_total_score">Loading...</span>
+                                                    </div>
+                                                    <div class="desc green"> TPA SCORE </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="industry_score" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-industry blue"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='blue' data-counter="counterup" id="location_industry_score">Loading...</span>
+                                                    </div>
+                                                    <div class="desc blue"> INDUSTRY SCORE </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="calls_scored" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-phone orange"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='orange' data-counter="counterup" id="location_calls_scored">Loading...</span>
+                                                    </div>
+                                                    <div class="desc orange"> CALLS SCORED </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="appointments" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-calendar-check-o red"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='red' data-counter="counterup" id="location_appointments">Loading...</span>
+                                                    </div>
+                                                    <div class="desc red"> APPOINTMENTS </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div id="location_most_improved_div" class='dashboard-stat rounded-corners' style="display:none">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+
+                                                    <div class="visual">
+                                                        <i class="fa fa-diamond purple"></i>
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="number">
+                                                            <div class='purple tpa_most_improved' data-toggle="tooltip" title="" id="location_most_improved">Loading...</div>
+                                                        </div>
+                                                        <div class="desc purple"> MOST IMPROVED </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div id="location_hi_low_scored_call_container" class='dashboard-stat rounded-corners'>
+
+                                                <div id='location_highest_scored_call' class='col-lg-12 col-md-12 col-sm-12'>
+                                                    <div class='row' style="margin: 0">
+                                                        <div id="location_best_audio">
+                                                            <i class="fa fa-play-circle-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0">
+                                                        <div class="call_data">
+                                                            <table>
+                                                                <tbody align="left">
+                                                                    <tr><td><h4><b>HIGHEST SCORED CALL</b></h4></td></tr>
+                                                                    <tr><td id='location_best_location'></td></tr>
+                                                                    <tr><td id='location_best_full_name'></td></tr>
+                                                                    <tr><td id='location_best_call_id'></td></tr>
+                                                                    <tr><td id='location_best_score'></td></tr>
+                                                                    <tr><td>&nbsp;</td></tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id='location_lowest_scored_call' class='col-lg-12 col-md-12 col-sm-12' style="background-color:#EAEAEA">
+                                                    <div class='row' style="margin: 0">
+                                                        <div id="location_lowest_audio">
+                                                            <i class="fa fa-play-circle-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0">
+                                                        <div class="call_data">
+                                                            <table>
+                                                                <tbody align="left">
+                                                                    <tr><td><h4><b>LOWEST SCORED CALL</b></h4></td></tr>
+                                                                    <tr><td id='location_lowest_location'></td></tr>
+                                                                    <tr><td id='location_lowest_full_name'></td></tr>
+                                                                    <tr><td id='location_lowest_call_id'></td></tr>
+                                                                    <tr><td id='location_lowest_score'></tr>
+                                                                    <tr><td>&nbsp;</td></tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                            <div id='trendline_graph' class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-area-chart green"></i>
+                                                    <span class="desc green"> TPA SCORE TRENDLINE </span>
+                                                </div>
+                                                <div class='graph' id='location_tpa_trendline'></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div id='ranking' class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-signal blue"></i>
+                                                    <span class="desc blue"> RANKING </span>
+                                                </div>
+                                                <div class='body'>
+
+                                                    <table class="table drilltable table-striped table-bordered table-hover" id="location_ranking_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th rowspan="2" colspan="1" class='text-center'></th>
+                                                                <th rowspan="1" colspan="5" class='text-center'>OVERALL RANK (CURRENT)</th>
+                                                                <th rowspan="1" colspan="3" class='text-center' id="prior_survey_location_header">PRIOR SURVEY</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Location</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Score</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Calls Scored</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Appts Set</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Avg. Duration</th>
+
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_location_rank'>Rank</th>
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_location_score_header'>Score</th>
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_location_appt_set'>Appts Set</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="location_ranking"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-line-chart blue"></i>
+                                                    <span class="desc blue"> SURVEY RESULTS BY CATEGORY </span>
+                                                </div>
+                                                <div class='graph' id='location_survey_results_by_category'></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-location-arrow blue"></i>
+                                                    <span class="desc blue"> LOCATION RESULTS BY CATEGORY </span>
+                                                </div>
+                                                <div class='graph' id='location_location_results_by_category'></div>
+
+                                                <div id='location_graph_info' class='hide'>
+                                                    <span>Showing 1 to <span id='location_records_visible'></span> of </span><span id='location_total_records'></span>
+                                                    <a id='view_all_locations' href=''>View All Locations</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row' id="location_call_details_div">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-phone blue"></i>
+                                                    <span class="desc blue"> CALL DETAILS </span>
+                                                </div>
+                                                <div class='body'>
+
+                                                    <table class="table drilltable table-striped table-bordered table-hover" id='location_call_details'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th class='text-center'>Call #</th>
+                                                                <th class='text-center'>Call ID</th>
+                                                                <th class='text-center'>Date</th>
+                                                                <th class='text-center'>Location</th>
+                                                                <th class='text-center'>Ad Source</th>
+                                                                <th class='text-center'>Employee</th>
+                                                                <th class='text-center'>Appt Set</th>
+                                                                <th class='text-center'>Duration</th>
+                                                                <th class='text-center'>Score</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="location_call_details_data"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="modal fade" id="all_locations" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <i class="fa fa-location-arrow blue"></i>
+                                                    <span class="modal-title" id="exampleModalLabel">LOCATIONS RESULTS BY CATEGORY</span>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class='graph' id='all_locations_modal_location_results_by_category'></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane portlet light" id="employee_tab">
+                                    <!-- Employee tab ui is same as the location tab, just different data -->
+                                    <div class='row'>
+                                        <div id="tpa_score" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-trophy green"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='green' data-counter="counterup" id="employee_total_score">Loading...</span>
+                                                    </div>
+                                                    <div class="desc green"> TPA SCORE </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="industry_score" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-industry blue"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='blue' data-counter="counterup" id="employee_industry_score">Loading...</span>
+                                                    </div>
+                                                    <div class="desc blue"> INDUSTRY SCORE </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="calls_scored" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-phone orange"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='orange' data-counter="counterup" id="employee_calls_scored">Loading...</span>
+                                                    </div>
+                                                    <div class="desc orange"> CALLS SCORED </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="appointments" class="col-lg-3 col-md-2 col-sm-6 col-xs-12 icon_with_value_container">
+                                            <div class="dashboard-stat rounded-corners">
+                                                <div class="visual">
+                                                    <i class="fa fa-calendar-check-o red"></i>
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number">
+                                                        <span class='red' data-counter="counterup" id="employee_appointments">Loading...</span>
+                                                    </div>
+                                                    <div class="desc red"> APPOINTMENTS </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                                            <div id="employee_most_improved_div" class='dashboard-stat rounded-corners' style="display:none">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="visual">
+                                                        <i class="fa fa-diamond purple"></i>
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="number">
+                                                            <div class='purple tpa_most_improved' data-toggle="tooltip" title="" id="employee_most_improved"></div>
+                                                        </div>
+                                                        <div class="desc purple"> MOST IMPROVED </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="employee_hi_low_scored_call_container" class='dashboard-stat rounded-corners'>
+
+                                                <div id='employee_highest_scored_call' class='col-lg-12 col-md-12 col-sm-12'>
+                                                    <div class='row' style="margin: 0">
+                                                        <div id="employee_best_audio">
+                                                            <i class="fa fa-play-circle-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class='row' style="margin: 0">
+                                                        <div class="call_data">
+                                                            <table>
+                                                                <tbody align="left">
+                                                                    <tr><td><h4><b>HIGHEST SCORED CALL</b></h4></td></tr>
+                                                                    <tr><td id='employee_best_location'></td></tr>
+                                                                    <tr><td id='employee_best_full_name'></td></tr>
+                                                                    <tr><td id='employee_best_call_id'></td></tr>
+                                                                    <tr><td id='employee_best_score'></td></tr>
+                                                                    <tr><td>&nbsp;</td></tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id='employee_lowest_scored_call' class='col-lg-12 col-md-12 col-sm-12' style="background-color:#EAEAEA">
+                                                    <div class='row' style="margin: 0">
+                                                        <div id="employee_lowest_audio">
+                                                            <i class="fa fa-play-circle-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class='row' style="margin: 0">
+                                                        <div class="call_data">
+                                                            <table>
+                                                                <tbody align="left">
+                                                                    <tr><td><h4><b>LOWEST SCORED CALL</b></h4></td></tr>
+                                                                    <tr><td id='employee_lowest_location'></td></tr>
+                                                                    <tr><td id='employee_lowest_full_name'></td></tr>
+                                                                    <tr><td id='employee_lowest_call_id'></td></tr>
+                                                                    <tr><td id='employee_lowest_score'></tr>
+                                                                    <tr><td>&nbsp;</td></tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                            <div id='employee_trendline_graph' class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-area-chart green"></i>
+                                                    <span class="desc green"> TPA SCORE TRENDLINE </span>
+                                                </div>
+                                                <div class='graph' id='employee_tpa_trendline'></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-signal blue"></i>
+                                                    <span class="desc blue"> RANKING </span>
+                                                </div>
+                                                <div class='body'>
+
+                                                    <table class="table drilltable table-striped table-bordered table-hover" id="employee_ranking_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th rowspan="2" colspan="1" class='text-center'></th>
+                                                                <th rowspan="1" colspan="5" class='text-center'>OVERALL RANK (CURRENT)</th>
+                                                                <th rowspan="1" colspan="3" class='text-center' id="prior_survey_header">PRIOR SURVEY</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Employee</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Score</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Calls Scored</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Appts Set</th>
+                                                                <th rowspan="1" colspan="1" class='text-center'>Avg. Duration</th>
+
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_rank'>Rank</th>
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_score_header'>Score</th>
+                                                                <th rowspan="1" colspan="1" class='text-center' id='prior_survey_appt_set'>Appts Set</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="employee_ranking"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class='row'>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-line-chart blue"></i>
+                                                    <span class="desc blue"> SURVEY RESULTS BY CATEGORY </span>
+                                                </div>
+                                                <div class='graph' id='employee_survey_results_by_category'></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-location-arrow blue"></i>
+                                                    <span class="desc blue"> EMPLOYEE RESULTS BY CATEGORY </span>
+                                                </div>
+                                                <div class='graph' id='employee_location_results_by_category'></div>
+
+                                                <div id='employee_graph_info' class='hide'>
+                                                    <span>Showing 1 to <span id='employee_location_records_visible'></span> of </span><span id='employee_location_total_records'></span>
+                                                    <a id='view_all_employees' href=''>View All Employees</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class='row' id="employee_call_details_div">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class='dashboard-stat rounded-corners graph_container'>
+                                                <div class='title'>
+                                                    <i class="fa fa-phone blue"></i>
+                                                    <span class="desc blue"> CALL DETAILS </span>
+                                                </div>
+                                                <div class='body'>
+
+                                                    <table class="table drilltable table-striped table-bordered table-hover" id='employee_call_details'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th class='text-center'>Call #</th>
+                                                                <th class='text-center'>Call ID</th>
+                                                                <th class='text-center'>Date</th>
+                                                                <th class='text-center'>Location</th>
+                                                                <th class='text-center'>Ad Source</th>
+                                                                <th class='text-center'>Employee</th>
+                                                                <th class='text-center'>Appt Set</th>
+                                                                <th class='text-center'>Duration</th>
+                                                                <th class='text-center'>Score</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="employee_call_details_data"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="modal" id="employee_details_modal" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog modal-lg" role="document" style="width:93%">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="employee_details_modal_label">Employee Detail:<span id='employee_name'></span> (<span id='employee_code'></span>)</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class='container-fluid'>
+                                                        <div id='score_line' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                                                            <div id='score_line' class='progress-bar'></div>
+                                                            <div id='score_line_previous_month' class='hide'></div>
+                                                            <div id='score_line_current_month' class='hide'></div>
+                                                        </div>
+                                                        <div id='heading_scores' class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                                                            <div id="tpa_category_template" class="hide tpa_category">
+                                                                <div class="dashboard-stat rounded-corners">
+                                                                    <div class="visual">
+                                                                    </div>
+                                                                    <div class="details">
+                                                                        <div class="number">
+                                                                            <span class='score' data-counter="counterup"></span>
+                                                                        </div>
+                                                                        <div class="desc title"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div id='header_score_items'></div>
+                                                        </div>
+                                                        <div class='general_stats dashboard-stat rounded-corners'>
+                                                            <h4><i class="fa fa-list"></i>&nbsp;GENERAL STATS</h4>
+
+                                                            <div id='general_stat_template' class='hide general_stat'>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <span class='description'></span>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                    <span class='value'></span>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div id='general_stat_items'></div>
+                                                        </div>
+                                                        <div class='category_trending dashboard-stat rounded-corners'>
+
+                                                            <h4 class='category_title'></h4>
+
+                                                            <div id='row_1' class='row'>
+                                                                <div class='col-md-8'>
+                                                                    <h4 id="category_trending_header" class='header_text'></h4>
+                                                                    <div id='category_trending_graph'></div>
+                                                                </div>
+
+                                                                <div class='col-md-4'>
+                                                                    <div id="employee_detail_hi_low_scored_call_container" class='dashboard-stat rounded-corners'>
+                                                                        <div id='employee_detail_highest_scored_call' class='col-lg-12 col-md-12 col-sm-12'>
+                                                                            <div id="employee_detail_best_audio">
+                                                                                <i class="fa fa-play-circle-o"></i>
+                                                                            </div>
+                                                                            <div class="call_data">
+                                                                                <table>
+                                                                                    <tbody>
+                                                                                        <tr><td id='employee_detail_best_call_id'></td></tr>
+                                                                                        <tr><td id='employee_detail_best_score'></td></tr>
+                                                                                        <tr><td>&nbsp;</td></tr>
+                                                                                        <tr><td>HIGHEST SCORED CALL</td></tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div id='employee_detail_lowest_scored_call' class='col-lg-12 col-md-12 col-sm-12' style="background-color:#EAEAEA">
+                                                                            <div id="employee_detail_lowest_audio">
+                                                                                <i class="fa fa-play-circle-o"></i>
+                                                                            </div>
+                                                                            <div class="call_data">
+                                                                                <table>
+                                                                                    <tbody>
+                                                                                        <tr><td id='employee_detail_lowest_call_id'></td></tr>
+                                                                                        <tr><td id='employee_detail_lowest_score'></tr>
+                                                                                        <tr><td>&nbsp;</td></tr>
+                                                                                        <tr><td>LOWEST SCORED CALL</td></tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- row_1 -->
+
+
+                                                            <div id='row_2' class='row'>
+                                                                <div class='col-md-12' id='category_trending_table_container'>
+                                                                    Loading...
+                                                                </div>
+                                                            </div> <!-- row_2 -->
+
+                                                        </div>
+                                                        <div id='call_details' class='dashboard-stat rounded-corners'>
+                                                            <h4><i class="fa fa-phone"></i>&nbsp;CALL DETAILS</h4>
+
+                                                            <div id='row_2' class='row'>
+                                                                <div class='col-md-12'>
+                                                                    <table id='call_details_table'>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Call #</th>
+                                                                                <th>Call ID</th>
+                                                                                <th>Date</th>
+                                                                                <th>Location</th>
+                                                                                <th>Ad Source</th>
+                                                                                <th>Employee</th>
+                                                                                <th>Appt. Set</th>
+                                                                                <th>Duration</th>
+                                                                                <th>Score</th>
+                                                                            </tr>
+                                                                        </thead>
+
+                                                                        <tbody></tbody>
+
+
+                                                                    </table>
+                                                                </div>
+                                                            </div> <!-- row_2 -->
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="all_employees" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <i class="fa fa-location-arrow blue"></i>
+                                                    <span class="modal-title" id="exampleModalLabel">EMPLOYEE RESULTS BY CATEGORY</span>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class='graph' id='all_employees_modal_location_results_by_category'></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="employee_detail_score_line_cache_id">
+                                    <input type="hidden" id="employee_detail_heading_scores_cache_id">
+                                    <input type="hidden" id="employee_detail_general_stats_cache_id">
+                                    <input type="hidden" id="employee_detail_category_trend_cache_id">
+                                </div>
+                                <!--
+                                <div role="tabpanel" class="tab-pane portlet light" id="question_summary">Question summary html goes here</div>
+                                <div role="tabpanel" class="tab-pane portlet light" id="questionnaire">questionnaire html goes here</div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix">
+            </div>
+        </div>
+        <!-- questionnaire modal -->
+        <div class="modal" id="questionnaireModal" tabindex="-1" role="dialog" aria-labelledby="questionnaireModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="tpa_main"><i class="fa fa-calendar"></i> TPA Questionnaire</h4>
+                    </div>
+
+
+                    <div class="modal-body" id="tpa_modal_body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href='#' id="questionnaire_pdf_target">
+                            <button type="button" class="btn btn-default"><i class="fa fa-file-pdf-o"></i> Export to PDF</button>
+                        </a>
+                        <a href='#' id="questionnaire_print_target" target='_blank'>
+                            <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+                        </a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- scorecard modal -->
+        <div class="modal" id="scorecardModal" tabindex="-1" role="dialog" aria-labelledby="scorecardModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="tpa_main">Scorecard</h4>
+                    </div>
+
+
+                    <div class="modal-body" id="tpa_scorecard_body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href='#' data-dismiss="modal">
+                            <button type="button" class="btn btn-default">Close</button>
+                        </a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+
+
+    </div>
+
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            2017 &copy; Callsource, Inc
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <div id="timeout" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-exclamation-triangle fa-3" style="color:red;"></i> Are you still there?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You have been inactive for 55 minutes.</p>
+                    <p>Your session will terminate in <span id="countdown">05:00</span> minutes.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="stay_logged_in">Keep me logged in!</button>
+                    <button type="button" class="btn btn-default" id="log_off">Log Off</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="error_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-exclamation-triangle fa-3" style="color:red;"></i> Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry an error has occurred please try again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+
+    <div class="ajaxLoading">
+        <span>Loading...</span>
+    </div>
+
+
+    <script>
+                            (function (i, s, o, g, r, a, m) {
+                            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                            ga('create', 'UA-73627634-1', 'auto');
+                            ga('send', 'pageview');
+
+    </script>
+
+    <input type='hidden' id='mix_panel_token' value="af2d5b118dbaa11b7e48dbf7ab68b756" />
+
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+                            (function (e, b) {
+                                if (!b.__SV) {
+                                    var a, f, i, g; window.mixpanel = b; b._i = []; b.init = function (a, e, d) {
+                                        function f(b, h) { var a = h.split("."); 2 == a.length && (b = b[a[0]], h = a[1]); b[h] = function () { b.push([h].concat(Array.prototype.slice.call(arguments, 0))) } } var c = b; "undefined" !== typeof d ? c = b[d] = [] : d = "mixpanel"; c.people = c.people || []; c.toString = function (b) { var a = "mixpanel"; "mixpanel" !== d && (a += "." + d); b || (a += " (stub)"); return a }; c.people.toString = function () { return c.toString(1) + ".people (stub)" }; i = "disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+                                        for (g = 0; g < i.length; g++)f(c, i[g]); b._i.push([a, e, d])
+                                    }; b.__SV = 1.2; a = e.createElement("script"); a.type = "text/javascript"; a.async = !0; a.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === e.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; f = e.getElementsByTagName("script")[0]; f.parentNode.insertBefore(a, f)
+                                }
+                            })(document, window.mixpanel || []);
+                            mixpanel.init(getMixPanelToken());
+
+
+                            function getMixPanelToken() {
+                                var token = $('#mix_panel_token').val();
+                                console.log('Mix panel token: ' + token);
+                                return token;
+                            }
+
+    </script><!-- end Mixpanel -->
+
+    <input type="hidden" id="selectedHeaderColor" value="#414856">
+    <input type="hidden" id="selectedSidebarColor" value="#2C5A85">
+    <input type="hidden" id="selectedLogo" value="">
+    <input type="hidden" id="audioLoaded" value="false">
+    <!-- Start of LiveChat (www.livechatinc.com) code -->
+    <script type="text/javascript">
+                            window.__lc = window.__lc || {};
+                            window.__lc.license = 8318781;
+                            (function () {
+                                var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+                                lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+                            })();
+    </script>
+    <!-- End of LiveChat code -->
+
+</body>
+
+</html>

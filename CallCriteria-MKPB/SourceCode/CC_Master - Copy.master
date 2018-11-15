@@ -1,0 +1,386 @@
+﻿<%@ Master Language="VB" CodeFile="CC_Master - Copy.master.vb" Inherits="CC_Master" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
+<%@ Register Assembly="FormsAuthenticationUserImpersonation"
+    Namespace="System.Web.UI.WebControls" TagPrefix="asp" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:100,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css?1000" type="text/css" />
+    <link rel="stylesheet" href="/css/fonts.css?1000" type="text/css" />
+    <%--<link rel="stylesheet" href="/css/font-awesome.css" type="text/css" />--%>
+    <link href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <%--<link rel="shortcut icon" href="/img/favicon1.png" type="image/x-icon" />--%>
+
+    <link runat="server" id="favIconX" rel="shortcut icon" href="~/img/favicon1.png" type="image/x-icon" />
+    <link runat="server" id="favIcon" rel="icon" href="~/img/favicon1.png" type="image/ico" />
+
+
+    <%--<script src="//code.jquery.com/jquery-2.1.3.js"></script>--%>
+    <script src="//code.jquery.com/jquery-3.2.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.2.0.min.js"></script>
+    <%--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>--%>
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/imgareaselect-default.css" />
+    <script type="text/javascript" src="/scripts/jquery.imgareaselect.pack.js"></script>
+    <!-- Pick-a-Date resources -->
+    <link rel="stylesheet" href="/css/pickadate/default.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pickadate/default.date.css" type="text/css" />
+    <link rel="stylesheet" href="/css/pickadate/default.time.css" type="text/css" />
+    <script src="/js/pickadate/compressed/picker.js"></script>
+    <script src="/js/pickadate/compressed/picker.date.js"></script>
+    <meta name="expires" content="mon, 01 Dec 2013" />
+
+    <!-- Custom scroll resources -->
+    <link rel="stylesheet" href="/css/custom-scrollbar/jquery.mCustomScrollbar.css" type="text/css" />
+    <script src="/js/custom-scrollbar/jquery.mousewheel.min.js"></script>
+    <script src="/js/custom-scrollbar/jquery.mCustomScrollbar.min.js"></script>
+
+    <!-- Flot Charts resources -->
+    <script type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+    <script type="text/javascript" src="/js/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="/js/flot/jquery.flot.pie.js"></script>
+    <script src="/js/dateFormat.js"></script>
+    <!-- Dragdealer resources -->
+    <script type="text/javascript" src="/js/dragdealer/dragdealer.js"></script>
+
+    <!-- Main script -->
+    <script type="text/javascript" src="/js/main.js?1021"></script>
+    <script type="text/javascript" src="/js/client_dashboard.js?1039"></script>
+    <link href="css/client_dashboard.css?1005" rel="stylesheet" />
+
+    <link href="css/cd2_new_css.css?1001" rel="stylesheet" />
+    <script src="js/cd2_new_js.js"></script>
+
+    <link href="/tablesorter/css/theme.blue.css" rel="stylesheet" />
+    <script src="tablesorter/js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $.xhrPool = [];
+            $.xhrPool.abortAll = function () {
+                $(this).each(function (i, jqXHR) {   //  cycle through list of recorded connection
+                    jqXHR.abort();  //  aborts connection
+                    $.xhrPool.splice(i, 1); //  removes from list by index
+                });
+            }
+            $.ajaxSetup({
+                beforeSend: function (jqXHR) { $.xhrPool.push(jqXHR); }, //  annd connection to list
+                complete: function (jqXHR) {
+                    var i = $.xhrPool.indexOf(jqXHR);   //  get index for current connection completed
+                    if (i > -1) $.xhrPool.splice(i, 1); //  removes from list by index
+                }
+            });
+        })
+    </script>
+
+
+
+    <script type="text/javascript">
+        function CallPrint(strid) {
+            var prtContent = document.getElementById(strid);
+            var WinPrint = window.open('', '', 'letf=0,top=0,width=400,height=400,toolbar=0,scrollbars=0,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+
+        }
+
+        function cancelBubble(e) {
+            var evt = e ? e : window.event;
+            if (evt.stopPropagation) evt.stopPropagation();
+            if (evt.cancelBubble != null) evt.cancelBubble = true;
+        }
+
+        function show_agenda(agenda_count) {
+
+            var ac_parent = $('#agenda_count').parent().position();
+            var ac = $('#agenda_count');
+            //ac.addClass("show_agenda_items");
+            ac.css("position", "absolute");
+            ac.css("top", ac_parent.top + 5);
+            ac.css("left", ac_parent.left + ac.parent().width() - 15);
+            ac.css("font-size", "smaller");
+            ac.css("color", "white");
+            //ac.css("background-color", "#182128;");
+            //ac.css("color", "white");
+            //ac.css("color", "white");
+            ac.html(agenda_count);
+
+            ac.bind('move', function () {
+                var ac_parent = $(this).parent().position();
+                //ac.addClass("show_agenda_items");
+                $(this).css("top", ac_parent.top + 5);
+                $(this).css("left", ac_parent.left + ac.width - 15);
+            });
+        }
+        function show_guidelines(agenda_count) {
+
+            var ac_parent = $('#guidelines_count').parent().position();
+            var ac = $('#guidelines_count');
+            //ac.addClass("show_agenda_items");
+            ac.css("position", "absolute");
+            ac.css("top", ac_parent.top + 5);
+            ac.css("left", ac_parent.left + ac.parent().width() - 15);
+            ac.css("font-size", "smaller");
+            ac.css("color", "white");
+            //ac.css("background-color", "#182128;");
+            //ac.css("color", "white");
+            //ac.css("color", "white");
+            ac.html(agenda_count);
+
+            ac.bind('move', function () {
+                var ac_parent = $(this).parent().position();
+                //ac.addClass("show_agenda_items");
+                $(this).css("top", ac_parent.top + 5);
+                $(this).css("left", ac_parent.left + ac.width - 15);
+            });
+        }
+
+
+        $("#lvAltUser_btnGo").click(function () {
+            clearArrayFilter();
+        });
+
+    </script>
+
+
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ToolkitScriptManager ID="ToolkitScriptManager1" EnablePartialRendering="true" runat="server">
+        </asp:ToolkitScriptManager>
+        <header>
+            <div id="dashHeader">
+                <table cellpadding="0px" cellspacing="0px" id="headerDashModules">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30px; padding-left: 10px; vertical-align: top;"><a href="cd2.aspx" style="height: 60px; display: block;">
+                                <img id="headerLogo" src="img/cc_gray_logo3.PNG" /></a></td>
+
+                            <asp:Literal ID="litLinks" runat="server"></asp:Literal>
+                            <td>&nbsp;</td>
+
+                            <td class="headerLink user-td"><span class="user">
+                                <!-- <span class="user-photo" style="background-image: url(../img/logo_square-36_light_x2.png);"></span> -->
+                                <span class="user-name">
+                                    <asp:Literal ID="litUser" runat="server"></asp:Literal></span>
+                            </span>
+                                <div class="user-dropdown">
+                                    <table cellpadding="0px" cellspacing="0px">
+                                        <tbody>
+                                            <tr>
+                                                <td class="user-title">
+                                                    <asp:Literal ID="litRole" runat="server"></asp:Literal></td>
+                                                <td class="user-logout"><a href="logout.aspx">Logout</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="user-settings" colspan="2"><a href="account_settings.aspx">Account Settings</a></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="user-title" colspan="2">
+                                                    <asp:LoginView ID="lvAltUser" runat="server">
+                                                        <RoleGroups>
+                                                            <asp:RoleGroup Roles="Admin">
+                                                                <ContentTemplate>
+                                                                    Switch to User:
+                                                            <asp:TextBox runat="server" ID="new_user"></asp:TextBox>
+                                                                    <asp:Button ID="btnGo" OnClick="btnGo_Click" runat="server" Text="Go" />
+
+                                                                </ContentTemplate>
+
+                                                            </asp:RoleGroup>
+                                                        </RoleGroups>
+                                                    </asp:LoginView>
+                                                    <asp:LoginUserImpersonation ID="LoginUserImpersonation1" runat="server" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="pin-search"><i class="fa fa-search"></i>
+                                <input id="search-text" type="text" value="" /></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </header>
+
+
+
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+        <style>
+            #divResults {
+                min-width: 100px;
+                padding: 0.5em;
+                display: none;
+                position: absolute;
+                z-index: 9999;
+            }
+
+
+            /*#divResults .ui-widget-content {
+                    background-color: #182128;
+                    color: #e9e9e9;
+                }*/
+
+            #ulResults {
+                list-style-type: none;
+                font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+                /*background-color: #182128;
+                color: #e9e9e9;*/
+            }
+
+                #ulResults li {
+                    line-height: 16px;
+                    cursor: pointer;
+                }
+        </style>
+        <span id="throwaway"></span>
+        <div id="divResults" class="ui-widget-content">
+        </div>
+
+        <script>
+            $(document).ready(function () {
+
+                $(window).resize(function () {
+                    $("#divResults").css({ left: $('#search-text').position().left + 20, top: $('#search-text').position().top + 40 })
+                });
+
+                $('#search-text').on('keyup', function () {
+                    $("#divResults").empty()
+                    $("#divResults").hide()
+                    if ($(this).val().length > 2)
+                        search($(this).val());
+                });
+
+                <%=agenda_items%>
+
+                function search(query) {
+                    //kill ostanding reqs if you add another character
+                    $.xhrPool.abortAll();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "CDService.svc/GetSearchResults",
+                        data: '{"test_string" : "' + query + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            var jsonObj = eval(msg.d);
+                            var text1 = '<ul id="ulResults">';
+                            var text2 = '';
+                            $.each(jsonObj, function (i, result) {
+                                if (result.label.indexOf('Agent') != -1)
+                                    text2 += '<li onclick="$(\'#search-text\').val(\'\');$(\'#divResults\').hide();getAgentData(\'' + result.value + '\', $(\'#throwaway\'), true)">' + result.value + '</li>';
+                                else
+                                    text2 += '<li onclick="addSearchFilter(\'' + result.label + '\',\'' + result.value + '\',\'' + result.form_id + '\')">' + result.value.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"); + '</li>';
+                            });
+                            var text3 = '</ul>';
+
+                            if (msg.d == '')
+                                text2 = 'No results';
+                            $('#search-text').after($("#divResults"))
+                            $("#divResults").html(text1 + text2 + text3)
+                            $("#divResults").css({ left: $('#search-text').position().left + 20, top: $('#search-text').position().top + 40 })
+                            if (text2.length > 0) {
+                                $("#ulResults li").hover(function () {
+                                    $(this).css({ color: '#0000CC' });
+                                }, function () {
+                                    $(this).css({ color: '#000000' });
+                                });
+                                $("#divResults").show()
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.d);
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+
+        <script type="text/javascript">
+
+
+            //$(document).ready(function () {
+            //    $("#form1").submit(function () {
+            //        var val = $("input[type=submit][clicked=true]").val();
+            //        if ($("input[type=submit][clicked=true]").hasClass("realsubmit"))
+            //        {
+            //            $("#form1 input.realsubmit[type=submit]")
+            //                                                      .click(function () {
+            //                                                          return false
+            //                                                      })
+            //                                                      .fadeTo(200, 0.5);
+            //            return true;
+            //        }
+
+            //        // DO WORK
+            //    });
+            //    $("form input[type=submit]").click(function () {
+            //        $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+            //        $(this).attr("clicked", "true");
+            //    });
+            //});
+
+
+            // literally kill all submit buttons after first hit.
+            function handleSubmit() {
+                if (typeof (ValidatorOnSubmit) == 'function' && ValidatorOnSubmit() == false) {
+                    return false;
+                } else {
+
+                    //$("#form1 input[type=submit]").attr("disabled", "disabled");
+
+                    var btn = $(this).find("input[type=submit][clicked=true]");
+
+                    if (btn.hasClass("realsubmit")) {
+                        $("#form1 input.realsubmit[type=submit]")
+                            .click(function () {
+                                return false
+                            })
+                            .fadeTo(200, 0.5);
+                        return true;
+
+                    }
+
+
+                }
+            }
+
+
+
+        </script>
+
+    </form>
+</body>
+</html>

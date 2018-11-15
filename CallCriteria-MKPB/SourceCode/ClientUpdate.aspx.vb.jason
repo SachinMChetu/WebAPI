@@ -1,0 +1,42 @@
+﻿Imports System.Data.SqlClient
+
+Partial Class ClientUpdate
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            dsUsers.SelectCommand = "SELECT DISTINCT username FROM UserExtraInfo WHERE active = 1 AND username <> '" & HttpContext.Current.User.Identity.Name & "'"
+        End If
+    End Sub
+
+    Protected Sub gvReport_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvReport.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+            If e.Row.Cells(5).Text.Length > 50 Then
+                e.Row.Cells(5).Text = e.Row.Cells(5).Text.Substring(0, 50) + "..."
+            End If
+        End If
+    End Sub
+
+    Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+
+        If txtSubject.Text = "" Or txtMsg.Text = "" Then Exit Sub
+
+        Dim sql As String = "INSERT INTO messaging (from_login,to_login,message_text,dateadded,subject) " & _
+                            "VALUES ('" & HttpContext.Current.User.Identity.Name & "','" & ddlUsers.SelectedValue & "','" & txtMsg.Text & "',getdate(),'" & txtSubject.Text & "')"
+
+        Dim cn As New SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings("estomes2ConnectionString").ConnectionString)
+        cn.Open()
+
+        Dim query As New SqlCommand(sql, cn)
+        query.CommandTimeout = 60
+        query.ExecuteNonQuery()
+
+        cn.Close()
+        cn.Dispose()
+
+        gvReport.DataBind()
+
+        txtSubject.Text = ""
+        txtMsg.Text = ""
+    End Sub
+End Class

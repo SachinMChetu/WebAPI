@@ -1,0 +1,225 @@
+
+
+.main-container {
+	text-align:center;
+}
+.edit-form {
+	margin:20px 50px;
+	display:inline-block;
+	text-align:left;
+	background-color: #f9f9f9;
+    padding: 10px 30px 20px 40px;
+}
+.edit-form h2 {
+	font-size:32px;
+	font-weight:400;
+	letter-spacing:0.1em;
+	text-indent:-20px;
+}
+.edit-form .form-table {
+	margin:10px 0px;
+}
+.edit-form .form-table .left-side {
+	display:inline-block;
+    float:left;
+	padding-right:30px;
+	vertical-align:top;
+	border-right:solid 1px rgba(0,0,0,.3);
+}
+.edit-form .form-table .right-side {
+    float:left;
+	display:inline-block;
+	padding-left:30px;
+	vertical-align:top;
+}
+.edit-form .label {
+	font-size:13px;
+	text-transform:uppercase;
+	letter-spacing:0.05em;
+	padding-right:15px;
+}
+.edit-form td {
+	padding-top:2px;
+	padding-bottom:2px;
+}
+.edit-form .space {
+	width:30px;
+}
+.edit-form .space1 {
+}
+.edit-form .space2 {
+	border-left:solid 1px rgba(0,0,0,.3);
+}
+.edit-form input[type="text"], .edit-form input[type="password"], .edit-form select {
+	width:200px;
+	padding:8px 7px;
+	background-color:#ffffff;
+	border:solid 1px #dddddd;
+	border-radius:0px;
+	box-shadow:none;
+	font-size:14px;
+	letter-spacing:0.1em;
+	margin:5px auto;
+}
+.edit-form input[type="text"]:hover, .edit-form input[type="text"]:focus, .edit-form input[type="password"]:hover, .edit-form input[type="password"]:focus {
+	border:solid 1px #cccccc;
+}
+
+.edit-form .checkboxes-list {
+	/* margin-left:10px; */
+}
+.edit-form .checkboxes-list td {
+	padding:5px 10px;
+	display:block; /* list checkboxes vertically */
+}
+
+input[type="checkbox"] {
+	display:none;
+}
+input[type="checkbox"] + .checkDisplay {
+	/* display:block; */
+	display:inline-block; /* to put checks *next* to labels */
+	width:20px;
+	height:20px;
+	border:solid 1px rgba(0,0,0,0.15);
+	background-color:#ffffff;
+	vertical-align:middle;
+	cursor:pointer;
+	margin:0px auto;
+	margin-right:10px; /* for putting checks *next* to labels */
+}
+input[type="checkbox"] + .checkDisplay:hover {
+	border:solid 1px rgba(0,0,0,0.25);
+}
+input[type="checkbox"]:checked + .checkDisplay {
+	/* background-image:url(resources/checkmark-lightblue.png); */
+	background-image:url(img/checkmark-darkblue.png);
+	background-size:80%;
+	background-position:center center;
+	background-repeat:no-repeat;
+}
+input[type="checkbox"][disabled] + .checkDisplay {
+	/* background-image:url(img/checkmark-lightblue.png);
+	background-color:rgba(50,50,50,0.10);
+	border:solid 1px rgba(0,0,0,0.10); */
+	background-image:url(img/checkmark-darkblue.png);
+	background-color:transparent;
+	border:solid 1px transparent;
+	cursor:default;
+}
+
+.submit-buttons {
+	margin-top:30px;
+	margin-bottom:10px;
+}
+
+button, input[type="submit"], .button-style {
+	font-size:12px;
+	padding:8px 15px;
+	margin:0px 2px;
+	text-transform:uppercase;
+	letter-spacing:0.15em;
+	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+	cursor:pointer;
+	
+	background-color:transparent;
+	border:solid 1px #41637c;
+	color:#41637c;
+	font-weight:600;
+}
+button:hover, button:focus, input[type="submit"]:hover, input[type="submit"]:focus, .button-style:hover, .button-style:focus {
+	border:solid 1px #334759;
+	color:#334759;
+}
+.dark-button, button.dark-button, input[type="submit"].dark-button, .button-style.dark-button {
+	background-color:#41637c;
+	border:solid 1px #41637c;
+	color:#ffffff;
+	font-weight:400;
+}
+.dark-button:hover, .dark-button:focus, button.dark-button:hover, button.dark-button:focus, input[type="submit"].dark-button:hover, input[type="submit"].dark-button:focus, .button-style.dark-button:hover, .button-style.dark-button:focus {
+	background-color:#334759;
+	border:solid 1px #334759;
+	color:#ffffff;
+}
+button.disabled-button, input[type="submit"].disabled-button, button[disabled], input[type="submit"][disabled], .button-style.disabled-button, .button-style[disabled] {
+	background-color:#cccccc;
+	border:solid 1px #cccccc;
+	color:#ffffff;
+	font-weight:400;
+	cursor:default;
+}
+button.disabled-button:hover, button.disabled-button:focus, input[type="submit"].disabled-button:hover, input[type="submit"].disabled-button:focus, button[disabled]:hover, button[disabled]:focus, input[type="submit"][disabled]:hover, input[type="submit"][disabled]:focus, .button-style.disabled-button:hover, .button-style.disabled-button:focus, .button-style[disabled]:hover, .button-style[disabled]:focus {
+	background-color:#cccccc;
+	border:solid 1px #cccccc;
+	color:#ffffff;
+}
+.light-button {
+	background-color:#eeeeee;
+	border:solid 1px #eeeeee;
+	color:#bbbbbb;
+	font-weight:400;
+}
+.light-button:hover, .light-button:focus {
+	background-color:#e6e6e6;
+	border:solid 1px #e6e6e6;
+	color:#aaaaaa;
+}
+.small-button {
+	font-size:11px;
+	padding:8px 11px;
+}
+
+
+
+
+
+
+
+
+
+/*  ---------------- FOR USE AS AN IFRAME --------------------- */
+.edit-form {
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

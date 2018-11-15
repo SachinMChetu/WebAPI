@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WebApi/bin
+/WebApi/obj
+/DAL/obj
+/WebApi/export
+/.vs/WebApi/v15/Server/sqlite3
+/.vs/WebApi/v15/sqlite3/db.lock
+/.vs/WebApi/v15/sqlite3/storage.ide-wal
+/.vs/WebApi/v15/sqlite3/storage.ide-shm
+/WebApi_.psess
+/WebApi_180130.vspx
+*.user
+*.ide
+.vs/WebApi/v15/.suo
+*.config
+.vs/WebApi/v15/.suo
+*.ide
+/.vs
+/DAL/bin/
+/DAL/bin
+/WebApi/properties/
+/WebApi/properties

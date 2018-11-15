@@ -1,0 +1,59 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/CC_Master.master" AutoEventWireup="false" CodeFile="agent_view.aspx.vb" Inherits="agent_view" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <section class="main-container dash-modules general-button">
+        <h2>Agent View</h2>
+
+        Agent Details:
+        <br />
+        <asp:HiddenField ID="hdnAgentList" runat="server" />
+        Start Date:
+        <asp:TextBox ID="txtStart" CssClass="hasDatePicker" runat="server"></asp:TextBox>
+        End Date:
+        <asp:TextBox ID="txtEnd" CssClass="hasDatePicker" runat="server"></asp:TextBox><asp:Button ID="btnGo" runat="server" Text="Go" />
+        <br />
+        Add Agent:
+        <asp:TextBox ID="txtAddAgent" runat="server"></asp:TextBox>
+        <cc1:AutoCompleteExtender ServiceMethod="SearchCustomers"
+            MinimumPrefixLength="2"
+            CompletionInterval="100" EnableCaching="false" CompletionSetCount="10"
+            TargetControlID="txtAddAgent"
+            ID="AutoCompleteExtender1" runat="server" FirstRowSelected="false">
+        </cc1:AutoCompleteExtender>
+        <asp:Button ID="btnAdd" runat="server" Text="Add" />
+        <asp:GridView ID="gvAgentSummary" DataKeyNames="agent" DataSourceID="dsAgentSummary" CssClass="detailsTable" runat="server">
+            <Columns>
+                <asp:CommandField ShowSelectButton="true" />
+                <asp:ButtonField Text="X" CommandName="remove_agent" />
+            </Columns>
+        </asp:GridView>
+        <asp:SqlDataSource ID="dsAgentSummary" SelectCommand="getAgentSummaryData" SelectCommandType="StoredProcedure" ConnectionString="<%$ ConnectionStrings:estomes2ConnectionString %>" runat="server">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="hdnAgentList" Name="agent_list" />
+                <asp:ControlParameter ControlID="txtStart" Name="start_date" />
+                <asp:ControlParameter ControlID="txtEnd" Name="end_date" />
+                <asp:Parameter Name="username" />
+            </SelectParameters>
+        </asp:SqlDataSource>
+
+        <h4>Agent Details
+            <asp:Literal ID="litagent" runat="server"></asp:Literal></h4>
+
+<%--        <cc1:BarChart ID="BarChart1" runat="server" ChartHeight="300" ChartWidth="450"
+            ChartType="Column" ChartTitleColor="#0E426C" Visible="false"
+            CategoryAxisLineColor="#D08AD9" ValueAxisLineColor="#D08AD9" BaseLineColor="#A156AB">
+        </cc1:BarChart>--%>
+
+        <%--<cc1:LineChart ID="Linechart1" runat="server" ChartHeight="300" 
+            ChartTitleColor="#0E426C" Visible="false"
+            CategoryAxisLineColor="#D08AD9" ValueAxisLineColor="#D08AD9" BaseLineColor="#A156AB">
+        </cc1:LineChart>--%>
+
+    </section>
+</asp:Content>
+

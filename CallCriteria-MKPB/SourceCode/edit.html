@@ -1,0 +1,95 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script type="text/javascript">
+$(function () {
+    $("td").dblclick(function () {
+        var OriginalContent = $(this).text();
+        $(this).addClass("cellEditing");
+        $(this).html("<input type='text' value='" + OriginalContent + "' />");
+        $(this).children().first().focus();
+        $(this).children().first().keypress(function (e) {
+            if (e.which == 13) {
+		var newContent = $(this).val();
+		var $row = $(this).closest("tr");
+		$(this).parent().text(newContent);
+		$tds = $row.find("td");
+		
+		var parm="";
+		var valIndex=1;
+		$.each($tds, function() { 
+			parm = parm + (parm.length>0 ? "&":"") + "val" + valIndex++ + "=" + $(this).text();
+		});
+		
+                $(this).parent().removeClass("cellEditing");
+				
+		var URL = '/editAction.php?' + parm;
+		
+		var xmlhttp; 
+		if (window.XMLHttpRequest){ 
+			// code for IE7+, Firefox, Chrome, Opera, Safari 
+			xmlhttp=new XMLHttpRequest(); 
+		} 
+		else{ 
+			// code for IE6, IE5 		
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+		} 
+
+		xmlhttp.onreadystatechange=function(){ 
+			// if successfully done it will return status 200 
+			if (xmlhttp.readyState==4 && xmlhttp.status!=200){ 
+				alert ('Can not update comment. Contact admin');
+			}   
+		} 
+		
+		xmlhttp.open("GET",URL,true); 		
+		xmlhttp.send();
+            }
+        });
+    $(this).children().first().blur(function(){
+        $(this).parent().text(OriginalContent);
+        $(this).parent().removeClass("cellEditing");
+    });
+        $(this).find('input').dblclick(function(e){
+            e.stopPropagation(); 
+        });
+    });
+});
+</script>
+</head>
+
+<body>
+	<table class="editableTable">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="IdCol">001</td>
+                <td class="NameCol">Ryan Stomel</td>
+                <td class="EmailCol">rstml@yahoo.com</td>
+                <td class="PhCol">1111111111</td>
+            </tr>
+	    <tr>
+                <td class="IdCol">002</td>
+                <td class="NameCol">Stace Moss</td>
+                <td class="EmailCol">smoss@yahoo.com</td>
+                <td class="PhCol">2222222222</td>
+            </tr>
+	    <tr>
+                <td class="IdCol">003</td>
+                <td class="NameCol">Rakhesh Abraham</td>
+                <td class="EmailCol">rakhesh_abraham@yahoo.com</td>
+                <td class="PhCol">3333333333</td>
+            </tr>
+        </tbody>
+    	</table>
+	<p style="color:red;">Double Click the item you want to edit</p>
+</body>
+</html>
