@@ -771,9 +771,9 @@ namespace WebApi.DataLayer
 
                 var resultform_score = dataContext.form_score3.Where(x => x.id == si).FirstOrDefault();
                 session_viewed objsession_viewed = new session_viewed();
-                int sessionId = Convert.ToInt32(resultform_score.session_id);
                 if (resultform_score == null)
                 {
+                    int sessionId = Convert.ToInt32(resultform_score.session_id);
                     // Save form_score3 data
                     objsession_viewed.session_id = sessionId;
                     objsession_viewed.page_viewed = "review";

@@ -95,6 +95,7 @@ namespace WebApi.Entities
         public virtual DbSet<qs_pub_emails> qs_pub_emails { get; set; }
         public virtual DbSet<question_answers> question_answers { get; set; }
         public virtual DbSet<question_options> question_options { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<reportField> reportFields { get; set; }
         public virtual DbSet<saved_queries> saved_queries { get; set; }
         public virtual DbSet<sc_inputs> sc_inputs { get; set; }
@@ -326,7 +327,6 @@ namespace WebApi.Entities
         public virtual DbSet<form_q_scores_options_changes> form_q_scores_options_changes { get; set; }
         public virtual DbSet<form_q_response_changes> form_q_response_changes { get; set; }
         public virtual DbSet<session_viewed> session_viewed { get; set; }
-        public virtual DbSet<Question> Questions { get; set; }
     
         [DbFunction("CC_ProdEntities", "checkEDUFirstSchools")]
         public virtual IQueryable<checkEDUFirstSchools_Result> checkEDUFirstSchools(Nullable<int> f_id)
@@ -1549,21 +1549,73 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getListenQuestions_Result>("getListenQuestions", sectionParameter, scorecard_idParameter, xcc_idParameter, show_calcParameter, usernameParameter);
         }
     
-        public virtual ObjectResult<getvwForm_Result> getvwForm(Nullable<int> id, string appname, Nullable<int> userCcorecard)
+        public virtual ObjectResult<getEditorQuestions_Result> getEditorQuestions(Nullable<int> f_id, Nullable<int> section, string editor)
+        {
+            var f_idParameter = f_id.HasValue ?
+                new ObjectParameter("F_id", f_id) :
+                new ObjectParameter("F_id", typeof(int));
+    
+            var sectionParameter = section.HasValue ?
+                new ObjectParameter("section", section) :
+                new ObjectParameter("section", typeof(int));
+    
+            var editorParameter = editor != null ?
+                new ObjectParameter("editor", editor) :
+                new ObjectParameter("editor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getEditorQuestions_Result>("getEditorQuestions", f_idParameter, sectionParameter, editorParameter);
+        }
+    
+        public virtual ObjectResult<GetformQScoreChanges_Result> GetformQScoreChanges(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
     
-            var appnameParameter = appname != null ?
-                new ObjectParameter("appname", appname) :
-                new ObjectParameter("appname", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetformQScoreChanges_Result>("GetformQScoreChanges", idParameter);
+        }
     
-            var userCcorecardParameter = userCcorecard.HasValue ?
-                new ObjectParameter("userCcorecard", userCcorecard) :
-                new ObjectParameter("userCcorecard", typeof(int));
+        public virtual ObjectResult<GetRecordxccReportNew_Result> GetRecordxccReportNew(Nullable<int> sESSION_ID, string aPPNAME, string uSERNAME)
+        {
+            var sESSION_IDParameter = sESSION_ID.HasValue ?
+                new ObjectParameter("SESSION_ID", sESSION_ID) :
+                new ObjectParameter("SESSION_ID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getvwForm_Result>("getvwForm", idParameter, appnameParameter, userCcorecardParameter);
+            var aPPNAMEParameter = aPPNAME != null ?
+                new ObjectParameter("APPNAME", aPPNAME) :
+                new ObjectParameter("APPNAME", typeof(string));
+    
+            var uSERNAMEParameter = uSERNAME != null ?
+                new ObjectParameter("USERNAME", uSERNAME) :
+                new ObjectParameter("USERNAME", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRecordxccReportNew_Result>("GetRecordxccReportNew", sESSION_IDParameter, aPPNAMEParameter, uSERNAMEParameter);
+        }
+    
+        public virtual ObjectResult<getvwForm_Result> getvwForm(Nullable<int> id, string aPPNAME, string userName)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var aPPNAMEParameter = aPPNAME != null ?
+                new ObjectParameter("APPNAME", aPPNAME) :
+                new ObjectParameter("APPNAME", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("userName", userName) :
+                new ObjectParameter("userName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getvwForm_Result>("getvwForm", idParameter, aPPNAMEParameter, userNameParameter);
+        }
+    
+        public virtual ObjectResult<GetuserexTrainfo_Result> GetuserexTrainfo(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetuserexTrainfo_Result>("GetuserexTrainfo", idParameter);
         }
     }
 }

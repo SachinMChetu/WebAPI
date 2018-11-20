@@ -175,8 +175,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.answer_comments_back' d
           <Property Name="answer_id" Type="int" />
           <Property Name="question_id" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.api_access' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="api_access">
           <Key>
             <PropertyRef Name="id" />
@@ -8426,6 +8424,9 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="GetformQScoreChanges" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="getFormResponses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="QId" Type="int" Mode="In" />
@@ -9694,6 +9695,11 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Parameter Name="appname" Type="varchar" Mode="In" />
           <Parameter Name="filter" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetRecordxccReportNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SESSION_ID" Type="int" Mode="In" />
+          <Parameter Name="APPNAME" Type="varchar" Mode="In" />
+          <Parameter Name="USERNAME" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="getRejectionReasons" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="scorecard" Type="int" Mode="In" />
         </Function>
@@ -10157,6 +10163,9 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
         <Function Name="getUserCalibrationCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="uname" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetuserexTrainfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="getUserGroups" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="varchar" Mode="In" />
         </Function>
@@ -10187,8 +10196,8 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
         </Function>
         <Function Name="getvwForm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="appname" Type="varchar" Mode="In" />
-          <Parameter Name="userCcorecard" Type="int" Mode="In" />
+          <Parameter Name="APPNAME" Type="varchar" Mode="In" />
+          <Parameter Name="userName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="getvwTrain" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
@@ -11194,6 +11203,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="additional_pay" EntityType="Self.additional_pay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agent_Hours" EntityType="Self.Agent_Hours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="answer_comments" EntityType="Self.answer_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="api_access" EntityType="Self.api_access" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="API_KEYS" EntityType="Self.API_KEYS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="app_settings" EntityType="Self.app_settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="app_specific_exports" EntityType="Self.app_specific_exports" Schema="dbo" store:Type="Tables" />
@@ -11385,16 +11395,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     [answer_comments_back].[answer_id] AS [answer_id], 
     [answer_comments_back].[question_id] AS [question_id]
     FROM [dbo].[answer_comments_back] AS [answer_comments_back]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="api_access" EntityType="Self.api_access" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [api_access].[id] AS [id], 
-    [api_access].[ip] AS [ip], 
-    [api_access].[value] AS [value], 
-    [api_access].[value_type] AS [value_type], 
-    [api_access].[date_added] AS [date_added], 
-    [api_access].[posted_appname] AS [posted_appname]
-    FROM [dbo].[api_access] AS [api_access]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="app_ip" EntityType="Self.app_ip" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -15785,7 +15785,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Name="cs_text_returned" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="cs_id_returned" Type="Int32" />
           <Property Name="custom_comment_required" Type="Boolean" />
-          <NavigationProperty Name="Question" Relationship="Model.FK_question_answers_Questions" FromRole="question_answers" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="Self.FK_question_answers_Questions" FromRole="question_answers" ToRole="Questions" />
         </EntityType>
         <EntityType Name="question_options">
           <Key>
@@ -15798,6 +15798,63 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Name="date_start" Type="DateTime" Precision="3" />
           <Property Name="date_end" Type="DateTime" Precision="3" />
           <Property Name="option_order" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="section" Type="Int32" />
+          <Property Name="category" Type="Int32" />
+          <Property Name="q_order" Type="Int32" />
+          <Property Name="question1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="q_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="q_short_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" />
+          <Property Name="heading" Type="Int32" />
+          <Property Name="Order" Type="Int32" />
+          <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="q_percent" Type="Double" />
+          <Property Name="appname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="auto_yes" Type="Boolean" />
+          <Property Name="auto_no" Type="Boolean" />
+          <Property Name="agent_display" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="default_answer" Type="Int32" />
+          <Property Name="orig_id" Type="Int32" />
+          <Property Name="total_points" Type="Double" />
+          <Property Name="template" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="template_items" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="linked_question" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email_wrong" Type="Boolean" />
+          <Property Name="campaign_specific" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="scorecard_id" Type="Int32" />
+          <Property Name="QA_points" Type="Double" />
+          <Property Name="compliance" Type="Boolean" />
+          <Property Name="date_q_added" Type="DateTime" Precision="3" />
+          <Property Name="non_billable" Type="Boolean" />
+          <Property Name="comments_allowed" Type="Boolean" />
+          <Property Name="linked_answer" Type="Int32" />
+          <Property Name="linked_comment" Type="Int32" />
+          <Property Name="client_visible" Type="Int32" />
+          <Property Name="client_guideline_visible" Type="Boolean" />
+          <Property Name="Sectionless_Order" Type="Int32" />
+          <Property Name="linked_visible" Type="Boolean" />
+          <Property Name="client_dashboard_visible" Type="Boolean" />
+          <Property Name="pinned" Type="Boolean" />
+          <Property Name="pre_production" Type="Boolean" />
+          <Property Name="single_comment" Type="Boolean" />
+          <Property Name="points_paused" Type="Boolean" />
+          <Property Name="points_paused_date" Type="DateTime" Precision="3" />
+          <Property Name="full_width" Type="Boolean" />
+          <Property Name="wide_q" Type="Boolean" />
+          <Property Name="require_custom_comment" Type="Boolean" />
+          <Property Name="sentence" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ddl_type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ddlQuery" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="options_verb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="left_column_question" Type="Boolean" />
+          <Property Name="univeral_postition" Type="Int32" />
+          <NavigationProperty Name="question_answers" Relationship="Self.FK_question_answers_Questions" FromRole="Questions" ToRole="question_answers" />
         </EntityType>
         <EntityType Name="reportField">
           <Key>
@@ -20153,6 +20210,18 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_question_answers_Questions">
+          <End Role="Questions" Type="Self.Question" Multiplicity="0..1" />
+          <End Role="question_answers" Type="Self.question_answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Questions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question_answers">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TimezoneAdjustmentRule_Timezone">
           <End Role="Timezone" Type="Self.Timezone" Multiplicity="0..1" />
           <End Role="TimezoneAdjustmentRule" Type="Self.TimezoneAdjustmentRule" Multiplicity="*" />
@@ -20234,6 +20303,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="qs_pub_emails" EntityType="Self.qs_pub_emails" />
           <EntitySet Name="question_answers" EntityType="Self.question_answers" />
           <EntitySet Name="question_options" EntityType="Self.question_options" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
           <EntitySet Name="reportFields" EntityType="Self.reportField" />
           <EntitySet Name="saved_queries" EntityType="Self.saved_queries" />
           <EntitySet Name="sc_inputs" EntityType="Self.sc_inputs" />
@@ -20475,6 +20545,10 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <AssociationSet Name="FK__CoachingL__Actio__39CD8610" Association="Self.FK__CoachingL__Actio__39CD8610">
             <End Role="CorrectiveAction" EntitySet="CorrectiveActions" />
             <End Role="CoachingLog" EntitySet="CoachingLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_question_answers_Questions" Association="Self.FK_question_answers_Questions">
+            <End Role="Questions" EntitySet="Questions" />
+            <End Role="question_answers" EntitySet="question_answers" />
           </AssociationSet>
           <AssociationSet Name="FK_TimezoneAdjustmentRule_Timezone" Association="Self.FK_TimezoneAdjustmentRule_Timezone">
             <End Role="Timezone" EntitySet="Timezones" />
@@ -20846,15 +20920,26 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="show_calc" Mode="In" Type="Int32" />
             <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Questions" EntityType="Model.Question" />
-          <AssociationSet Name="FK_question_answers_Questions" Association="Model.FK_question_answers_Questions">
-            <End Role="Question" EntitySet="Questions" />
-            <End Role="question_answers" EntitySet="question_answers" />
-          </AssociationSet>
+          <FunctionImport Name="getEditorQuestions" ReturnType="Collection(Model.getEditorQuestions_Result)">
+            <Parameter Name="F_id" Mode="In" Type="Int32" />
+            <Parameter Name="section" Mode="In" Type="Int32" />
+            <Parameter Name="editor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetformQScoreChanges" ReturnType="Collection(Model.GetformQScoreChanges_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRecordxccReportNew" ReturnType="Collection(Model.GetRecordxccReportNew_Result)">
+            <Parameter Name="SESSION_ID" Mode="In" Type="Int32" />
+            <Parameter Name="APPNAME" Mode="In" Type="String" />
+            <Parameter Name="USERNAME" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="getvwForm" ReturnType="Collection(Model.getvwForm_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="appname" Mode="In" Type="String" />
-            <Parameter Name="userCcorecard" Mode="In" Type="Int32" />
+            <Parameter Name="APPNAME" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetuserexTrainfo" ReturnType="Collection(Model.GetuserexTrainfo_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetAllRecords_Result">
@@ -22087,76 +22172,200 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="String" Name="scorecard_name" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="getListenQuestions_Result" >
-          </ComplexType>
-        <EntityType Name="Question">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="section" Type="Int32" />
-          <Property Name="category" Type="Int32" />
-          <Property Name="q_order" Type="Int32" />
-          <Property Name="question1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="q_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="q_short_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="active" Type="Boolean" />
-          <Property Name="heading" Type="Int32" />
-          <Property Name="Order" Type="Int32" />
-          <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="q_percent" Type="Double" />
-          <Property Name="appname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="auto_yes" Type="Boolean" />
-          <Property Name="auto_no" Type="Boolean" />
-          <Property Name="agent_display" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="default_answer" Type="Int32" />
-          <Property Name="orig_id" Type="Int32" />
-          <Property Name="total_points" Type="Double" />
-          <Property Name="template" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="template_items" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="linked_question" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="email_wrong" Type="Boolean" />
-          <Property Name="campaign_specific" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="scorecard_id" Type="Int32" />
-          <Property Name="QA_points" Type="Double" />
-          <Property Name="compliance" Type="Boolean" />
-          <Property Name="date_q_added" Type="DateTime" Precision="3" />
-          <Property Name="non_billable" Type="Boolean" />
-          <Property Name="comments_allowed" Type="Boolean" />
-          <Property Name="linked_answer" Type="Int32" />
-          <Property Name="linked_comment" Type="Int32" />
-          <Property Name="client_visible" Type="Int32" />
-          <Property Name="client_guideline_visible" Type="Boolean" />
-          <Property Name="Sectionless_Order" Type="Int32" />
-          <Property Name="linked_visible" Type="Boolean" />
-          <Property Name="client_dashboard_visible" Type="Boolean" />
-          <Property Name="pinned" Type="Boolean" />
-          <Property Name="pre_production" Type="Boolean" />
-          <Property Name="single_comment" Type="Boolean" />
-          <Property Name="points_paused" Type="Boolean" />
-          <Property Name="points_paused_date" Type="DateTime" Precision="3" />
-          <Property Name="full_width" Type="Boolean" />
-          <Property Name="wide_q" Type="Boolean" />
-          <Property Name="require_custom_comment" Type="Boolean" />
-          <Property Name="sentence" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="ddl_type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ddlQuery" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="options_verb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="left_column_question" Type="Boolean" />
-          <Property Name="univeral_postition" Type="Int32" />
-          <NavigationProperty Name="question_answers" Relationship="Model.FK_question_answers_Questions" FromRole="Question" ToRole="question_answers" />
-        </EntityType>
-        <Association Name="FK_question_answers_Questions">
-          <End Type="Model.Question" Role="Question" Multiplicity="0..1" />
-          <End Type="Model.question_answers" Role="question_answers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="question_answers">
-              <PropertyRef Name="question_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <Property Type="String" Name="q_short_name" Nullable="false" />
+          <Property Type="String" Name="question" Nullable="false" />
+          <Property Type="Int32" Name="linked_answer" Nullable="false" />
+          <Property Type="Int32" Name="linked_comment" Nullable="false" />
+          <Property Type="Boolean" Name="single_comment" Nullable="false" />
+          <Property Type="Boolean" Name="comments_allowed" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetformQScoreChanges_Result">
+          <Property Type="DateTime" Name="review_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="changed_by" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="user_role" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="total_score" Nullable="true" />
+          <Property Type="Int32" Name="f_id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getEditorQuestions_Result" >
+          <Property Type="String" Name="q_position" Nullable="false" />
+          <Property Type="String" Name="q_short_name" Nullable="false" />
+          <Property Type="String" Name="answer_text" Nullable="false" />
+          <Property Type="Int32" Name="q_id" Nullable="false" />
+          <Property Type="Decimal" Name="QA_points" Nullable="false" />
+          <Property Type="String" Name="q_type" Nullable="false" />
+          <Property Type="String" Name="view_link" Nullable="false" />
+          <Property Type="Boolean" Name="comments_allowed" Nullable="false" />
+          <Property Type="Boolean" Name="right_answer" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetRecordxccReportNew_Result">
+          <Property Type="Int32" Name="F_ID" Nullable="true" />
+          <Property Type="Int32" Name="X_ID" Nullable="false" />
+          <Property Type="String" Name="SESSION_ID" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="AGENT" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DISPOSITION" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="CAMPAIGN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ANI" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DNIS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TIMESTAMP" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TALK_TIME" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CALL_TIME" Nullable="true" Precision="23" />
+          <Property Type="String" Name="HANDLE_TIME" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CALL_TYPE" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="LIST_NAME" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="leadid" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AGENT_GROUP" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="DATE" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Zip" Nullable="true" MaxLength="20" />
+          <Property Type="Double" Name="Datacapturekey" Nullable="true" />
+          <Property Type="Double" Name="Datacapture" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Program" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Datacapture_Status" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="num_of_schools" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="MAX_REVIEWS" Nullable="true" />
+          <Property Type="DateTime" Name="review_started" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Number_of_Schools" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EducationLevel" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HighSchoolGradYear" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DegreeStartTimeframe" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="appname" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="First_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Last_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="address" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="phone" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="call_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="audio_link" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="profile_id" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="audio_user" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="audio_password" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="bad_call" Nullable="true" />
+          <Property Type="String" Name="bad_call_who" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="bad_call_date" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="bad_call_delete_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="bad_call_reason" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="to_upload" Nullable="true" />
+          <Property Type="Int32" Name="pending_id" Nullable="true" />
+          <Property Type="DateTime" Name="date_added" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AreaOfInterest" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProgramsOfInterestType" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Citizenship" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DegreeOfInterest" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Military" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="secondphone" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="agent_name" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="bad_call_accepted" Nullable="true" Precision="23" />
+          <Property Type="String" Name="bad_call_accepted_who" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="scorecard" Nullable="true" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="uploaded" Nullable="true" Precision="23" />
+          <Property Type="String" Name="text_only" Nullable="true" />
+          <Property Type="Boolean" Name="file_missing" Nullable="true" />
+          <Property Type="String" Name="fileUrl" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="statusMessage" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="mediaId" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="requestStatus" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="fileStatus" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="response" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="website" Nullable="true" MaxLength="1000" />
+          <Property Type="Int32" Name="schools_loaded" Nullable="true" />
+          <Property Type="String" Name="compliance_sheet" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="sort_order" Nullable="true" />
+          <Property Type="Int32" Name="failed_downloads" Nullable="true" />
+          <Property Type="Boolean" Name="onAWS" Nullable="true" />
+          <Property Type="Int32" Name="RedactionStep" Nullable="true" />
+          <Property Type="String" Name="transcript" Nullable="true" />
+          <Property Type="DateTime" Name="transcript_analyzed" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="transcript_flagged" Nullable="true" />
+          <Property Type="String" Name="formatted_transcript" Nullable="true" />
+          <Property Type="String" Name="banned_list" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="transcript_flagged_reason" Nullable="true" MaxLength="8000" />
+          <Property Type="Int32" Name="call_duration" Nullable="true" />
+          <Property Type="Int32" Name="transcript_count" Nullable="true" />
+          <Property Type="Int32" Name="api_version" Nullable="true" />
+          <Property Type="Boolean" Name="call_length_truncated" Nullable="true" />
+          <Property Type="Int32" Name="failed_upload" Nullable="true" />
+          <Property Type="Boolean" Name="must_review" Nullable="true" />
+          <Property Type="Int32" Name="sm_id" Nullable="true" />
+          <Property Type="String" Name="sm_json" Nullable="true" />
+          <Property Type="Int32" Name="sm_trans_count" Nullable="true" />
+          <Property Type="Boolean" Name="sm_must_review" Nullable="true" />
+          <Property Type="String" Name="data_file" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="total_reviews" Nullable="true" />
+          <Property Type="Boolean" Name="recreate_call" Nullable="true" />
+          <Property Type="DateTime" Name="last_heartbeat" Nullable="true" Precision="23" />
+          <Property Type="String" Name="heartbeat_who" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="secondary_orig_id" Nullable="true" />
+          <Property Type="Int32" Name="hold_time" Nullable="true" />
+          <Property Type="DateTime" Name="loaded_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="flagged_by" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="flagged_by_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="secondary_orig_qa" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="needs_trim" Nullable="true" />
+          <Property Type="DateTime" Name="xcc_review_date" Nullable="true" />
+          <Property Type="DateTime" Name="last_queried" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="review_date" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="review_ID" Nullable="true" />
+          <Property Type="String" Name="Comments" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="autofail" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="reviewer" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="dispute" Nullable="true" MaxLength="4000" />
+          <Property Type="DateTime" Name="dispute_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="dispute_by" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="agent_comment" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="agent_reviewed" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Supervisor_comment" Nullable="true" MaxLength="2000" />
+          <Property Type="DateTime" Name="Supervisor_reviewed" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="total_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="total_score_with_fails" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="old_review_id" Nullable="true" />
+          <Property Type="Double" Name="call_length" Nullable="true" />
+          <Property Type="Boolean" Name="has_cardinal" Nullable="true" />
+          <Property Type="String" Name="fs_audio" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="week_ending_date" Nullable="true" />
+          <Property Type="Int32" Name="num_missed" Nullable="true" />
+          <Property Type="String" Name="missed_list" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="call_made_date" Nullable="true" />
+          <Property Type="Double" Name="agent_deviation" Nullable="true" />
+          <Property Type="Double" Name="calib_deviation" Nullable="true" />
+          <Property Type="Double" Name="total_score_test" Nullable="true" />
+          <Property Type="String" Name="pass_fail" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="formatted_comments" Nullable="true" />
+          <Property Type="String" Name="formatted_missed" Nullable="true" />
+          <Property Type="DateTime" Name="deviation_reviewed" Nullable="true" Precision="23" />
+          <Property Type="String" Name="deviation_reviewed_by" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="review_time" Nullable="true" />
+          <Property Type="Boolean" Name="wasEdited" Nullable="true" />
+          <Property Type="Decimal" Name="calib_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="edited_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="isDispute" Nullable="true" />
+          <Property Type="String" Name="processed_dispute" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="first_10" Nullable="true" />
+          <Property Type="Decimal" Name="section_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="non_billable" Nullable="true" />
+          <Property Type="DateTime" Name="qa_start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="qa_last_action" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="whisperID" Nullable="true" />
+          <Property Type="Int32" Name="QAwhisper" Nullable="true" />
+          <Property Type="DateTime" Name="whisper_forgiven" Nullable="true" Precision="23" />
+          <Property Type="String" Name="whisper_forgiven_by" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="display_score" Nullable="true" />
+          <Property Type="Double" Name="original_qa_score" Nullable="true" />
+          <Property Type="Boolean" Name="client_visible" Nullable="true" />
+          <Property Type="Boolean" Name="retrieved" Nullable="true" />
+          <Property Type="String" Name="notification_status" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="date_fid_created" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="simple_rev_date" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_a" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_q" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_cal" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="getvwForm_Result">
           <Property Type="Int32" Name="F_ID" Nullable="false" />
           <Property Type="Int32" Name="review_ID" Nullable="true" />
@@ -22279,6 +22488,129 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="DateTime" Name="xcc_review_date" Nullable="true" />
           <Property Type="String" Name="client_logo" Nullable="true" MaxLength="1000" />
           <Property Type="Decimal" Name="qa_cali_score" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetuserexTrainfo_Result">
+          <Property Type="Int32" Name="F_ID" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Double" Name="recal_score" Nullable="true" />
+          <Property Type="Int32" Name="isRecal" Nullable="true" />
+          <Property Type="Double" Name="original_score" Nullable="true" />
+          <Property Type="DateTime" Name="review_started" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="total_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="DateTime" Name="review_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="reviewed_by" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="original_form" Nullable="true" />
+          <Property Type="String" Name="appname" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="reviewer" Nullable="true" MaxLength="100" />
+          <Property Type="Double" Name="call_length" Nullable="true" />
+          <Property Type="DateTime" Name="week_ending_date" Nullable="true" />
+          <Property Type="Boolean" Name="onAWS" Nullable="true" />
+          <Property Type="Int32" Name="scorecard" Nullable="true" />
+          <Property Type="String" Name="website" Nullable="true" MaxLength="1000" />
+          <Property Type="Double" Name="cali_form_score" Nullable="true" />
+          <Property Type="Int32" Name="active_cali" Nullable="true" />
+          <Property Type="String" Name="formatted_comments_c" Nullable="true" />
+          <Property Type="String" Name="formatted_missed_c" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_c" Nullable="true" />
+          <Property Type="String" Name="pass_fail" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="AGENT" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="call_date" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="calib_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="wasEdited" Nullable="true" />
+          <Property Type="String" Name="AGENT_GROUP" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CAMPAIGN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Scorecard_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SESSION_ID" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="team_lead" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="review_ID" Nullable="true" />
+          <Property Type="String" Name="audio_link" Nullable="true" MaxLength="8000" />
+          <Property Type="Int32" Name="cQAwhisper" Nullable="true" />
+          <Property Type="Int32" Name="cwhisperID" Nullable="true" />
+          <Property Type="String" Name="missed_list_c" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="display_score" Nullable="true" />
+          <Property Type="String" Name="calibration_comment" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="First_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Last_Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Zip" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EducationLevel" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HighSchoolGradYear" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DegreeStartTimeframe" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CALL_TYPE" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="DISPOSITION" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="compliance_sheet" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="profile_id" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="address" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ANI" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DNIS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="transcript" Nullable="true" />
+          <Property Type="String" Name="formatted_transcript" Nullable="true" />
+          <Property Type="Int32" Name="bad_call" Nullable="true" />
+          <Property Type="DateTime" Name="CALL_TIME" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="edited_score" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="DateTime" Name="transcript_analyzed" Nullable="true" Precision="23" />
+          <Property Type="String" Name="sc_review_type_calib" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="leadid" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="use_for_training" Nullable="true" />
+          <Property Type="Boolean" Name="client_visible" Nullable="true" />
+          <Property Type="String" Name="calibrator_calibrated" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="num_missed_a" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_q" Nullable="true" />
+          <Property Type="Int32" Name="num_missed_cal" Nullable="true" />
+          <Property Type="DateTime" Name="xcc_review_date" Nullable="true" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="email_address" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="phone_number" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address_text" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="mobile_number" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="skype_name" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="updated" Nullable="true" Precision="23" />
+          <Property Type="String" Name="fname" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="lname" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="speed_increment" Nullable="true" />
+          <Property Type="DateTime" Name="startdate" Nullable="true" />
+          <Property Type="String" Name="default_appname" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="calls_start_immediately" Nullable="true" />
+          <Property Type="Double" Name="speed_limit" Nullable="true" />
+          <Property Type="Int32" Name="desktopwidth" Nullable="true" />
+          <Property Type="String" Name="user_group" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="user_role" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="lastLoginDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="active" Nullable="true" />
+          <Property Type="Decimal" Name="starting_salary" Nullable="true" Precision="4" Scale="2" />
+          <Property Type="Boolean" Name="can_edit" Nullable="true" />
+          <Property Type="DateTime" Name="lastActiveDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="guideline_display" Nullable="true" />
+          <Property Type="Boolean" Name="non_edit" Nullable="true" />
+          <Property Type="Int32" Name="call_center" Nullable="true" />
+          <Property Type="String" Name="special_filter" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="default_page" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="shift_approved" Nullable="true" />
+          <Property Type="String" Name="manager_group" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="special" Nullable="true" />
+          <Property Type="String" Name="manager" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="original_start_date" Nullable="true" />
+          <Property Type="Decimal" Name="original_starting_salary" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="presubmit" Nullable="true" />
+          <Property Type="String" Name="ipaddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="export_type" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="use_qa_pay" Nullable="true" />
+          <Property Type="Boolean" Name="no_dash" Nullable="true" />
+          <Property Type="String" Name="user_appname" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="force_review" Nullable="true" />
+          <Property Type="Boolean" Name="bypass" Nullable="true" />
+          <Property Type="Boolean" Name="externalUser" Nullable="true" />
+          <Property Type="Boolean" Name="non_calib" Nullable="true" />
+          <Property Type="String" Name="qa_tier" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="shift_qa" Nullable="true" />
+          <Property Type="Int32" Name="hour_per_week" Nullable="true" />
+          <Property Type="Int32" Name="shift_id" Nullable="true" />
+          <Property Type="Boolean" Name="excludeCalls" Nullable="true" />
+          <Property Type="Double" Name="cal_recal_score" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -23409,6 +23741,63 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
                 <ScalarProperty Name="date_start" ColumnName="date_start" />
                 <ScalarProperty Name="date_end" ColumnName="date_end" />
                 <ScalarProperty Name="option_order" ColumnName="option_order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="Model.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="section" ColumnName="section" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="q_order" ColumnName="q_order" />
+                <ScalarProperty Name="question1" ColumnName="question" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="q_short_name" ColumnName="q_short_name" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="heading" ColumnName="heading" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="q_percent" ColumnName="q_percent" />
+                <ScalarProperty Name="appname" ColumnName="appname" />
+                <ScalarProperty Name="auto_yes" ColumnName="auto_yes" />
+                <ScalarProperty Name="auto_no" ColumnName="auto_no" />
+                <ScalarProperty Name="agent_display" ColumnName="agent_display" />
+                <ScalarProperty Name="default_answer" ColumnName="default_answer" />
+                <ScalarProperty Name="orig_id" ColumnName="orig_id" />
+                <ScalarProperty Name="total_points" ColumnName="total_points" />
+                <ScalarProperty Name="template" ColumnName="template" />
+                <ScalarProperty Name="template_items" ColumnName="template_items" />
+                <ScalarProperty Name="linked_question" ColumnName="linked_question" />
+                <ScalarProperty Name="email_wrong" ColumnName="email_wrong" />
+                <ScalarProperty Name="campaign_specific" ColumnName="campaign_specific" />
+                <ScalarProperty Name="scorecard_id" ColumnName="scorecard_id" />
+                <ScalarProperty Name="QA_points" ColumnName="QA_points" />
+                <ScalarProperty Name="compliance" ColumnName="compliance" />
+                <ScalarProperty Name="date_q_added" ColumnName="date_q_added" />
+                <ScalarProperty Name="non_billable" ColumnName="non_billable" />
+                <ScalarProperty Name="comments_allowed" ColumnName="comments_allowed" />
+                <ScalarProperty Name="linked_answer" ColumnName="linked_answer" />
+                <ScalarProperty Name="linked_comment" ColumnName="linked_comment" />
+                <ScalarProperty Name="client_visible" ColumnName="client_visible" />
+                <ScalarProperty Name="client_guideline_visible" ColumnName="client_guideline_visible" />
+                <ScalarProperty Name="Sectionless_Order" ColumnName="Sectionless_Order" />
+                <ScalarProperty Name="linked_visible" ColumnName="linked_visible" />
+                <ScalarProperty Name="client_dashboard_visible" ColumnName="client_dashboard_visible" />
+                <ScalarProperty Name="pinned" ColumnName="pinned" />
+                <ScalarProperty Name="pre_production" ColumnName="pre_production" />
+                <ScalarProperty Name="single_comment" ColumnName="single_comment" />
+                <ScalarProperty Name="points_paused" ColumnName="points_paused" />
+                <ScalarProperty Name="points_paused_date" ColumnName="points_paused_date" />
+                <ScalarProperty Name="full_width" ColumnName="full_width" />
+                <ScalarProperty Name="wide_q" ColumnName="wide_q" />
+                <ScalarProperty Name="require_custom_comment" ColumnName="require_custom_comment" />
+                <ScalarProperty Name="sentence" ColumnName="sentence" />
+                <ScalarProperty Name="ddl_type" ColumnName="ddl_type" />
+                <ScalarProperty Name="ddlQuery" ColumnName="ddlQuery" />
+                <ScalarProperty Name="options_verb" ColumnName="options_verb" />
+                <ScalarProperty Name="left_column_question" ColumnName="left_column_question" />
+                <ScalarProperty Name="univeral_postition" ColumnName="univeral_postition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -29432,66 +29821,215 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <FunctionImportMapping FunctionImportName="add_ip" FunctionName="Model.Store.add_ip" />
           <FunctionImportMapping FunctionImportName="getListenQuestions" FunctionName="Model.Store.getListenQuestions" >
             <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.getListenQuestions_Result" />
+              <ComplexTypeMapping TypeName="Model.getListenQuestions_Result">
+                <ScalarProperty Name="q_short_name" ColumnName="q_short_name" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="linked_answer" ColumnName="linked_answer" />
+                <ScalarProperty Name="linked_comment" ColumnName="linked_comment" />
+                <ScalarProperty Name="single_comment" ColumnName="single_comment" />
+                <ScalarProperty Name="comments_allowed" ColumnName="comments_allowed" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Questions">
-            <EntityTypeMapping TypeName="Model.Question">
-              <MappingFragment StoreEntitySet="Questions">
-                <ScalarProperty Name="univeral_postition" ColumnName="univeral_postition" />
-                <ScalarProperty Name="left_column_question" ColumnName="left_column_question" />
-                <ScalarProperty Name="options_verb" ColumnName="options_verb" />
-                <ScalarProperty Name="ddlQuery" ColumnName="ddlQuery" />
-                <ScalarProperty Name="ddl_type" ColumnName="ddl_type" />
-                <ScalarProperty Name="sentence" ColumnName="sentence" />
-                <ScalarProperty Name="require_custom_comment" ColumnName="require_custom_comment" />
-                <ScalarProperty Name="wide_q" ColumnName="wide_q" />
-                <ScalarProperty Name="full_width" ColumnName="full_width" />
-                <ScalarProperty Name="points_paused_date" ColumnName="points_paused_date" />
-                <ScalarProperty Name="points_paused" ColumnName="points_paused" />
-                <ScalarProperty Name="single_comment" ColumnName="single_comment" />
-                <ScalarProperty Name="pre_production" ColumnName="pre_production" />
-                <ScalarProperty Name="pinned" ColumnName="pinned" />
-                <ScalarProperty Name="client_dashboard_visible" ColumnName="client_dashboard_visible" />
-                <ScalarProperty Name="linked_visible" ColumnName="linked_visible" />
-                <ScalarProperty Name="Sectionless_Order" ColumnName="Sectionless_Order" />
-                <ScalarProperty Name="client_guideline_visible" ColumnName="client_guideline_visible" />
-                <ScalarProperty Name="client_visible" ColumnName="client_visible" />
-                <ScalarProperty Name="linked_comment" ColumnName="linked_comment" />
-                <ScalarProperty Name="linked_answer" ColumnName="linked_answer" />
-                <ScalarProperty Name="comments_allowed" ColumnName="comments_allowed" />
-                <ScalarProperty Name="non_billable" ColumnName="non_billable" />
-                <ScalarProperty Name="date_q_added" ColumnName="date_q_added" />
-                <ScalarProperty Name="compliance" ColumnName="compliance" />
-                <ScalarProperty Name="QA_points" ColumnName="QA_points" />
-                <ScalarProperty Name="scorecard_id" ColumnName="scorecard_id" />
-                <ScalarProperty Name="campaign_specific" ColumnName="campaign_specific" />
-                <ScalarProperty Name="email_wrong" ColumnName="email_wrong" />
-                <ScalarProperty Name="linked_question" ColumnName="linked_question" />
-                <ScalarProperty Name="template_items" ColumnName="template_items" />
-                <ScalarProperty Name="template" ColumnName="template" />
-                <ScalarProperty Name="total_points" ColumnName="total_points" />
-                <ScalarProperty Name="orig_id" ColumnName="orig_id" />
-                <ScalarProperty Name="default_answer" ColumnName="default_answer" />
-                <ScalarProperty Name="agent_display" ColumnName="agent_display" />
-                <ScalarProperty Name="auto_no" ColumnName="auto_no" />
-                <ScalarProperty Name="auto_yes" ColumnName="auto_yes" />
-                <ScalarProperty Name="appname" ColumnName="appname" />
-                <ScalarProperty Name="q_percent" ColumnName="q_percent" />
-                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
-                <ScalarProperty Name="Order" ColumnName="Order" />
-                <ScalarProperty Name="heading" ColumnName="heading" />
-                <ScalarProperty Name="active" ColumnName="active" />
+          <FunctionImportMapping FunctionImportName="getEditorQuestions" FunctionName="Model.Store.getEditorQuestions" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.getEditorQuestions_Result">
+                <ScalarProperty Name="q_position" ColumnName="q_position" />
                 <ScalarProperty Name="q_short_name" ColumnName="q_short_name" />
+                <ScalarProperty Name="answer_text" ColumnName="answer_text" />
+                <ScalarProperty Name="q_id" ColumnName="q_id" />
+                <ScalarProperty Name="QA_points" ColumnName="QA_points" />
                 <ScalarProperty Name="q_type" ColumnName="q_type" />
-                <ScalarProperty Name="question1" ColumnName="question" />
-                <ScalarProperty Name="q_order" ColumnName="q_order" />
-                <ScalarProperty Name="category" ColumnName="category" />
-                <ScalarProperty Name="section" ColumnName="section" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="view_link" ColumnName="view_link" />
+                <ScalarProperty Name="comments_allowed" ColumnName="comments_allowed" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetformQScoreChanges" FunctionName="Model.Store.GetformQScoreChanges">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetformQScoreChanges_Result">
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="user_role" ColumnName="user_role" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="total_score" ColumnName="total_score" />
+                <ScalarProperty Name="f_id" ColumnName="f_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRecordxccReportNew" FunctionName="Model.Store.GetRecordxccReportNew">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetRecordxccReportNew_Result">
+                <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+                <ScalarProperty Name="X_ID" ColumnName="X_ID" />
+                <ScalarProperty Name="SESSION_ID" ColumnName="SESSION_ID" />
+                <ScalarProperty Name="AGENT" ColumnName="AGENT" />
+                <ScalarProperty Name="DISPOSITION" ColumnName="DISPOSITION" />
+                <ScalarProperty Name="CAMPAIGN" ColumnName="CAMPAIGN" />
+                <ScalarProperty Name="ANI" ColumnName="ANI" />
+                <ScalarProperty Name="DNIS" ColumnName="DNIS" />
+                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
+                <ScalarProperty Name="TALK_TIME" ColumnName="TALK_TIME" />
+                <ScalarProperty Name="CALL_TIME" ColumnName="CALL_TIME" />
+                <ScalarProperty Name="HANDLE_TIME" ColumnName="HANDLE_TIME" />
+                <ScalarProperty Name="CALL_TYPE" ColumnName="CALL_TYPE" />
+                <ScalarProperty Name="LIST_NAME" ColumnName="LIST_NAME" />
+                <ScalarProperty Name="leadid" ColumnName="leadid" />
+                <ScalarProperty Name="AGENT_GROUP" ColumnName="AGENT_GROUP" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Datacapturekey" ColumnName="Datacapturekey" />
+                <ScalarProperty Name="Datacapture" ColumnName="Datacapture" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Datacapture_Status" ColumnName="Datacapture_Status" />
+                <ScalarProperty Name="num_of_schools" ColumnName="num_of_schools" />
+                <ScalarProperty Name="MAX_REVIEWS" ColumnName="MAX_REVIEWS" />
+                <ScalarProperty Name="review_started" ColumnName="review_started" />
+                <ScalarProperty Name="Number_of_Schools" ColumnName="Number_of_Schools" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="HighSchoolGradYear" ColumnName="HighSchoolGradYear" />
+                <ScalarProperty Name="DegreeStartTimeframe" ColumnName="DegreeStartTimeframe" />
+                <ScalarProperty Name="appname" ColumnName="appname" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="call_date" ColumnName="call_date" />
+                <ScalarProperty Name="audio_link" ColumnName="audio_link" />
+                <ScalarProperty Name="profile_id" ColumnName="profile_id" />
+                <ScalarProperty Name="audio_user" ColumnName="audio_user" />
+                <ScalarProperty Name="audio_password" ColumnName="audio_password" />
+                <ScalarProperty Name="bad_call" ColumnName="bad_call" />
+                <ScalarProperty Name="bad_call_who" ColumnName="bad_call_who" />
+                <ScalarProperty Name="bad_call_date" ColumnName="bad_call_date" />
+                <ScalarProperty Name="bad_call_delete_date" ColumnName="bad_call_delete_date" />
+                <ScalarProperty Name="bad_call_reason" ColumnName="bad_call_reason" />
+                <ScalarProperty Name="to_upload" ColumnName="to_upload" />
+                <ScalarProperty Name="pending_id" ColumnName="pending_id" />
+                <ScalarProperty Name="date_added" ColumnName="date_added" />
+                <ScalarProperty Name="AreaOfInterest" ColumnName="AreaOfInterest" />
+                <ScalarProperty Name="ProgramsOfInterestType" ColumnName="ProgramsOfInterestType" />
+                <ScalarProperty Name="Citizenship" ColumnName="Citizenship" />
+                <ScalarProperty Name="DegreeOfInterest" ColumnName="DegreeOfInterest" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Military" ColumnName="Military" />
+                <ScalarProperty Name="secondphone" ColumnName="secondphone" />
+                <ScalarProperty Name="agent_name" ColumnName="agent_name" />
+                <ScalarProperty Name="bad_call_accepted" ColumnName="bad_call_accepted" />
+                <ScalarProperty Name="bad_call_accepted_who" ColumnName="bad_call_accepted_who" />
+                <ScalarProperty Name="scorecard" ColumnName="scorecard" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="uploaded" ColumnName="uploaded" />
+                <ScalarProperty Name="text_only" ColumnName="text_only" />
+                <ScalarProperty Name="file_missing" ColumnName="file_missing" />
+                <ScalarProperty Name="fileUrl" ColumnName="fileUrl" />
+                <ScalarProperty Name="statusMessage" ColumnName="statusMessage" />
+                <ScalarProperty Name="mediaId" ColumnName="mediaId" />
+                <ScalarProperty Name="requestStatus" ColumnName="requestStatus" />
+                <ScalarProperty Name="fileStatus" ColumnName="fileStatus" />
+                <ScalarProperty Name="response" ColumnName="response" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="schools_loaded" ColumnName="schools_loaded" />
+                <ScalarProperty Name="compliance_sheet" ColumnName="compliance_sheet" />
+                <ScalarProperty Name="sort_order" ColumnName="sort_order" />
+                <ScalarProperty Name="failed_downloads" ColumnName="failed_downloads" />
+                <ScalarProperty Name="onAWS" ColumnName="onAWS" />
+                <ScalarProperty Name="RedactionStep" ColumnName="RedactionStep" />
+                <ScalarProperty Name="transcript" ColumnName="transcript" />
+                <ScalarProperty Name="transcript_analyzed" ColumnName="transcript_analyzed" />
+                <ScalarProperty Name="transcript_flagged" ColumnName="transcript_flagged" />
+                <ScalarProperty Name="formatted_transcript" ColumnName="formatted_transcript" />
+                <ScalarProperty Name="banned_list" ColumnName="banned_list" />
+                <ScalarProperty Name="transcript_flagged_reason" ColumnName="transcript_flagged_reason" />
+                <ScalarProperty Name="call_duration" ColumnName="call_duration" />
+                <ScalarProperty Name="transcript_count" ColumnName="transcript_count" />
+                <ScalarProperty Name="api_version" ColumnName="api_version" />
+                <ScalarProperty Name="call_length_truncated" ColumnName="call_length_truncated" />
+                <ScalarProperty Name="failed_upload" ColumnName="failed_upload" />
+                <ScalarProperty Name="must_review" ColumnName="must_review" />
+                <ScalarProperty Name="sm_id" ColumnName="sm_id" />
+                <ScalarProperty Name="sm_json" ColumnName="sm_json" />
+                <ScalarProperty Name="sm_trans_count" ColumnName="sm_trans_count" />
+                <ScalarProperty Name="sm_must_review" ColumnName="sm_must_review" />
+                <ScalarProperty Name="data_file" ColumnName="data_file" />
+                <ScalarProperty Name="total_reviews" ColumnName="total_reviews" />
+                <ScalarProperty Name="recreate_call" ColumnName="recreate_call" />
+                <ScalarProperty Name="last_heartbeat" ColumnName="last_heartbeat" />
+                <ScalarProperty Name="heartbeat_who" ColumnName="heartbeat_who" />
+                <ScalarProperty Name="secondary_orig_id" ColumnName="secondary_orig_id" />
+                <ScalarProperty Name="hold_time" ColumnName="hold_time" />
+                <ScalarProperty Name="loaded_date" ColumnName="loaded_date" />
+                <ScalarProperty Name="flagged_by" ColumnName="flagged_by" />
+                <ScalarProperty Name="flagged_by_date" ColumnName="flagged_by_date" />
+                <ScalarProperty Name="secondary_orig_qa" ColumnName="secondary_orig_qa" />
+                <ScalarProperty Name="needs_trim" ColumnName="needs_trim" />
+                <ScalarProperty Name="xcc_review_date" ColumnName="xcc_review_date" />
+                <ScalarProperty Name="last_queried" ColumnName="last_queried" />
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+                <ScalarProperty Name="review_ID" ColumnName="review_ID" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="autofail" ColumnName="autofail" />
+                <ScalarProperty Name="reviewer" ColumnName="reviewer" />
+                <ScalarProperty Name="dispute" ColumnName="dispute" />
+                <ScalarProperty Name="dispute_date" ColumnName="dispute_date" />
+                <ScalarProperty Name="dispute_by" ColumnName="dispute_by" />
+                <ScalarProperty Name="agent_comment" ColumnName="agent_comment" />
+                <ScalarProperty Name="agent_reviewed" ColumnName="agent_reviewed" />
+                <ScalarProperty Name="Supervisor_comment" ColumnName="Supervisor_comment" />
+                <ScalarProperty Name="Supervisor_reviewed" ColumnName="Supervisor_reviewed" />
+                <ScalarProperty Name="total_score" ColumnName="total_score" />
+                <ScalarProperty Name="total_score_with_fails" ColumnName="total_score_with_fails" />
+                <ScalarProperty Name="old_review_id" ColumnName="old_review_id" />
+                <ScalarProperty Name="call_length" ColumnName="call_length" />
+                <ScalarProperty Name="has_cardinal" ColumnName="has_cardinal" />
+                <ScalarProperty Name="fs_audio" ColumnName="fs_audio" />
+                <ScalarProperty Name="week_ending_date" ColumnName="week_ending_date" />
+                <ScalarProperty Name="num_missed" ColumnName="num_missed" />
+                <ScalarProperty Name="missed_list" ColumnName="missed_list" />
+                <ScalarProperty Name="call_made_date" ColumnName="call_made_date" />
+                <ScalarProperty Name="agent_deviation" ColumnName="agent_deviation" />
+                <ScalarProperty Name="calib_deviation" ColumnName="calib_deviation" />
+                <ScalarProperty Name="total_score_test" ColumnName="total_score_test" />
+                <ScalarProperty Name="pass_fail" ColumnName="pass_fail" />
+                <ScalarProperty Name="formatted_comments" ColumnName="formatted_comments" />
+                <ScalarProperty Name="formatted_missed" ColumnName="formatted_missed" />
+                <ScalarProperty Name="deviation_reviewed" ColumnName="deviation_reviewed" />
+                <ScalarProperty Name="deviation_reviewed_by" ColumnName="deviation_reviewed_by" />
+                <ScalarProperty Name="review_time" ColumnName="review_time" />
+                <ScalarProperty Name="wasEdited" ColumnName="wasEdited" />
+                <ScalarProperty Name="calib_score" ColumnName="calib_score" />
+                <ScalarProperty Name="edited_score" ColumnName="edited_score" />
+                <ScalarProperty Name="isDispute" ColumnName="isDispute" />
+                <ScalarProperty Name="processed_dispute" ColumnName="processed_dispute" />
+                <ScalarProperty Name="first_10" ColumnName="first_10" />
+                <ScalarProperty Name="section_score" ColumnName="section_score" />
+                <ScalarProperty Name="non_billable" ColumnName="non_billable" />
+                <ScalarProperty Name="qa_start" ColumnName="qa_start" />
+                <ScalarProperty Name="qa_last_action" ColumnName="qa_last_action" />
+                <ScalarProperty Name="whisperID" ColumnName="whisperID" />
+                <ScalarProperty Name="QAwhisper" ColumnName="QAwhisper" />
+                <ScalarProperty Name="whisper_forgiven" ColumnName="whisper_forgiven" />
+                <ScalarProperty Name="whisper_forgiven_by" ColumnName="whisper_forgiven_by" />
+                <ScalarProperty Name="display_score" ColumnName="display_score" />
+                <ScalarProperty Name="original_qa_score" ColumnName="original_qa_score" />
+                <ScalarProperty Name="client_visible" ColumnName="client_visible" />
+                <ScalarProperty Name="retrieved" ColumnName="retrieved" />
+                <ScalarProperty Name="notification_status" ColumnName="notification_status" />
+                <ScalarProperty Name="date_fid_created" ColumnName="date_fid_created" />
+                <ScalarProperty Name="simple_rev_date" ColumnName="simple_rev_date" />
+                <ScalarProperty Name="num_missed_a" ColumnName="num_missed_a" />
+                <ScalarProperty Name="num_missed_q" ColumnName="num_missed_q" />
+                <ScalarProperty Name="num_missed_cal" ColumnName="num_missed_cal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getvwForm" FunctionName="Model.Store.getvwForm">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.getvwForm_Result">
@@ -29616,6 +30154,133 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
                 <ScalarProperty Name="xcc_review_date" ColumnName="xcc_review_date" />
                 <ScalarProperty Name="client_logo" ColumnName="client_logo" />
                 <ScalarProperty Name="qa_cali_score" ColumnName="qa_cali_score" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetuserexTrainfo" FunctionName="Model.Store.GetuserexTrainfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetuserexTrainfo_Result">
+                <ScalarProperty Name="F_ID" ColumnName="F_ID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="recal_score" ColumnName="recal_score" />
+                <ScalarProperty Name="isRecal" ColumnName="isRecal" />
+                <ScalarProperty Name="original_score" ColumnName="original_score" />
+                <ScalarProperty Name="review_started" ColumnName="review_started" />
+                <ScalarProperty Name="total_score" ColumnName="total_score" />
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+                <ScalarProperty Name="reviewed_by" ColumnName="reviewed_by" />
+                <ScalarProperty Name="original_form" ColumnName="original_form" />
+                <ScalarProperty Name="appname" ColumnName="appname" />
+                <ScalarProperty Name="reviewer" ColumnName="reviewer" />
+                <ScalarProperty Name="call_length" ColumnName="call_length" />
+                <ScalarProperty Name="week_ending_date" ColumnName="week_ending_date" />
+                <ScalarProperty Name="onAWS" ColumnName="onAWS" />
+                <ScalarProperty Name="scorecard" ColumnName="scorecard" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="cali_form_score" ColumnName="cali_form_score" />
+                <ScalarProperty Name="active_cali" ColumnName="active_cali" />
+                <ScalarProperty Name="formatted_comments_c" ColumnName="formatted_comments_c" />
+                <ScalarProperty Name="formatted_missed_c" ColumnName="formatted_missed_c" />
+                <ScalarProperty Name="num_missed_c" ColumnName="num_missed_c" />
+                <ScalarProperty Name="pass_fail" ColumnName="pass_fail" />
+                <ScalarProperty Name="AGENT" ColumnName="AGENT" />
+                <ScalarProperty Name="call_date" ColumnName="call_date" />
+                <ScalarProperty Name="calib_score" ColumnName="calib_score" />
+                <ScalarProperty Name="wasEdited" ColumnName="wasEdited" />
+                <ScalarProperty Name="AGENT_GROUP" ColumnName="AGENT_GROUP" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="CAMPAIGN" ColumnName="CAMPAIGN" />
+                <ScalarProperty Name="Scorecard_name" ColumnName="Scorecard_name" />
+                <ScalarProperty Name="SESSION_ID" ColumnName="SESSION_ID" />
+                <ScalarProperty Name="team_lead" ColumnName="team_lead" />
+                <ScalarProperty Name="review_ID" ColumnName="review_ID" />
+                <ScalarProperty Name="audio_link" ColumnName="audio_link" />
+                <ScalarProperty Name="cQAwhisper" ColumnName="cQAwhisper" />
+                <ScalarProperty Name="cwhisperID" ColumnName="cwhisperID" />
+                <ScalarProperty Name="missed_list_c" ColumnName="missed_list_c" />
+                <ScalarProperty Name="display_score" ColumnName="display_score" />
+                <ScalarProperty Name="calibration_comment" ColumnName="calibration_comment" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="HighSchoolGradYear" ColumnName="HighSchoolGradYear" />
+                <ScalarProperty Name="DegreeStartTimeframe" ColumnName="DegreeStartTimeframe" />
+                <ScalarProperty Name="CALL_TYPE" ColumnName="CALL_TYPE" />
+                <ScalarProperty Name="DISPOSITION" ColumnName="DISPOSITION" />
+                <ScalarProperty Name="compliance_sheet" ColumnName="compliance_sheet" />
+                <ScalarProperty Name="profile_id" ColumnName="profile_id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="ANI" ColumnName="ANI" />
+                <ScalarProperty Name="DNIS" ColumnName="DNIS" />
+                <ScalarProperty Name="transcript" ColumnName="transcript" />
+                <ScalarProperty Name="formatted_transcript" ColumnName="formatted_transcript" />
+                <ScalarProperty Name="bad_call" ColumnName="bad_call" />
+                <ScalarProperty Name="CALL_TIME" ColumnName="CALL_TIME" />
+                <ScalarProperty Name="edited_score" ColumnName="edited_score" />
+                <ScalarProperty Name="transcript_analyzed" ColumnName="transcript_analyzed" />
+                <ScalarProperty Name="sc_review_type_calib" ColumnName="sc_review_type_calib" />
+                <ScalarProperty Name="leadid" ColumnName="leadid" />
+                <ScalarProperty Name="use_for_training" ColumnName="use_for_training" />
+                <ScalarProperty Name="client_visible" ColumnName="client_visible" />
+                <ScalarProperty Name="calibrator_calibrated" ColumnName="calibrator_calibrated" />
+                <ScalarProperty Name="num_missed_a" ColumnName="num_missed_a" />
+                <ScalarProperty Name="num_missed_q" ColumnName="num_missed_q" />
+                <ScalarProperty Name="num_missed_cal" ColumnName="num_missed_cal" />
+                <ScalarProperty Name="xcc_review_date" ColumnName="xcc_review_date" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="email_address" ColumnName="email_address" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="Address_text" ColumnName="Address_text" />
+                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
+                <ScalarProperty Name="skype_name" ColumnName="skype_name" />
+                <ScalarProperty Name="updated" ColumnName="updated" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="speed_increment" ColumnName="speed_increment" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="default_appname" ColumnName="default_appname" />
+                <ScalarProperty Name="calls_start_immediately" ColumnName="calls_start_immediately" />
+                <ScalarProperty Name="speed_limit" ColumnName="speed_limit" />
+                <ScalarProperty Name="desktopwidth" ColumnName="desktopwidth" />
+                <ScalarProperty Name="user_group" ColumnName="user_group" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="user_role" ColumnName="user_role" />
+                <ScalarProperty Name="lastLoginDate" ColumnName="lastLoginDate" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="starting_salary" ColumnName="starting_salary" />
+                <ScalarProperty Name="can_edit" ColumnName="can_edit" />
+                <ScalarProperty Name="lastActiveDate" ColumnName="lastActiveDate" />
+                <ScalarProperty Name="guideline_display" ColumnName="guideline_display" />
+                <ScalarProperty Name="non_edit" ColumnName="non_edit" />
+                <ScalarProperty Name="call_center" ColumnName="call_center" />
+                <ScalarProperty Name="special_filter" ColumnName="special_filter" />
+                <ScalarProperty Name="default_page" ColumnName="default_page" />
+                <ScalarProperty Name="shift_approved" ColumnName="shift_approved" />
+                <ScalarProperty Name="manager_group" ColumnName="manager_group" />
+                <ScalarProperty Name="special" ColumnName="special" />
+                <ScalarProperty Name="manager" ColumnName="manager" />
+                <ScalarProperty Name="original_start_date" ColumnName="original_start_date" />
+                <ScalarProperty Name="original_starting_salary" ColumnName="original_starting_salary" />
+                <ScalarProperty Name="presubmit" ColumnName="presubmit" />
+                <ScalarProperty Name="ipaddress" ColumnName="ipaddress" />
+                <ScalarProperty Name="export_type" ColumnName="export_type" />
+                <ScalarProperty Name="use_qa_pay" ColumnName="use_qa_pay" />
+                <ScalarProperty Name="no_dash" ColumnName="no_dash" />
+                <ScalarProperty Name="user_appname" ColumnName="user_appname" />
+                <ScalarProperty Name="force_review" ColumnName="force_review" />
+                <ScalarProperty Name="bypass" ColumnName="bypass" />
+                <ScalarProperty Name="externalUser" ColumnName="externalUser" />
+                <ScalarProperty Name="non_calib" ColumnName="non_calib" />
+                <ScalarProperty Name="qa_tier" ColumnName="qa_tier" />
+                <ScalarProperty Name="shift_qa" ColumnName="shift_qa" />
+                <ScalarProperty Name="hour_per_week" ColumnName="hour_per_week" />
+                <ScalarProperty Name="shift_id" ColumnName="shift_id" />
+                <ScalarProperty Name="excludeCalls" ColumnName="excludeCalls" />
+                <ScalarProperty Name="cal_recal_score" ColumnName="cal_recal_score" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -295,7 +295,7 @@
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\CalibrationController.cs" />
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\CallCriteriaAPIController.cs" />
+    <Compile Include="Controllers\CallCriteriaApiController.cs" />
     <Compile Include="Controllers\CCInternalApiController.cs" />
     <Compile Include="Controllers\ClientUserController.cs" />
     <Compile Include="Controllers\ConversionController.cs" />
@@ -308,7 +308,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="DataLayer\BillingLayer.cs" />
     <Compile Include="DataLayer\CalibrationLayer.cs" />
-    <Compile Include="DataLayer\CallCriteriaAPI.cs" />
+    <Compile Include="DataLayer\CallCriteriaLayer.cs" />
     <Compile Include="DataLayer\CCInternalLayer.cs" />
     <Compile Include="DataLayer\Common.cs" />
     <Compile Include="DataLayer\ListenLayer.cs" />
@@ -827,7 +827,13 @@
     <Compile Include="Entities\getCTemplateItems_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\getEditorQuestions_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\GetFormListByShortName_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetformQScoreChanges_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getFormResponses_Result.cs">
@@ -875,6 +881,9 @@
     <Compile Include="Entities\getProAllClientQuestions_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\GetRecordxccReportNew_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\getRejectionReasons_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
@@ -894,6 +903,9 @@
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getUpdatedSummedComments_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetuserexTrainfo_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getvwForm_Result.cs">

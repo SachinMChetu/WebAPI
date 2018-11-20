@@ -5,11 +5,12 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct SessionViews
+    public class SessionViews
     {
         public string view_by;
         public string view_date;
         public string view_role;
         public string view_action;
+        public DateTime? date_viewed;
     }
 }

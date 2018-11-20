@@ -11,14 +11,16 @@ namespace WebApi.Entities
 {
     using System;
     
-    public partial class getListenQuestions_Result
+    public partial class getEditorQuestions_Result
     {
+        public string q_position { get; set; }
         public string q_short_name { get; set; }
-        public string question { get; set; }
-        public int linked_answer { get; set; }
-        public int linked_comment { get; set; }
-        public bool single_comment { get; set; }
+        public string answer_text { get; set; }
+        public int q_id { get; set; }
+        public decimal QA_points { get; set; }
+        public string q_type { get; set; }
+        public string view_link { get; set; }
         public bool comments_allowed { get; set; }
-        public int id { get; set; }
+        public bool right_answer { get; set; }
     }
 }

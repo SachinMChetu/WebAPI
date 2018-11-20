@@ -73,6 +73,7 @@
         <EntityTypeShape EntityType="Model.qs_pub_emails" Width="1.5" PointX="26.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.question_answers" Width="1.5" PointX="13" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.question_options" Width="1.5" PointX="26.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Question" Width="1.5" PointX="10.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.reportField" Width="1.5" PointX="26.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.saved_queries" Width="1.5" PointX="26.75" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.sc_inputs" Width="1.5" PointX="18.75" PointY="26.75" IsExpanded="true" />
@@ -303,14 +304,13 @@
         <AssociationConnector Association="Model.FK__Applicant__Appli__37E53D9E" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__Applicant__Quest__38D961D7" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__CoachingL__Actio__39CD8610" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_question_answers_Questions" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_TimezoneAdjustmentRule_Timezone" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.school_data" Width="1.5" PointX="7.375" PointY="54.75" />
         <EntityTypeShape EntityType="Model.collected_data" Width="1.5" PointX="25.375" PointY="54.75" />
         <EntityTypeShape EntityType="Model.form_q_scores_options_changes" Width="1.5" PointX="49.375" PointY="54.75" />
         <EntityTypeShape EntityType="Model.form_q_response_changes" Width="1.5" PointX="17.375" PointY="55.75" />
         <EntityTypeShape EntityType="Model.session_viewed" Width="1.5" PointX="19.375" PointY="55.75" />
-        <EntityTypeShape EntityType="Model.Question" Width="1.5" PointX="10.75" PointY="73.375" />
-        <AssociationConnector Association="Model.FK_question_answers_Questions" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

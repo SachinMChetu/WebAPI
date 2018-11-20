@@ -11,14 +11,13 @@ namespace WebApi.Entities
 {
     using System;
     
-    public partial class getListenQuestions_Result
+    public partial class GetformQScoreChanges_Result
     {
-        public string q_short_name { get; set; }
-        public string question { get; set; }
-        public int linked_answer { get; set; }
-        public int linked_comment { get; set; }
-        public bool single_comment { get; set; }
-        public bool comments_allowed { get; set; }
-        public int id { get; set; }
+        public Nullable<System.DateTime> review_date { get; set; }
+        public string changed_by { get; set; }
+        public string user_role { get; set; }
+        public string username { get; set; }
+        public Nullable<double> total_score { get; set; }
+        public Nullable<int> f_id { get; set; }
     }
 }
