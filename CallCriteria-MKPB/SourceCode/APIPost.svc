@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="VB" Debug="true" Service="APIPost" CodeBehind="~/App_Code/APIPost.vb" %>
