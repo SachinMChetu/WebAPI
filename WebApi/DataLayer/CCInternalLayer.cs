@@ -865,32 +865,42 @@ namespace WebApi.DataLayer
         private ScorecardData getRecordSCCSCall(int f_id, string username)
         {
 
-            SqlCommand sq = new SqlCommand("getCompletedSCCSCall");
-            sq.CommandType = CommandType.StoredProcedure;
-            sq.Parameters.AddWithValue("f_id", f_id);
-            sq.Parameters.AddWithValue("username", username);
-            DataSet ds = Common.getTables(sq);
-            ScorecardData scd = populateScorecard(ds);
-            DataRow dr = ds.Tables[4].Rows[0];
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                SqlCommand sq = new SqlCommand("getCompletedSCCSCall");
+                var getCompletedSCCSCall = dataContext.getCompletedSCCSCall(f_id, username).ToList();
+                sq.CommandType = CommandType.StoredProcedure;
+                sq.Parameters.AddWithValue("f_id", f_id);
+                sq.Parameters.AddWithValue("username", username);
+                DataSet ds = Common.getTables(sq);
+                ScorecardData scd = populateScorecard(ds);
+                DataRow dr = ds.Tables[4].Rows[0];
 
-            UserObject scu = new UserObject();
-            scu.UserRole = "QA";
-            scu.UserTitle = "QA Response";
-            scu.isGolden = false;
-            scd.ScorecardUser = scu;
-            CallScores cs = new CallScores();
+                UserObject scu = new UserObject();
+                scu.UserRole = "QA";
+                scu.UserTitle = "QA Response";
+                scu.isGolden = false;
+                scd.ScorecardUser = scu;
+                CallScores cs = new CallScores();
 
-            if (dr["edited_score"].ToString() == "")
-                cs.score = Convert.IsDBNull(dr["display_score"]) ? "N/A" : dr["display_score"].ToString();
-            else
-                cs.score = Convert.IsDBNull(dr["original_qa_score"]) ? (Convert.IsDBNull(dr["total_score"]) ? "N/A" : dr["total_score"].ToString()) : dr["original_qa_score"].ToString();
-            cs.reviewer = dr["reviewer"].ToString();
-            cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
-            if (!Convert.IsDBNull(dr["qa_cali_score"]))
-                cs.calibrationscore = dr["qa_cali_score"].ToString();
-            cs.role = "QA";
-            scd.CallScore = cs;
-            return scd;
+                if (dr["edited_score"].ToString() == "")
+                {
+                    cs.score = Convert.IsDBNull(dr["display_score"]) ? "N/A" : dr["display_score"].ToString();
+                }
+                else
+                {
+                    cs.score = Convert.IsDBNull(dr["original_qa_score"]) ? (Convert.IsDBNull(dr["total_score"]) ? "N/A" : dr["total_score"].ToString()) : dr["original_qa_score"].ToString();
+                }
+                 cs.reviewer = dr["reviewer"].ToString();
+                cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
+                if (!Convert.IsDBNull(dr["qa_cali_score"]))
+                {
+                    cs.calibrationscore = dr["qa_cali_score"].ToString();
+                }
+                cs.role = "QA";
+                scd.CallScore = cs;
+                return scd;
+            }
         }
         #endregion  getRecordSCCSCall
 
@@ -1028,32 +1038,34 @@ namespace WebApi.DataLayer
         /// <returns></returns>
         private ScorecardData getRecordSCCall(string f_id, string username)
         {
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                SqlCommand sq = new SqlCommand("getCompletedSCCall");
+                sq.CommandType = CommandType.StoredProcedure;
+                sq.Parameters.AddWithValue("f_id", f_id);
+                sq.Parameters.AddWithValue("username", username);
+                DataSet ds = Common.getTables(sq);
+                ScorecardData scd = populateScorecard(ds);
+                DataRow dr = ds.Tables[4].Rows[0];
+                UserObject scu = new UserObject();
+                scu.UserRole = "QA";
+                scu.UserTitle = "QA Response";
+                scu.isGolden = false;
+                scd.ScorecardUser = scu;
+                CallScores cs = new CallScores();
+                if (dr["calib_score"].ToString() == "" & dr["edited_score"].ToString() == "")
 
-            SqlCommand sq = new SqlCommand("getCompletedSCCall");
-            sq.CommandType = CommandType.StoredProcedure;
-            sq.Parameters.AddWithValue("f_id", f_id);
-            sq.Parameters.AddWithValue("username", username);
-            DataSet ds = Common.getTables(sq);
-            ScorecardData scd = populateScorecard(ds);
-            DataRow dr = ds.Tables[4].Rows[0];
-            UserObject scu = new UserObject();
-            scu.UserRole = "QA";
-            scu.UserTitle = "QA Response";
-            scu.isGolden = false;
-            scd.ScorecardUser = scu;
-            CallScores cs = new CallScores();
-            if (dr["calib_score"].ToString() == "" & dr["edited_score"].ToString() == "")
-
-                cs.score = Convert.IsDBNull(dr["display_score"]) ? "N/A" : dr["display_score"].ToString();
-            else
-                cs.score = Convert.IsDBNull(dr["original_qa_score"]) ? (Convert.IsDBNull(dr["total_score"]) ? "N/A" : dr["total_score"].ToString()) : dr["original_qa_score"].ToString();
-            cs.reviewer = dr["reviewer"].ToString();
-            cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
-            if (!Convert.IsDBNull(dr["qa_cali_score"]))
-                cs.calibrationscore = dr["qa_cali_score"].ToString();
-            cs.role = "QA";
-            scd.CallScore = cs;
-            return scd;
+                    cs.score = Convert.IsDBNull(dr["display_score"]) ? "N/A" : dr["display_score"].ToString();
+                else
+                    cs.score = Convert.IsDBNull(dr["original_qa_score"]) ? (Convert.IsDBNull(dr["total_score"]) ? "N/A" : dr["total_score"].ToString()) : dr["original_qa_score"].ToString();
+                cs.reviewer = dr["reviewer"].ToString();
+                cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
+                if (!Convert.IsDBNull(dr["qa_cali_score"]))
+                    cs.calibrationscore = dr["qa_cali_score"].ToString();
+                cs.role = "QA";
+                scd.CallScore = cs;
+                return scd;
+            }
         }
         #endregion  getRecordSCCall
 
@@ -3876,8 +3888,7 @@ namespace WebApi.DataLayer
                     {
                         return Messages.InvalidAppname;
                     }
-                    string sql;
-                    string @params = "";
+                   
                     DateTime callDate = new DateTime();
                     int scoreCard = 0;
                     if (call_date != "")
@@ -3921,6 +3932,7 @@ namespace WebApi.DataLayer
                     {
                         sortOrder = 0;
                     }
+                   int new_id = 0;
                     xcc_report_new_pending report_new_pending = new xcc_report_new_pending()
                     {
                         SESSION_ID = string.IsNullOrEmpty(SESSION_ID) ? "NULL" : SESSION_ID,
@@ -3969,6 +3981,7 @@ namespace WebApi.DataLayer
                     };
                     dataContext.xcc_report_new_pending.Add(report_new_pending);
                     result = dataContext.SaveChanges();
+                    new_id = report_new_pending.ID;
                     if (result == 1)
                     {
                         Message = Messages.Insert;
@@ -4026,7 +4039,7 @@ namespace WebApi.DataLayer
                                 file_name = audio_file.ToString().Replace("'", "''"),
                                 file_date = file_date.ToString().Replace("nn", "00"),
                                 file_order = Convert.ToInt32(order),
-                                pending_id = result
+                                pending_id = new_id
                             };
                             dataContext.AudioDatas.Add(audioData);
                             int resultAudioDatas = dataContext.SaveChanges();
@@ -4045,7 +4058,7 @@ namespace WebApi.DataLayer
 
                             otherFormDataPending formDataPending = new otherFormDataPending()
                             {
-                                form_id = result,
+                                form_id = new_id,
                                 data_key = od.key.ToString().Replace("'", "''").Replace("+", " ").Replace("%20", " "),
                                 data_value = od.value.ToString().Replace("'", "''").Replace("+", " ").Replace("%20", " "),
                                 data_type = type.ToString().Replace("+", " ").Replace("%20", " "),

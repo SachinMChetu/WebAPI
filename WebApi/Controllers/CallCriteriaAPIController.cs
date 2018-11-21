@@ -161,6 +161,30 @@ namespace WebApi.Controllers
         }
         #endregion Public GetRecord
 
+        #region Public AddRecord
+        /// <summary>
+        /// AddRecord
+        /// </summary>
+        /// <param name="ADR"></param>
+        /// <returns></returns>
+        [Route("CallCriteria/AddRecord")]
+        [HttpPost]
+        [ResponseType(typeof(AddRecordData))]
+        public string AddRecord(AddRecordData ADR)
+        {
+            string Message = string.Empty;
+            try
+            {
+                Message = objCallCriteriaAPI.AddRecord(ADR);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Message;
+        }
+        #endregion Public AddRecord
+
 
         #region Public GetScore
         /// <summary>

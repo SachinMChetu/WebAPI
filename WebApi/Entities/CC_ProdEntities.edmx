@@ -2962,8 +2962,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.other_clone' does not h
           <Property Name="school_name" Type="varchar" MaxLength="100" />
           <Property Name="label" Type="varchar" MaxLength="8000" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.otherFormDataPending' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="otherFormDataPending">
           <Key>
             <PropertyRef Name="id" />
@@ -4758,8 +4756,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.weekly_CPS' does not ha
           <Property Name="xcc_review_date" Type="date" />
           <Property Name="last_queried" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.xcc_report_new_pending' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="xcc_report_new_pending">
           <Key>
             <PropertyRef Name="ID" />
@@ -11264,6 +11260,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="notification_visibility" EntityType="Self.notification_visibility" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="notifications" EntityType="Self.notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="otherFormData" EntityType="Self.otherFormData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="otherFormDataPending" EntityType="Self.otherFormDataPending" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="q_faqs" EntityType="Self.q_faqs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="qa_slots" EntityType="Self.qa_slots" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="qs_agents" EntityType="Self.qs_agents" Schema="dbo" store:Type="Tables" />
@@ -11313,6 +11310,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="utterance_flags" EntityType="Self.utterance_flags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vendors" EntityType="Self.vendors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XCC_REPORT_NEW" EntityType="Self.XCC_REPORT_NEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="xcc_report_new_pending" EntityType="Self.xcc_report_new_pending" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="xl_edu_mapping" EntityType="Self.xl_edu_mapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="xl_mortgage_import" EntityType="Self.xl_mortgage_import" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ZipCode" EntityType="Self.ZipCode" Schema="dbo" store:Type="Tables" />
@@ -12851,18 +12849,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     [other_clone].[label] AS [label]
     FROM [dbo].[other_clone] AS [other_clone]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="otherFormDataPending" EntityType="Self.otherFormDataPending" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [otherFormDataPending].[id] AS [id], 
-    [otherFormDataPending].[form_id] AS [form_id], 
-    [otherFormDataPending].[data_key] AS [data_key], 
-    [otherFormDataPending].[data_value] AS [data_value], 
-    [otherFormDataPending].[data_type] AS [data_type], 
-    [otherFormDataPending].[xcc_id] AS [xcc_id], 
-    [otherFormDataPending].[school_name] AS [school_name], 
-    [otherFormDataPending].[label] AS [label]
-    FROM [dbo].[otherFormDataPending] AS [otherFormDataPending]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="outgoing_email" EntityType="Self.outgoing_email" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [outgoing_email].[profile_name] AS [profile_name], 
@@ -13544,65 +13530,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     [weekly_CPS].[cps_call] AS [cps_call], 
     [weekly_CPS].[cps_review] AS [cps_review]
     FROM [dbo].[weekly_CPS] AS [weekly_CPS]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="xcc_report_new_pending" EntityType="Self.xcc_report_new_pending" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [xcc_report_new_pending].[SESSION_ID] AS [SESSION_ID], 
-    [xcc_report_new_pending].[AGENT] AS [AGENT], 
-    [xcc_report_new_pending].[DISPOSITION] AS [DISPOSITION], 
-    [xcc_report_new_pending].[CAMPAIGN] AS [CAMPAIGN], 
-    [xcc_report_new_pending].[ANI] AS [ANI], 
-    [xcc_report_new_pending].[DNIS] AS [DNIS], 
-    [xcc_report_new_pending].[TIMESTAMP] AS [TIMESTAMP], 
-    [xcc_report_new_pending].[TALK_TIME] AS [TALK_TIME], 
-    [xcc_report_new_pending].[CALL_TIME] AS [CALL_TIME], 
-    [xcc_report_new_pending].[HANDLE_TIME] AS [HANDLE_TIME], 
-    [xcc_report_new_pending].[CALL_TYPE] AS [CALL_TYPE], 
-    [xcc_report_new_pending].[LIST_NAME] AS [LIST_NAME], 
-    [xcc_report_new_pending].[leadid] AS [leadid], 
-    [xcc_report_new_pending].[AGENT_GROUP] AS [AGENT_GROUP], 
-    [xcc_report_new_pending].[DATE] AS [DATE], 
-    [xcc_report_new_pending].[Email] AS [Email], 
-    [xcc_report_new_pending].[City] AS [City], 
-    [xcc_report_new_pending].[State] AS [State], 
-    [xcc_report_new_pending].[Zip] AS [Zip], 
-    [xcc_report_new_pending].[Datacapturekey] AS [Datacapturekey], 
-    [xcc_report_new_pending].[Datacapture] AS [Datacapture], 
-    [xcc_report_new_pending].[Status] AS [Status], 
-    [xcc_report_new_pending].[Program] AS [Program], 
-    [xcc_report_new_pending].[ID] AS [ID], 
-    [xcc_report_new_pending].[Datacapture_Status] AS [Datacapture_Status], 
-    [xcc_report_new_pending].[num_of_schools] AS [num_of_schools], 
-    [xcc_report_new_pending].[MAX_REVIEWS] AS [MAX_REVIEWS], 
-    [xcc_report_new_pending].[review_started] AS [review_started], 
-    [xcc_report_new_pending].[Number_of_Schools] AS [Number_of_Schools], 
-    [xcc_report_new_pending].[EducationLevel] AS [EducationLevel], 
-    [xcc_report_new_pending].[HighSchoolGradYear] AS [HighSchoolGradYear], 
-    [xcc_report_new_pending].[DegreeStartTimeframe] AS [DegreeStartTimeframe], 
-    [xcc_report_new_pending].[appname] AS [appname], 
-    [xcc_report_new_pending].[First_Name] AS [First_Name], 
-    [xcc_report_new_pending].[Last_Name] AS [Last_Name], 
-    [xcc_report_new_pending].[address] AS [address], 
-    [xcc_report_new_pending].[phone] AS [phone], 
-    [xcc_report_new_pending].[call_date] AS [call_date], 
-    [xcc_report_new_pending].[audio_link] AS [audio_link], 
-    [xcc_report_new_pending].[profile_id] AS [profile_id], 
-    [xcc_report_new_pending].[date_added] AS [date_added], 
-    [xcc_report_new_pending].[AreaOfInterest] AS [AreaOfInterest], 
-    [xcc_report_new_pending].[ProgramsOfInterestType] AS [ProgramsOfInterestType], 
-    [xcc_report_new_pending].[Citizenship] AS [Citizenship], 
-    [xcc_report_new_pending].[Gender] AS [Gender], 
-    [xcc_report_new_pending].[Military] AS [Military], 
-    [xcc_report_new_pending].[DegreeOfInterest] AS [DegreeOfInterest], 
-    [xcc_report_new_pending].[secondphone] AS [secondphone], 
-    [xcc_report_new_pending].[agent_name] AS [agent_name], 
-    [xcc_report_new_pending].[scorecard] AS [scorecard], 
-    [xcc_report_new_pending].[xcc_report_new_pending] AS [xcc_report_new_pending], 
-    [xcc_report_new_pending].[website] AS [website], 
-    [xcc_report_new_pending].[call_duration] AS [call_duration], 
-    [xcc_report_new_pending].[hold_time] AS [hold_time], 
-    [xcc_report_new_pending].[sort_order] AS [sort_order]
-    FROM [dbo].[xcc_report_new_pending] AS [xcc_report_new_pending]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="xcc_report_new_save" EntityType="Self.xcc_report_new_save" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -18319,19 +18246,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="label" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="otherFormDataPending">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="form_id" Type="Int32" />
-          <Property Name="data_key" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="data_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="data_type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="xcc_id" Type="Int32" />
-          <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="label" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="outgoing_email">
           <Key>
             <PropertyRef Name="id" />
@@ -19116,66 +19030,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Name="week_ending" Type="DateTime" Precision="0" />
           <Property Name="cps_call" Type="Double" />
           <Property Name="cps_review" Type="Double" />
-        </EntityType>
-        <EntityType Name="xcc_report_new_pending">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="SESSION_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AGENT" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DISPOSITION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CAMPAIGN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ANI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DNIS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TIMESTAMP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TALK_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CALL_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="HANDLE_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CALL_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LIST_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="leadid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="AGENT_GROUP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DATE" Type="DateTime" Precision="3" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Datacapturekey" Type="Double" />
-          <Property Name="Datacapture" Type="Double" />
-          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Program" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Datacapture_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="num_of_schools" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="MAX_REVIEWS" Type="Int32" />
-          <Property Name="review_started" Type="DateTime" Precision="3" />
-          <Property Name="Number_of_Schools" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="EducationLevel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="HighSchoolGradYear" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DegreeStartTimeframe" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="appname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="call_date" Type="DateTime" Precision="3" />
-          <Property Name="audio_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="profile_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="date_added" Type="DateTime" Precision="3" />
-          <Property Name="AreaOfInterest" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ProgramsOfInterestType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Citizenship" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Gender" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Military" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DegreeOfInterest" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="secondphone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="agent_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="scorecard" Type="Int32" />
-          <Property Name="xcc_report_new_pending1" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="website" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="call_duration" Type="Double" />
-          <Property Name="hold_time" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="sort_order" Type="Int32" />
         </EntityType>
         <EntityType Name="xcc_report_new_save">
           <Key>
@@ -20455,7 +20309,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="orphan_notifications" EntityType="Self.orphan_notifications" />
           <EntitySet Name="orphan_reviews" EntityType="Self.orphan_reviews" />
           <EntitySet Name="other_clone" EntityType="Self.other_clone" />
-          <EntitySet Name="otherFormDataPendings" EntityType="Self.otherFormDataPending" />
           <EntitySet Name="outgoing_email" EntityType="Self.outgoing_email" />
           <EntitySet Name="pay2sc_dev" EntityType="Self.pay2sc_dev" />
           <EntitySet Name="pay3scw_dev" EntityType="Self.pay3scw_dev" />
@@ -20515,7 +20368,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="WAV_DATA" EntityType="Self.WAV_DATA" />
           <EntitySet Name="webcompliances" EntityType="Self.webcompliance" />
           <EntitySet Name="weekly_CPS" EntityType="Self.weekly_CPS" />
-          <EntitySet Name="xcc_report_new_pending" EntityType="Self.xcc_report_new_pending" />
           <EntitySet Name="xcc_report_new_save" EntityType="Self.xcc_report_new_save" />
           <EntitySet Name="XCC_REPORT_OLD" EntityType="Self.XCC_REPORT_OLD" />
           <EntitySet Name="XCC_RESULTS" EntityType="Self.XCC_RESULTS" />
@@ -20939,8 +20791,10 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="userName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetuserexTrainfo" ReturnType="Collection(Model.GetuserexTrainfo_Result)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
+          <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="xcc_report_new_pending" EntityType="Model.xcc_report_new_pending" />
+          <EntitySet Name="otherFormDataPendings" EntityType="Model.otherFormDataPending" />
         </EntityContainer>
         <ComplexType Name="GetAllRecords_Result">
           <Property Type="Int32" Name="F_ID" Nullable="false" />
@@ -22612,6 +22466,79 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="Boolean" Name="excludeCalls" Nullable="true" />
           <Property Type="Double" Name="cal_recal_score" Nullable="true" />
         </ComplexType>
+        <EntityType Name="xcc_report_new_pending">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SESSION_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AGENT" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DISPOSITION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CAMPAIGN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ANI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DNIS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TIMESTAMP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TALK_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CALL_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HANDLE_TIME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CALL_TYPE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LIST_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="leadid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AGENT_GROUP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DATE" Type="DateTime" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Datacapturekey" Type="Double" />
+          <Property Name="Datacapture" Type="Double" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Program" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Datacapture_Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="num_of_schools" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MAX_REVIEWS" Type="Int32" />
+          <Property Name="review_started" Type="DateTime" Precision="3" />
+          <Property Name="Number_of_Schools" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EducationLevel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HighSchoolGradYear" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DegreeStartTimeframe" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="appname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="call_date" Type="DateTime" Precision="3" />
+          <Property Name="audio_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="profile_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="date_added" Type="DateTime" Precision="3" />
+          <Property Name="AreaOfInterest" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ProgramsOfInterestType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Citizenship" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Military" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DegreeOfInterest" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="secondphone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="agent_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="scorecard" Type="Int32" />
+          <Property Name="xcc_report_new_pending1" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="website" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="call_duration" Type="Double" />
+          <Property Name="hold_time" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sort_order" Type="Int32" />
+        </EntityType>
+        <EntityType Name="otherFormDataPending">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="form_id" Type="Int32" />
+          <Property Name="data_key" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="data_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="data_type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="xcc_id" Type="Int32" />
+          <Property Name="school_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="label" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -26357,20 +26284,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="otherFormDataPendings">
-            <EntityTypeMapping TypeName="Model.otherFormDataPending">
-              <MappingFragment StoreEntitySet="otherFormDataPending">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="form_id" ColumnName="form_id" />
-                <ScalarProperty Name="data_key" ColumnName="data_key" />
-                <ScalarProperty Name="data_value" ColumnName="data_value" />
-                <ScalarProperty Name="data_type" ColumnName="data_type" />
-                <ScalarProperty Name="xcc_id" ColumnName="xcc_id" />
-                <ScalarProperty Name="school_name" ColumnName="school_name" />
-                <ScalarProperty Name="label" ColumnName="label" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="outgoing_email">
             <EntityTypeMapping TypeName="Model.outgoing_email">
               <MappingFragment StoreEntitySet="outgoing_email">
@@ -27168,67 +27081,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
                 <ScalarProperty Name="week_ending" ColumnName="week_ending" />
                 <ScalarProperty Name="cps_call" ColumnName="cps_call" />
                 <ScalarProperty Name="cps_review" ColumnName="cps_review" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="xcc_report_new_pending">
-            <EntityTypeMapping TypeName="Model.xcc_report_new_pending">
-              <MappingFragment StoreEntitySet="xcc_report_new_pending">
-                <ScalarProperty Name="SESSION_ID" ColumnName="SESSION_ID" />
-                <ScalarProperty Name="AGENT" ColumnName="AGENT" />
-                <ScalarProperty Name="DISPOSITION" ColumnName="DISPOSITION" />
-                <ScalarProperty Name="CAMPAIGN" ColumnName="CAMPAIGN" />
-                <ScalarProperty Name="ANI" ColumnName="ANI" />
-                <ScalarProperty Name="DNIS" ColumnName="DNIS" />
-                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
-                <ScalarProperty Name="TALK_TIME" ColumnName="TALK_TIME" />
-                <ScalarProperty Name="CALL_TIME" ColumnName="CALL_TIME" />
-                <ScalarProperty Name="HANDLE_TIME" ColumnName="HANDLE_TIME" />
-                <ScalarProperty Name="CALL_TYPE" ColumnName="CALL_TYPE" />
-                <ScalarProperty Name="LIST_NAME" ColumnName="LIST_NAME" />
-                <ScalarProperty Name="leadid" ColumnName="leadid" />
-                <ScalarProperty Name="AGENT_GROUP" ColumnName="AGENT_GROUP" />
-                <ScalarProperty Name="DATE" ColumnName="DATE" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Zip" ColumnName="Zip" />
-                <ScalarProperty Name="Datacapturekey" ColumnName="Datacapturekey" />
-                <ScalarProperty Name="Datacapture" ColumnName="Datacapture" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Program" ColumnName="Program" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Datacapture_Status" ColumnName="Datacapture_Status" />
-                <ScalarProperty Name="num_of_schools" ColumnName="num_of_schools" />
-                <ScalarProperty Name="MAX_REVIEWS" ColumnName="MAX_REVIEWS" />
-                <ScalarProperty Name="review_started" ColumnName="review_started" />
-                <ScalarProperty Name="Number_of_Schools" ColumnName="Number_of_Schools" />
-                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
-                <ScalarProperty Name="HighSchoolGradYear" ColumnName="HighSchoolGradYear" />
-                <ScalarProperty Name="DegreeStartTimeframe" ColumnName="DegreeStartTimeframe" />
-                <ScalarProperty Name="appname" ColumnName="appname" />
-                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
-                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="call_date" ColumnName="call_date" />
-                <ScalarProperty Name="audio_link" ColumnName="audio_link" />
-                <ScalarProperty Name="profile_id" ColumnName="profile_id" />
-                <ScalarProperty Name="date_added" ColumnName="date_added" />
-                <ScalarProperty Name="AreaOfInterest" ColumnName="AreaOfInterest" />
-                <ScalarProperty Name="ProgramsOfInterestType" ColumnName="ProgramsOfInterestType" />
-                <ScalarProperty Name="Citizenship" ColumnName="Citizenship" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Military" ColumnName="Military" />
-                <ScalarProperty Name="DegreeOfInterest" ColumnName="DegreeOfInterest" />
-                <ScalarProperty Name="secondphone" ColumnName="secondphone" />
-                <ScalarProperty Name="agent_name" ColumnName="agent_name" />
-                <ScalarProperty Name="scorecard" ColumnName="scorecard" />
-                <ScalarProperty Name="xcc_report_new_pending1" ColumnName="xcc_report_new_pending" />
-                <ScalarProperty Name="website" ColumnName="website" />
-                <ScalarProperty Name="call_duration" ColumnName="call_duration" />
-                <ScalarProperty Name="hold_time" ColumnName="hold_time" />
-                <ScalarProperty Name="sort_order" ColumnName="sort_order" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -30284,6 +30136,81 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="xcc_report_new_pending">
+            <EntityTypeMapping TypeName="Model.xcc_report_new_pending">
+              <MappingFragment StoreEntitySet="xcc_report_new_pending">
+                <ScalarProperty Name="sort_order" ColumnName="sort_order" />
+                <ScalarProperty Name="hold_time" ColumnName="hold_time" />
+                <ScalarProperty Name="call_duration" ColumnName="call_duration" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="xcc_report_new_pending1" ColumnName="xcc_report_new_pending" />
+                <ScalarProperty Name="scorecard" ColumnName="scorecard" />
+                <ScalarProperty Name="agent_name" ColumnName="agent_name" />
+                <ScalarProperty Name="secondphone" ColumnName="secondphone" />
+                <ScalarProperty Name="DegreeOfInterest" ColumnName="DegreeOfInterest" />
+                <ScalarProperty Name="Military" ColumnName="Military" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Citizenship" ColumnName="Citizenship" />
+                <ScalarProperty Name="ProgramsOfInterestType" ColumnName="ProgramsOfInterestType" />
+                <ScalarProperty Name="AreaOfInterest" ColumnName="AreaOfInterest" />
+                <ScalarProperty Name="date_added" ColumnName="date_added" />
+                <ScalarProperty Name="profile_id" ColumnName="profile_id" />
+                <ScalarProperty Name="audio_link" ColumnName="audio_link" />
+                <ScalarProperty Name="call_date" ColumnName="call_date" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="appname" ColumnName="appname" />
+                <ScalarProperty Name="DegreeStartTimeframe" ColumnName="DegreeStartTimeframe" />
+                <ScalarProperty Name="HighSchoolGradYear" ColumnName="HighSchoolGradYear" />
+                <ScalarProperty Name="EducationLevel" ColumnName="EducationLevel" />
+                <ScalarProperty Name="Number_of_Schools" ColumnName="Number_of_Schools" />
+                <ScalarProperty Name="review_started" ColumnName="review_started" />
+                <ScalarProperty Name="MAX_REVIEWS" ColumnName="MAX_REVIEWS" />
+                <ScalarProperty Name="num_of_schools" ColumnName="num_of_schools" />
+                <ScalarProperty Name="Datacapture_Status" ColumnName="Datacapture_Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Datacapture" ColumnName="Datacapture" />
+                <ScalarProperty Name="Datacapturekey" ColumnName="Datacapturekey" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="AGENT_GROUP" ColumnName="AGENT_GROUP" />
+                <ScalarProperty Name="leadid" ColumnName="leadid" />
+                <ScalarProperty Name="LIST_NAME" ColumnName="LIST_NAME" />
+                <ScalarProperty Name="CALL_TYPE" ColumnName="CALL_TYPE" />
+                <ScalarProperty Name="HANDLE_TIME" ColumnName="HANDLE_TIME" />
+                <ScalarProperty Name="CALL_TIME" ColumnName="CALL_TIME" />
+                <ScalarProperty Name="TALK_TIME" ColumnName="TALK_TIME" />
+                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
+                <ScalarProperty Name="DNIS" ColumnName="DNIS" />
+                <ScalarProperty Name="ANI" ColumnName="ANI" />
+                <ScalarProperty Name="CAMPAIGN" ColumnName="CAMPAIGN" />
+                <ScalarProperty Name="DISPOSITION" ColumnName="DISPOSITION" />
+                <ScalarProperty Name="AGENT" ColumnName="AGENT" />
+                <ScalarProperty Name="SESSION_ID" ColumnName="SESSION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="otherFormDataPendings">
+            <EntityTypeMapping TypeName="Model.otherFormDataPending">
+              <MappingFragment StoreEntitySet="otherFormDataPending">
+                <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="school_name" ColumnName="school_name" />
+                <ScalarProperty Name="xcc_id" ColumnName="xcc_id" />
+                <ScalarProperty Name="data_type" ColumnName="data_type" />
+                <ScalarProperty Name="data_value" ColumnName="data_value" />
+                <ScalarProperty Name="data_key" ColumnName="data_key" />
+                <ScalarProperty Name="form_id" ColumnName="form_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

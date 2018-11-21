@@ -247,7 +247,6 @@ namespace WebApi.Entities
         public virtual DbSet<orphan_notifications> orphan_notifications { get; set; }
         public virtual DbSet<orphan_reviews> orphan_reviews { get; set; }
         public virtual DbSet<other_clone> other_clone { get; set; }
-        public virtual DbSet<otherFormDataPending> otherFormDataPendings { get; set; }
         public virtual DbSet<outgoing_email> outgoing_email { get; set; }
         public virtual DbSet<pay2sc_dev> pay2sc_dev { get; set; }
         public virtual DbSet<pay3scw_dev> pay3scw_dev { get; set; }
@@ -307,7 +306,6 @@ namespace WebApi.Entities
         public virtual DbSet<WAV_DATA> WAV_DATA { get; set; }
         public virtual DbSet<webcompliance> webcompliances { get; set; }
         public virtual DbSet<weekly_CPS> weekly_CPS { get; set; }
-        public virtual DbSet<xcc_report_new_pending> xcc_report_new_pending { get; set; }
         public virtual DbSet<xcc_report_new_save> xcc_report_new_save { get; set; }
         public virtual DbSet<XCC_REPORT_OLD> XCC_REPORT_OLD { get; set; }
         public virtual DbSet<XCC_RESULTS> XCC_RESULTS { get; set; }
@@ -327,6 +325,8 @@ namespace WebApi.Entities
         public virtual DbSet<form_q_scores_options_changes> form_q_scores_options_changes { get; set; }
         public virtual DbSet<form_q_response_changes> form_q_response_changes { get; set; }
         public virtual DbSet<session_viewed> session_viewed { get; set; }
+        public virtual DbSet<xcc_report_new_pending> xcc_report_new_pending { get; set; }
+        public virtual DbSet<otherFormDataPending> otherFormDataPendings { get; set; }
     
         [DbFunction("CC_ProdEntities", "checkEDUFirstSchools")]
         public virtual IQueryable<checkEDUFirstSchools_Result> checkEDUFirstSchools(Nullable<int> f_id)

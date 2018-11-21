@@ -225,7 +225,6 @@
         <EntityTypeShape EntityType="Model.orphan_notifications" Width="1.5" PointX="28.75" PointY="45.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.orphan_reviews" Width="1.5" PointX="38.75" PointY="45.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.other_clone" Width="1.5" PointX="40.75" PointY="45.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.otherFormDataPending" Width="1.5" PointX="42.75" PointY="45.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.outgoing_email" Width="1.5" PointX="44.75" PointY="45.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.pay2sc_dev" Width="1.5" PointX="46.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.pay3scw_dev" Width="1.5" PointX="46.75" PointY="6.75" IsExpanded="true" />
@@ -285,7 +284,6 @@
         <EntityTypeShape EntityType="Model.WAV_DATA" Width="1.5" PointX="46.75" PointY="51.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.webcompliance" Width="1.5" PointX="48.75" PointY="51.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.weekly_CPS" Width="1.5" PointX="50.75" PointY="51.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.xcc_report_new_pending" Width="1.5" PointX="52.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.xcc_report_new_save" Width="1.5" PointX="12.75" PointY="52.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.XCC_REPORT_OLD" Width="1.5" PointX="52.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.XCC_RESULTS" Width="1.5" PointX="14.75" PointY="52.75" IsExpanded="true" />
@@ -311,6 +309,8 @@
         <EntityTypeShape EntityType="Model.form_q_scores_options_changes" Width="1.5" PointX="49.375" PointY="54.75" />
         <EntityTypeShape EntityType="Model.form_q_response_changes" Width="1.5" PointX="17.375" PointY="55.75" />
         <EntityTypeShape EntityType="Model.session_viewed" Width="1.5" PointX="19.375" PointY="55.75" />
+        <EntityTypeShape EntityType="Model.xcc_report_new_pending" Width="1.5" PointX="55.375" PointY="23.75" />
+        <EntityTypeShape EntityType="Model.otherFormDataPending" Width="1.5" PointX="31.375" PointY="55.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

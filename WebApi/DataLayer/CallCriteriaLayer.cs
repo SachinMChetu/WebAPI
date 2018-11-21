@@ -229,7 +229,7 @@ namespace WebApi.DataLayer
                 }
                 else
                 {
-                    userName =  username ;
+                    userName = username;
                 }
                 //reply = new SqlCommand("select vwForm.*,isnull(client_logo, vwForm.appname) as client_logo, (select total_score from vwCF where active_cali = 1 and f_id = @id) as qa_cali_score  from vwForm join app_settings on vwForm.appname = app_settings.appname where f_id = @id" + add_sql, cn);
                 var getvwForm = dataContext.getvwForm(ID, "vs", userName).ToList();
@@ -1084,14 +1084,14 @@ namespace WebApi.DataLayer
                 api_access tblapi_access = new api_access()
                 {
                     ip = Ip,
-                    value =SESSION_ID.ToString(),
+                    value = SESSION_ID.ToString(),
                     posted_appname = AppName,
                     value_type = "session_id"
                 };
                 dataContext.api_access.Add(tblapi_access);
                 int result1 = dataContext.SaveChanges();
                 string AppNameQ = "inside up";//HttpContext.Current.Request.QueryString["appname"];
-                string UserName =null;
+                string UserName = null;
                 if (AppNameQ != null)
                 {
                     AppNameQ = "inside up";//HttpContext.Current.Request["appname"];
@@ -1154,31 +1154,31 @@ namespace WebApi.DataLayer
                     scr.call_date = dr.call_date.ToString();
                     scr.audio_link = dr.audio_link;
                     scr.profile_id = dr.profile_id;
-                    scr.audio_user = ""; 
-                    scr.audio_password = ""; 
+                    scr.audio_user = "";
+                    scr.audio_password = "";
                     scr.LIST_NAME = dr.LIST_NAME;
                     scr.review_date = dr.review_date.ToString();
                     scr.CAMPAIGN = dr.CAMPAIGN;
                     scr.DISPOSITION = dr.DISPOSITION;
                     scr.bad_call = dr.bad_call.ToString();
-                    scr.to_upload = ""; 
+                    scr.to_upload = "";
                     scr.SESSION_ID = dr.SESSION_ID;
-                    scr.agent_deviation = ""; 
+                    scr.agent_deviation = "";
                     scr.pass_fail = dr.pass_fail;
                     scr.scorecard = dr.scorecard.ToString();
-                    scr.uploaded = ""; 
+                    scr.uploaded = "";
                     scr.formatted_comments = dr.formatted_comments;
                     scr.formatted_missed = dr.formatted_missed;
-                    scr.fileUrl = ""; 
+                    scr.fileUrl = "";
                     scr.statusMessage = dr.statusMessage;
                     scr.mediaId = "";
-                    scr.requestStatus = ""; 
-                    scr.fileStatus = ""; 
-                    scr.response = ""; 
-                    scr.review_time = ""; 
+                    scr.requestStatus = "";
+                    scr.fileStatus = "";
+                    scr.response = "";
+                    scr.review_time = "";
                     scr.wasEdited = dr.wasEdited.ToString();
                     scr.website = dr.website;
-                    scr.pending_id = ""; 
+                    scr.pending_id = "";
                     scr.bad_call_reason = dr.bad_call_reason;
                     scr.date_added = dr.date_added.ToString();
                     scr.calib_score = dr.calib_score.ToString();
@@ -1279,7 +1279,7 @@ namespace WebApi.DataLayer
                                              where form_q_scores.form_id == f_ID
                                              select new ScorecardResponse
                                              {
-                                                 position =form_q_scores.q_position,
+                                                 position = form_q_scores.q_position,
                                                  question = questions.q_short_name.ToString(),
                                                  result = questionA.answer_text.ToString(),
                                                  QID = questions.id,
@@ -1299,7 +1299,7 @@ namespace WebApi.DataLayer
                             if (scr.wasEdited == "" & scr.calib_score != "")
                             {
                                 //ans_dt = GetTable("select isnull(comment,other_answer_text) as q_comment from form_c_responses left join answer_comments on form_c_responses.answer_id = answer_comments.id where form_c_responses.form_id = (select id from vwCF where f_id = " + dr["F_ID"].ToString() + " and active_cali = 1) and form_c_responses.question_id = " + qdr["question_id"].ToString() + " order by isnull(ac_order,10000)");
-                                if (vwCF !=null)
+                                if (vwCF != null)
                                 {
                                     var objCompanie = (from form_cResponses in dataContext.form_c_responses
                                                        join answercomments in dataContext.answer_comments on form_cResponses.answer_id equals answercomments.id into SJ
@@ -1341,7 +1341,7 @@ namespace WebApi.DataLayer
                     }
                     scr.ScorecardResponses = qrs;
                     int f_Id = 0;
-                    if(scr.F_ID !=null)
+                    if (scr.F_ID != null)
                     {
                         f_Id = Convert.ToInt32(scr.F_ID);
                     }
@@ -1434,6 +1434,465 @@ namespace WebApi.DataLayer
         }
         #endregion getScore
 
+
+        /// <summary>
+        /// AddRecord
+        /// </summary>
+        /// <param name="ADR"></param>
+        /// <returns></returns>
+        public string AddRecord(AddRecordData ADR)
+        {
+            string SESSION_ID = clean_string(ADR.SESSION_ID);
+            string AGENT = clean_string(ADR.AGENT);
+            string AGENT_NAME = clean_string(ADR.AGENT_NAME);
+            string DISPOSITION = clean_string(ADR.DISPOSITION);
+            string CAMPAIGN = clean_string(ADR.CAMPAIGN);
+            string ANI = clean_string(ADR.ANI);
+            string DNIS = clean_string(ADR.DNIS);
+            string TIMESTAMP = clean_string(ADR.TIMESTAMP);
+            string TALK_TIME = clean_string(ADR.TALK_TIME);
+            string CALL_TIME = clean_string(ADR.CALL_TIME);
+            string HANDLE_TIME = clean_string(ADR.HANDLE_TIME);
+            string CALL_TYPE = clean_string(ADR.CALL_TYPE);
+            string LIST_NAME = clean_string(ADR.LIST_NAME);
+            string leadid = clean_string(ADR.leadid);
+            string AGENT_GROUP = clean_string(ADR.AGENT_GROUP);
+            string HOLD_TIME = clean_string(ADR.HOLD_TIME);
+            string Email = clean_string(ADR.Email);
+            string City = clean_string(ADR.City);
+            string State = clean_string(ADR.State);
+            string Zip = clean_string(ADR.Zip);
+            string Datacapturekey = clean_string(ADR.Datacapturekey);
+            string Datacapture = clean_string(ADR.Datacapture);
+            string Status = clean_string(ADR.Status);
+            string Program = clean_string(ADR.Program);
+            string Datacapture_Status = clean_string(ADR.Datacapture_Status);
+            string num_of_schools = clean_string(ADR.num_of_schools);
+            string EducationLevel = clean_string(ADR.EducationLevel);
+            string HighSchoolGradYear = clean_string(ADR.HighSchoolGradYear);
+            string DegreeStartTimeframe = clean_string(ADR.DegreeStartTimeframe);
+            string appname = clean_string(ADR.appname);
+            string First_Name = clean_string(ADR.First_Name);
+            string Last_Name = clean_string(ADR.Last_Name);
+            string address = clean_string(ADR.address);
+            string phone = clean_string(ADR.phone);
+            string audio_link = clean_string(ADR.audio_link);
+            string sort_order = clean_string(ADR.sort_order);
+            string scorecard = clean_string(ADR.scorecard);
+            string call_date = clean_string(ADR.call_date);
+            string Citizenship = clean_string(ADR.Citizenship);
+            string Military = clean_string(ADR.Military);
+            string profile_id = clean_string(ADR.profile_id);
+            string website = clean_string(ADR.website);
+            SchoolItem[] Schools = ADR.Schools;
+            AudioFile[] audios = ADR.audios;
+            OtherData[] OtherDataItems = ADR.OtherDataItems;
+            string Repost = ADR.Repost;
+            string Message = string.Empty;
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                //string raw_post = OperationContext.Current.RequestContext.RequestMessage.ToString();
+                //SqlCommand reply = new SqlCommand("insert into flatPost(raw_data, ip_address) Select @raw_data, @ip_address", cn);
+                string remoteAddr = HttpContext.Current.Request.ServerVariables["remote_addr"];
+                string page = HttpContext.Current.Request.QueryString.ToString();
+                flatPost flatPost = new flatPost()
+                {
+                    raw_data = page,
+                    ip_address = remoteAddr,
+                };
+                dataContext.flatPosts.Add(flatPost);
+                int result1 = dataContext.SaveChanges();
+
+                //Common.UpdateTable("exec add_ip '" + HttpContext.Current.Request.ServerVariables["remote_addr"] + "','" + appname + "'");
+                int insert = dataContext.add_ip(remoteAddr, appname);
+                if (appname != null)
+                {
+                    if (appname.ToString().ToLower() == "inside up")
+                    {
+                        profile_id = leadid;
+                        leadid = null;
+                    }
+                }
+                if (clean_string(HttpContext.Current.Request["appname"]) != appname)
+                {
+                    //return "Invalid appname/apikey to post data with.";
+                }
+                string[] domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].Split('.');
+                XCCNewReport xcrpt = new XCCNewReport();
+                if (appname != "")
+                {
+                    //sql = "declare @xcc_id int; insert into xcc_report_new_pending(";
+                }
+                else
+                {
+                    //sql = "declare @xcc_id int; insert into xcc_report_new_pending(appname,";
+                    xcrpt.appname = domain[0];
+                }
+
+                if (SESSION_ID != "")
+                {
+                    xcrpt.SessionId = SESSION_ID;
+                }
+
+                if (call_date != "")
+                {
+                    xcrpt.call_date = Convert.ToDateTime(call_date);
+                }
+
+                if (Citizenship != "")
+                {
+                    xcrpt.Citizenship = Citizenship;
+                }
+
+                if (Military != "")
+                {
+                    xcrpt.Military = Military;
+                }
+
+                if (scorecard != "" & Information.IsNumeric(scorecard))
+                {
+                    xcrpt.scorecard = Convert.ToInt32(scorecard);
+                }
+
+                if (AGENT != "")
+                {
+                    xcrpt.Agent = AGENT;
+                }
+
+                if (AGENT_NAME != "")
+                {
+                    xcrpt.AGENT_NAME = AGENT_NAME;
+                }
+
+                if (website != "")
+                {
+                    xcrpt.website = website;
+                }
+                if (DISPOSITION != "")
+                {
+                    xcrpt.DisPosition = DISPOSITION;
+                }
+                if (CAMPAIGN != "")
+                {
+                    xcrpt.Campaign = CAMPAIGN;
+                }
+                if (ANI != "")
+                {
+                    xcrpt.Ani = ANI;
+                }
+                if (DNIS != "")
+                {
+                    xcrpt.Dnis = DNIS;
+                }
+                if (TIMESTAMP != "")
+                {
+                    xcrpt.TimeStamp = TIMESTAMP;
+                }
+                if (TALK_TIME != "")
+                {
+                    xcrpt.TalkTime = TALK_TIME.Replace("nn", "00");
+                }
+                if (CALL_TIME != "")
+                {
+                    xcrpt.CallTime = CALL_TIME;
+                }
+                if (HANDLE_TIME != "")
+                {
+                    xcrpt.HandleTime = HANDLE_TIME;
+                }
+                if (CALL_TYPE != "")
+                {
+                    xcrpt.CallType = CALL_TYPE;
+                }
+                if (LIST_NAME != "")
+                {
+                    xcrpt.ListName = LIST_NAME;
+                }
+                if (leadid != "")
+                {
+                    xcrpt.Leadid = leadid;
+                }
+                if (AGENT_GROUP != "")
+                {
+                    xcrpt.AgentGroup = AGENT_GROUP;
+                }
+
+                var dateQuery = dataContext.Database.SqlQuery<DateTime>("SELECT dbo.getMTdate()");
+                DateTime mtdate = dateQuery.AsEnumerable().First();
+                if (Email != "")
+                {
+                    xcrpt.Email = Email;
+                }
+                if (City != "")
+                {
+                    xcrpt.City = City;
+                }
+                if (State != "")
+                {
+                    xcrpt.State = State;
+                }
+                if (Zip != "")
+                {
+                    xcrpt.Zip = Zip;
+                }
+                if (Datacapturekey != "" & Information.IsNumeric(Datacapturekey))
+                {
+                    xcrpt.Datacapturekey = Convert.ToInt32(Datacapturekey);
+                }
+                if (Datacapture != "" & Information.IsNumeric(Datacapture))
+                {
+                    xcrpt.Datacapture = Convert.ToInt32(Datacapture);
+                }
+                if (Status != "")
+                {
+                    xcrpt.Status = Status;
+                }
+                if (Program != "")
+                {
+                    xcrpt.Program = Program;
+                }
+                if (Datacapture_Status != "")
+                {
+                    xcrpt.Datacapture_Status = Datacapture_Status;
+                }
+                if (num_of_schools != "")
+                {
+                    xcrpt.num_of_schools = num_of_schools;
+                }
+                if (EducationLevel != "")
+                {
+                    xcrpt.EducationLevel = EducationLevel;
+                }
+                if (HighSchoolGradYear != "")
+                {
+                    xcrpt.HighSchoolGradYear = HighSchoolGradYear;
+                }
+                if (DegreeStartTimeframe != "")
+                {
+                    xcrpt.DegreeStartTimeframe = DegreeStartTimeframe;
+                }
+
+                if (appname != "")
+                {
+                    xcrpt.appname = appname;
+                }
+                if (First_Name != "")
+                {
+                    xcrpt.First_Name = First_Name;
+                }
+                if (Last_Name != "")
+                {
+                    xcrpt.Last_Name = Last_Name;
+                }
+                if (audio_link != "")
+                {
+                    xcrpt.audio_link = audio_link;
+                }
+
+                if (profile_id != "")
+                {
+                    xcrpt.profile_id = profile_id;
+                }
+
+                if (sort_order != "" & Information.IsNumeric(sort_order))
+                {
+                    xcrpt.sort_order = Convert.ToInt32(sort_order);
+                }
+                int new_id = 0;
+                xcc_report_new_pending xccreportnew_pending = new xcc_report_new_pending()
+                {
+                    DATE = mtdate,
+                    SESSION_ID = xcrpt.SessionId,
+                    AGENT = xcrpt.Agent,
+                    DISPOSITION = xcrpt.DisPosition,
+                    CAMPAIGN = xcrpt.Campaign,
+                    ANI = xcrpt.Ani,
+                    DNIS = xcrpt.Dnis,
+                    TIMESTAMP = xcrpt.TimeStamp,
+                    TALK_TIME = xcrpt.TalkTime,
+                    HANDLE_TIME = xcrpt.HandleTime,
+                    CALL_TYPE = xcrpt.CallType,
+                    LIST_NAME = xcrpt.ListName,
+                    leadid = xcrpt.Leadid,
+                    AGENT_GROUP = xcrpt.AgentGroup,
+                    Email = xcrpt.Email,
+                    City = xcrpt.City,
+                    State = xcrpt.State,
+                    Zip = xcrpt.Zip,
+                    Datacapturekey = xcrpt.Datacapturekey,
+                    Datacapture = xcrpt.Datacapture,
+                    Status = xcrpt.Status,
+                    Program = xcrpt.Program,
+                    Datacapture_Status = xcrpt.Datacapture_Status,
+                    num_of_schools = xcrpt.num_of_schools,
+                    EducationLevel = xcrpt.EducationLevel,
+                    HighSchoolGradYear = xcrpt.HighSchoolGradYear,
+                    DegreeStartTimeframe = xcrpt.DegreeStartTimeframe,
+                    appname = xcrpt.appname,
+                    First_Name = xcrpt.First_Name,
+                    Last_Name = xcrpt.Last_Name,
+                    call_date = xcrpt.call_date,
+                    audio_link = xcrpt.audio_link,
+                    profile_id = xcrpt.profile_id,
+                };
+               
+                dataContext.xcc_report_new_pending.Add(xccreportnew_pending);
+                int id = dataContext.SaveChanges();
+                new_id = xccreportnew_pending.ID;
+                if (new_id > 0)
+                {
+                    Message = Messages.Insert;
+                }
+                if (Schools != null)
+                {
+                    foreach (SchoolItem si in Schools)
+                    {
+                        //string sql_school = "insert into school_data(pending_id,";
+                        //string param_scure = " @pending_id,";
+                        SchoolData objSchoolData = new SchoolData();
+                        string AOI1 = object.Equals(si.AOI1, null) ? "0" : si.AOI1;
+                        string AOI2 = object.Equals(si.AOI2, null) ? "0" : si.AOI2;
+                        string College = object.Equals(si.College, null) ? "0" : si.College;
+                        string DegreeOfInterest = object.Equals(si.DegreeOfInterest, null) ? "0" : si.DegreeOfInterest;
+                        string L1_SubjectName = object.Equals(si.L1_SubjectName, null) ? "0" : si.L1_SubjectName;
+                        string L2_SubjectName = object.Equals(si.L2_SubjectName, null) ? "0" : si.L2_SubjectName;
+                        string Modality = object.Equals(si.Modality, null) ? "0" : si.Modality;
+                        string School = object.Equals(si.School, null) ? "0" : si.School;
+                        string Portal = object.Equals(si.Portal, null) ? "0" : si.Portal;
+                        string TCPA = object.Equals(si.TCPA, null) ? "0" : si.TCPA;
+
+                        if (TCPA.ToString() != "")
+                        {
+                            objSchoolData.TCPA = si.TCPA;
+                        }
+                        if (new_id > 1)
+                        {
+                            objSchoolData.pending_id = new_id;
+                        }
+                        if (AOI1.ToString() != "")
+                        {
+                            objSchoolData.TCPA = si.AOI1;
+                        }
+                        if (Portal.ToString() != "")
+                        {
+                            objSchoolData.Portal = si.Portal;
+                        }
+
+
+                        if (AOI2.ToString() != "")
+                        {
+                            objSchoolData.AOI2 = si.AOI2;
+                        }
+
+                        if (College.ToString() != "")
+                        {
+                            objSchoolData.College = si.College;
+                        }
+
+                        if (DegreeOfInterest.ToString() != "")
+                        {
+                            objSchoolData.DegreeOfInterest = si.DegreeOfInterest;
+                        }
+
+                        if (L1_SubjectName.ToString() != "")
+                        {
+                            objSchoolData.L1_SubjectName = si.L1_SubjectName;
+                        }
+
+                        if (L2_SubjectName.ToString() != "")
+                        {
+                            objSchoolData.L2_SubjectName = si.L2_SubjectName;
+                        }
+                        if (Modality.ToString() != "")
+                        {
+                            objSchoolData.Modality = si.Modality;
+                        }
+
+                        if (School.ToString() != "")
+                        {
+                            objSchoolData.School = si.School;
+                        }
+                        school_data schoolData = new school_data()
+                        {
+                            AOI1 = objSchoolData.AOI1,
+                            AOI2 = objSchoolData.AOI2,
+                            College = objSchoolData.College,
+                            DegreeOfInterest = objSchoolData.DegreeOfInterest,
+                            L1_SubjectName = objSchoolData.L1_SubjectName,
+                            L2_SubjectName = objSchoolData.L2_SubjectName,
+                            Modality = objSchoolData.Modality,
+                            School = objSchoolData.School,
+                            TCPA = objSchoolData.TCPA,
+                            pending_id = objSchoolData.pending_id,
+                        };
+                        dataContext.school_data.Add(schoolData);
+                        int resultschoolData = dataContext.SaveChanges();
+                        if (resultschoolData == 1)
+                        {
+                            Message = Messages.Insert;
+                        }
+                    }
+                }
+                if (audios != null)
+                {
+                    foreach (AudioFile af in audios)
+                    {
+                        string order = object.Equals(af.order, null) ? "0" : af.order;
+                        string file_date = object.Equals(af.file_date, null) ? DateTime.Now.ToShortDateString() : af.file_date;
+                        string audio_file = af.audio_file;
+
+                        if (appname == "inside up" & af.audio_file.ToString() != "")
+                        {
+                            audio_file = af.audio_file.Replace("%3A", ":").Replace("%2F", "/").Replace("+", "%20");
+                        }
+                        //Common.UpdateTable("insert into AudioData(file_name, file_date, file_order, pending_id) select '" + audio_file.ToString().Replace("'", "''") + "','" + file_date.ToString().Replace("nn", "00") + "','" + order.ToString() + "'," + new_id);
+                        AudioData audioData = new AudioData()
+                        {
+                            file_name = audio_file.ToString().Replace("'", "''"),
+                            file_date = file_date.ToString().Replace("nn", "00"),
+                            file_order = Convert.ToInt32(order),
+                            pending_id = new_id
+                        };
+                        dataContext.AudioDatas.Add(audioData);
+                        int resultAudioDatas = dataContext.SaveChanges();
+                        if (resultAudioDatas == 1)
+                        {
+                            Message = Messages.Insert;
+                        }
+                    }
+                }
+                if (OtherDataItems != null)
+                {
+                    foreach (OtherData od in OtherDataItems)
+                    {
+                        // Get them in order and concatenate the audio.
+                        string type = object.Equals(od.type, null) ? "0" : od.type;
+                        if (type == "")
+                        {
+                            type = "string";
+                        }
+                        //Common.UpdateTable("insert into otherFormDataPending(form_id, data_key, data_value, data_type, school_name, label) select " + new_id + ",'" + od.key.ToString().Replace("'", "''") + "','" + od.value.ToString().Replace("'", "''") + "','" + type.ToString() + "','" + od.school.ToString().Replace("'", "''") + "','" + od.label.ToString().Replace("'", "''") + "'");
+                        otherFormDataPending formDataPending = new otherFormDataPending()
+                        {
+                            form_id = new_id,
+                            data_key = od.key.ToString().Replace("'", "''").Replace("+", " ").Replace("%20", " "),
+                            data_value = od.value.ToString().Replace("'", "''").Replace("+", " ").Replace("%20", " "),
+                            data_type = type.ToString().Replace("+", " ").Replace("%20", " "),
+                            school_name = od.school.ToString().Replace("'", "''").Replace("+", " ").Replace("%20", " ")
+                        };
+                        dataContext.otherFormDataPendings.Add(formDataPending);
+                        int resultAudioDatas = dataContext.SaveChanges();
+                        if (resultAudioDatas == 1)
+                        {
+                            Message = Messages.Insert;
+                        }
+                        //Common.Email_Error("FAIL: " + ex.Message + " " + "insert into otherFormDataPending(form_id, data_key, data_value, data_type) select " + new_id + ",'" + od.key.ToString() + "','" + od.value.ToString() + "','" + type.ToString() + "'");
+                        //return "FAIL: " + ex.Message;
+                    }
+                }
+                return Message = Messages.Insert;
+            }
+        }
 
         /// <summary>
         /// GetScorecardRecordID
@@ -2189,12 +2648,31 @@ namespace WebApi.DataLayer
     }
 }
 
+/// <summary>
+/// 
+/// </summary>
+public class SchoolData
+{
+    public int pending_id { get; set; }
+    public string AOI1 { get; set; }
+    public string AOI2 { get; set; }
+    public string College { get; set; }
+    public string DegreeOfInterest { get; set; }
+    public string L1_SubjectName { get; set; }
+    public string L2_SubjectName { get; set; }
+    public string Modality { get; set; }
+    public string School { get; set; }
+    public string Portal { get; set; }
+    public string TCPA { get; set; }
+}
 
 /// <summary>
 /// 
 /// </summary>
 public class XCCNewReport
 {
+
+    public string appname { get; set; }
     public string SessionId { get; set; }
     public string Agent { get; set; }
     public string DisPosition { get; set; }
@@ -2213,4 +2691,25 @@ public class XCCNewReport
     public string Email { get; set; }
     public string City { get; set; }
     public string State { get; set; }
+    public DateTime call_date { get; set; }
+    public string Citizenship { get; set; }
+    public string Military { get; set; }
+    public string AGENT_NAME { get; set; }
+    public string website { get; set; }
+    public int? scorecard { get; set; }
+    public string Zip { get; set; }
+    public float Datacapturekey { get; set; }
+    public float Datacapture { get; set; }
+    public string Status { get; set; }
+    public string Program { get; set; }
+    public string Datacapture_Status { get; set; }
+    public string num_of_schools { get; set; }
+    public string EducationLevel { get; set; }
+    public string HighSchoolGradYear { get; set; }
+    public string DegreeStartTimeframe { get; set; }
+    public string First_Name { get; set; }
+    public string Last_Name { get; set; }
+    public string audio_link { get; set; }
+    public string profile_id { get; set; }
+    public int? sort_order { get; set; }
 }
