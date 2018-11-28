@@ -40,7 +40,7 @@ namespace WebApi.DataLayer
                         useReview = Convert.ToInt32(use_review);
                     }
                     CallRecord scr = new CallRecord();
-                    ObjectResult<GetAllRecordsWithPending_Result> objGetAllRecords = dataContext.GetAllRecordsWithPending(call_date, "revlive", useReview);
+                    ObjectResult<GetAllRecordsWithPending_Result> objGetAllRecords = dataContext.GetAllRecordsWithPending(call_date, appname, useReview);
 
                     var SubCallRecord = (from records in objGetAllRecords
                                          select new CallRecord
@@ -67,8 +67,65 @@ namespace WebApi.DataLayer
                                              TALK_TIME = records.autofail.ToString(),
                                              CALL_TIME = records.autofail.ToString(),
                                              CALL_TYPE = records.autofail.ToString(),
-                                             leadid = records.autofail.ToString()
-                                         }).ToList();
+                                             leadid = records.autofail.ToString(),
+                                             AGENT_GROUP = records.AGENT_GROUP,
+                                             Email = records.Email,
+                                             City = records.City,
+                                             State = records.State,
+                                             Zip = records.Zip,
+                                             Datacapturekey = records.Datacapturekey.ToString(),
+                                             Datacapture = records.Datacapture.ToString(),
+                                             Status = records.Status,
+                                             Program = records.Program,
+                                             X_ID = records.X_ID.ToString(),
+                                             Datacapture_Status = records.Datacapture_Status,
+                                             num_of_schools = records.num_of_schools,
+                                             MAX_REVIEWS = records.MAX_REVIEWS.ToString(),
+                                             review_started = records.review_started.ToString(),
+                                             Number_of_Schools = records.Number_of_Schools,
+                                             EducationLevel = records.EducationLevel,
+                                             HighSchoolGradYear = records.HighSchoolGradYear,
+                                             DegreeStartTimeframe = records.DegreeStartTimeframe,
+                                             Expr3 = records.Expr3,
+                                             First_Name = records.First_Name,
+                                             Last_Name = records.Last_Name,
+                                             address = records.address,
+                                             phone = records.phone,
+                                             call_date = records.call_date.ToString(),
+                                             //audio_link = Common.GetAudioFileName(dr);
+                                             profile_id = records.profile_id,
+                                             audio_user = "",
+                                             audio_password = "",
+                                             LIST_NAME = records.LIST_NAME,
+                                             review_date = records.review_date.ToString(),
+                                             CAMPAIGN = records.CAMPAIGN,
+                                             DISPOSITION = records.DISPOSITION,
+                                             bad_call = records.bad_call.ToString(),
+                                             to_upload = "",
+                                             SESSION_ID = records.SESSION_ID,
+                                             agent_deviation = "",
+                                             pass_fail = records.pass_fail,
+                                             scorecard = records.scorecard.ToString(),
+                                             scorecard_name = records.scorecard_name,
+                                             uploaded = "",
+                                             formatted_comments = records.formatted_comments,
+                                             formatted_missed = records.formatted_missed,
+                                             fileUrl = records.fileUrl,
+                                             statusMessage = records.statusMessage,
+                                             mediaId = "",
+                                             requestStatus = "",
+                                             fileStatus = "",
+                                             response = "",
+                                             review_time = "",
+                                             wasEdited = records.wasEdited.ToString(),
+                                             website = records.website,
+                                             pending_id = "",
+                                             bad_call_reason = records.bad_call_reason,
+                                             date_added = records.date_added.ToString(),
+                                             calib_score = records.calib_score.ToString(),
+                                             edited_score = records.edited_score.ToString(),
+                                             compliance_sheet = records.compliance_sheet,
+                                             }).ToList();
 
                     objCallRecord.AddRange(SubCallRecord);
                     foreach (var Item in SubCallRecord)
@@ -1736,7 +1793,7 @@ namespace WebApi.DataLayer
                     audio_link = xcrpt.audio_link,
                     profile_id = xcrpt.profile_id,
                 };
-               
+
                 dataContext.xcc_report_new_pending.Add(xccreportnew_pending);
                 int id = dataContext.SaveChanges();
                 new_id = xccreportnew_pending.ID;

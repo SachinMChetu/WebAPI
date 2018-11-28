@@ -3424,8 +3424,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.sc_training_approvals' 
           <Property Name="train_status" Type="varchar" MaxLength="100" />
           <Property Name="retrain_date" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.sc_update' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="sc_update">
           <Key>
             <PropertyRef Name="id" />
@@ -7668,12 +7666,21 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Parameter Name="question_id" Type="int" Mode="In" />
           <Parameter Name="add_link" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetCDServiceXccReportNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="agentGroup" Type="varchar" Mode="In" />
+        <Function Name="GetCDGetGroups" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="scoreCard" Type="int" Mode="In" />
           <Parameter Name="Agent" Type="varchar" Mode="In" />
           <Parameter Name="start_date" Type="varchar" Mode="In" />
           <Parameter Name="end_date" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCDServiceXccReportNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="agentGroup" Type="varchar" Mode="In" />
+          <Parameter Name="scoreCard" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Agent" Type="varchar" Mode="In" />
+          <Parameter Name="start_date" Type="varchar" Mode="In" />
+          <Parameter Name="end_date" Type="varchar" Mode="In" />
+          <Parameter Name="special_filter" Type="varchar" Mode="In" />
+          <Parameter Name="Type" Type="varchar" Mode="In" />
         </Function>
         <Function Name="getCICCalls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="getCICNightlyReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -11129,6 +11136,11 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Parameter Name="form_id" Type="int" Mode="In" />
         </Function>
         <Function Name="updateTypicalScorecardFields" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateUserExtraInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Field" Type="varchar" Mode="In" />
+          <Parameter Name="Value" Type="varchar" Mode="In" />
+          <Parameter Name="userName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="UpperLeft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="incoming" Type="varchar" Mode="In" />
         </Function>
@@ -11283,6 +11295,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="saved_queries" EntityType="Self.saved_queries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sc_inputs" EntityType="Self.sc_inputs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sc_notes" EntityType="Self.sc_notes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sc_update" EntityType="Self.sc_update" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule_slots" EntityType="Self.schedule_slots" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchedulingAssignedQAs" EntityType="Self.SchedulingAssignedQAs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchedulingDaysSheet" EntityType="Self.SchedulingDaysSheet" Schema="dbo" store:Type="Tables" />
@@ -13078,14 +13091,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     [sc_training_approvals].[train_status] AS [train_status], 
     [sc_training_approvals].[retrain_date] AS [retrain_date]
     FROM [dbo].[sc_training_approvals] AS [sc_training_approvals]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="sc_update" EntityType="Self.sc_update" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [sc_update].[id] AS [id], 
-    [sc_update].[reviewer] AS [reviewer], 
-    [sc_update].[sc_id] AS [sc_id], 
-    [sc_update].[date_reviewed] AS [date_reviewed]
-    FROM [dbo].[sc_update] AS [sc_update]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="SchedulingUserDays" EntityType="Self.SchedulingUserDays" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -18500,15 +18505,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Name="train_status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="retrain_date" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="sc_update">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="reviewer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="sc_id" Type="Int32" />
-          <Property Name="date_reviewed" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="SchedulingUserDay">
           <Key>
             <PropertyRef Name="Id" />
@@ -20339,7 +20335,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <EntitySet Name="rejection_reasons" EntityType="Self.rejection_reasons" />
           <EntitySet Name="review_documents" EntityType="Self.review_documents" />
           <EntitySet Name="sc_training_approvals" EntityType="Self.sc_training_approvals" />
-          <EntitySet Name="sc_update" EntityType="Self.sc_update" />
           <EntitySet Name="SchedulingUserDays" EntityType="Self.SchedulingUserDay" />
           <EntitySet Name="school_clone" EntityType="Self.school_clone" />
           <EntitySet Name="scorecard_changes" EntityType="Self.scorecard_changes" />
@@ -20531,7 +20526,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="use_review" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="school_data" EntityType="Model.school_data" />
-          <FunctionImport Name="getPay3SCW" ReturnType="Collection(Model.GetPay3SCW_Result)">
+          <FunctionImport Name="getPay3SCW">
             <Parameter Name="week_ending" Mode="In" Type="String" />
             <Parameter Name="scorecard" Mode="In" Type="String" />
             <Parameter Name="max_efficiency" Mode="In" Type="Int32" />
@@ -20829,17 +20824,51 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="filter" Mode="In" Type="String" />
             <Parameter Name="filterarray" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetCDServiceXccReportNew" ReturnType="Collection(String)">
-            <Parameter Name="agentGroup" Mode="In" Type="String" />
-            <Parameter Name="scoreCard" Mode="In" Type="Int32" />
-            <Parameter Name="Agent" Mode="In" Type="String" />
-            <Parameter Name="start_date" Mode="In" Type="String" />
-            <Parameter Name="end_date" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetRecordxccReportNew" ReturnType="Collection(Model.GetRecordxccReportNew_Result)">
             <Parameter Name="SESSION_ID" Mode="In" Type="String" />
             <Parameter Name="APPNAME" Mode="In" Type="String" />
             <Parameter Name="USERNAME" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getDetailDataCustom">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="start" Mode="In" Type="String" />
+            <Parameter Name="end" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="user" Mode="In" Type="String" />
+            <Parameter Name="user_role" Mode="In" Type="String" />
+            <Parameter Name="pagenum" Mode="In" Type="String" />
+            <Parameter Name="pagerows" Mode="In" Type="String" />
+            <Parameter Name="sort_statement" Mode="In" Type="String" />
+            <Parameter Name="rowstart" Mode="In" Type="String" />
+            <Parameter Name="rowend" Mode="In" Type="String" />
+            <Parameter Name="filterarray" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCDServiceXccReportNew" ReturnType="Collection(Model.GetCDServiceXccReportNew_Result)">
+            <Parameter Name="agentGroup" Mode="In" Type="String" />
+            <Parameter Name="scoreCard" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Agent" Mode="In" Type="String" />
+            <Parameter Name="start_date" Mode="In" Type="String" />
+            <Parameter Name="end_date" Mode="In" Type="String" />
+            <Parameter Name="special_filter" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateUserExtraInfo">
+            <Parameter Name="Field" Mode="In" Type="String" />
+            <Parameter Name="Value" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getMyAppnames" ReturnType="Collection(Model.getMyAppnames_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="app_filter" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="sc_update" EntityType="Model.sc_update" />
+          <FunctionImport Name="GetCDGetGroups" ReturnType="Collection(Model.GetCDGetGroups_Result)">
+            <Parameter Name="scoreCard" Mode="In" Type="Int32" />
+            <Parameter Name="Agent" Mode="In" Type="String" />
+            <Parameter Name="start_date" Mode="In" Type="String" />
+            <Parameter Name="end_date" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetAllRecords_Result">
@@ -20950,8 +20979,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="Decimal" Name="total_pay" Nullable="false" />
           <Property Type="String" Name="email_address" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="GetPay3SCW_Result" >
-          </ComplexType>
         <ComplexType Name="getCompletedSCCSCall_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="section" Nullable="false" MaxLength="10" />
@@ -22649,6 +22676,26 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="Int32" Name="num_missed_a" Nullable="true" />
           <Property Type="Int32" Name="num_missed_q" Nullable="true" />
           <Property Type="Int32" Name="num_missed_cal" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetCDServiceXccReportNew_Result" >
+          <Property Type="String" Name="AGent" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Campaign" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="getMyAppnames_Result">
+          <Property Type="String" Name="scorecard" Nullable="true" MaxLength="203" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="sc_update">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reviewer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sc_id" Type="Int32" />
+          <Property Name="date_reviewed" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="GetCDGetGroups_Result" >
+          <Property Type="String" Name="agent_group" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -26652,16 +26699,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sc_update">
-            <EntityTypeMapping TypeName="Model.sc_update">
-              <MappingFragment StoreEntitySet="sc_update">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="reviewer" ColumnName="reviewer" />
-                <ScalarProperty Name="sc_id" ColumnName="sc_id" />
-                <ScalarProperty Name="date_reviewed" ColumnName="date_reviewed" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SchedulingUserDays">
             <EntityTypeMapping TypeName="Model.SchedulingUserDay">
               <MappingFragment StoreEntitySet="SchedulingUserDays">
@@ -28536,9 +28573,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="getPay3SCW" FunctionName="Model.Store.getPay3SCW" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.GetPay3SCW_Result" />
-            </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getPayHistory" FunctionName="Model.Store.getPayHistory" >
             <ResultMapping>
@@ -30230,7 +30264,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getNotificationStatus" FunctionName="Model.Store.getNotificationStatus" />
-          <FunctionImportMapping FunctionImportName="GetCDServiceXccReportNew" FunctionName="Model.Store.GetCDServiceXccReportNew" />
           <FunctionImportMapping FunctionImportName="GetRecordxccReportNew" FunctionName="Model.Store.GetRecordxccReportNew">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.GetRecordxccReportNew_Result">
@@ -30402,6 +30435,41 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
                 <ScalarProperty Name="num_missed_a" ColumnName="num_missed_a" />
                 <ScalarProperty Name="num_missed_q" ColumnName="num_missed_q" />
                 <ScalarProperty Name="num_missed_cal" ColumnName="num_missed_cal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getDetailDataCustom" FunctionName="Model.Store.getDetailDataCustom" />
+          <FunctionImportMapping FunctionImportName="GetCDServiceXccReportNew" FunctionName="Model.Store.GetCDServiceXccReportNew" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetCDServiceXccReportNew_Result">
+                <ScalarProperty Name="AGent" ColumnName="AGent" />
+                <ScalarProperty Name="Campaign" ColumnName="Campaign" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateUserExtraInfo" FunctionName="Model.Store.UpdateUserExtraInfo" />
+          <FunctionImportMapping FunctionImportName="getMyAppnames" FunctionName="Model.Store.getMyAppnames">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.getMyAppnames_Result">
+                <ScalarProperty Name="scorecard" ColumnName="scorecard" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="sc_update">
+            <EntityTypeMapping TypeName="Model.sc_update">
+              <MappingFragment StoreEntitySet="sc_update">
+                <ScalarProperty Name="date_reviewed" ColumnName="date_reviewed" />
+                <ScalarProperty Name="sc_id" ColumnName="sc_id" />
+                <ScalarProperty Name="reviewer" ColumnName="reviewer" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCDGetGroups" FunctionName="Model.Store.GetCDGetGroups" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.GetCDGetGroups_Result">
+                <ScalarProperty Name="agent_group" ColumnName="agent_group" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

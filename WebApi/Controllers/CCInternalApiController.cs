@@ -335,8 +335,8 @@ namespace WebApi.Controllers
             CallRecordResponseData crrd = new CallRecordResponseData();
 
             string call_date = GARD.call_date;
-            string appname1 = HttpContext.Current.Request["appname"];
-            string appname = "edufficient";
+            string appname = HttpContext.Current.Request["appname"];
+            //string appname = "edufficient";
             string use_review = GARD.use_review;
             List<CallRecord> cr = new List<CallRecord>();
             bool rev_date = false;
@@ -468,7 +468,14 @@ namespace WebApi.Controllers
         public ButtonActionResponseData SwitchUser(SimpleUser SU)
         {
             ButtonActionResponseData btnActResData = new ButtonActionResponseData();
-            btnActResData.ButtonAction = objCCInternalLayer.SwitchUser(SU);
+            try
+            {
+                btnActResData.ButtonAction = objCCInternalLayer.SwitchUser(SU);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return btnActResData;
         }
         #endregion SwitchUser
@@ -485,7 +492,14 @@ namespace WebApi.Controllers
         public ButtonActionResponseData SwitchUserBack(SimpleUser SU)
         {
             ButtonActionResponseData btnActResData = new ButtonActionResponseData();
-            btnActResData.ButtonAction = objCCInternalLayer.SwitchUserBack(SU);
+            try
+            {
+                btnActResData.ButtonAction = objCCInternalLayer.SwitchUserBack(SU);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return btnActResData;
         }
         #endregion SwitchUserBack
@@ -505,7 +519,7 @@ namespace WebApi.Controllers
             pwsResData.Payworksheets = new List<Payworksheet>();
             try
             {
-                var data = objCCInternalLayer.getPayWorksheet(SI);
+                pwsResData.Payworksheets = objCCInternalLayer.getPayWorksheet(SI);
             }
             catch (Exception ex)
             {

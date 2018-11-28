@@ -244,7 +244,6 @@
         <EntityTypeShape EntityType="Model.rejection_reasons" Width="1.5" PointX="46.75" PointY="46.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.review_documents" Width="1.5" PointX="2.75" PointY="47.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.sc_training_approvals" Width="1.5" PointX="4.75" PointY="47.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.sc_update" Width="1.5" PointX="6.75" PointY="47.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.SchedulingUserDay" Width="1.5" PointX="48.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.school_clone" Width="1.5" PointX="48.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.scorecard_changes" Width="1.5" PointX="48.75" PointY="13.75" IsExpanded="true" />
@@ -311,6 +310,7 @@
         <EntityTypeShape EntityType="Model.session_viewed" Width="1.5" PointX="19.375" PointY="55.75" />
         <EntityTypeShape EntityType="Model.xcc_report_new_pending" Width="1.5" PointX="55.375" PointY="23.75" />
         <EntityTypeShape EntityType="Model.otherFormDataPending" Width="1.5" PointX="31.375" PointY="55.75" />
+        <EntityTypeShape EntityType="Model.sc_update" Width="1.5" PointX="7.375" PointY="47.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

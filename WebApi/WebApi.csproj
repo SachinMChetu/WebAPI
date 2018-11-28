@@ -811,6 +811,12 @@
     <Compile Include="Entities\getCalibrationHours_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\GetCDGetGroups_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\GetCDServiceXccReportNew_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\getClientCalibrations_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
@@ -865,6 +871,9 @@
     <Compile Include="Entities\getMissedSectionCalls_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\getMyAppnames_Result.cs">
+      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\getMyMenu_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
@@ -884,9 +893,6 @@
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getotherformdata_Result.cs">
-      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\GetPay3SCW_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getPopulatedScorecard_Result.cs">
@@ -1643,6 +1649,7 @@
     <Compile Include="Models\CDService\BadCallInfo.cs" />
     <Compile Include="Models\CDService\BadCallListResponse.cs" />
     <Compile Include="Models\CDService\bad_call.cs" />
+    <Compile Include="Models\CDService\Campaigns.cs" />
     <Compile Include="Models\CDService\Chat.cs" />
     <Compile Include="Models\CDService\ChatObject.cs" />
     <Compile Include="Models\CDService\CLCalibRanking.cs" />
@@ -1653,6 +1660,8 @@
     <Compile Include="Models\CDService\DataMapper.cs" />
     <Compile Include="Models\CDService\DBOptions.cs" />
     <Compile Include="Models\CDService\Detail.cs" />
+    <Compile Include="Models\CDService\DetailCountvwForm.cs" />
+    <Compile Include="Models\CDService\DetailsModel.cs" />
     <Compile Include="Models\CDService\disputeResult.cs" />
     <Compile Include="Models\CDService\Event.cs" />
     <Compile Include="Models\CDService\Job.cs" />
@@ -1679,6 +1688,7 @@
     <Compile Include="Models\CDService\QnA.cs" />
     <Compile Include="Models\CDService\search_results.cs" />
     <Compile Include="Models\CDService\Self.cs" />
+    <Compile Include="Models\CDService\SpotCheckDataModel.cs" />
     <Compile Include="Models\CDService\Stats.cs" />
     <Compile Include="Models\CDService\T2.cs" />
     <Compile Include="Models\CDService\Thumbs.cs" />
@@ -1695,6 +1705,7 @@
     <Compile Include="Models\CDService\Word.cs" />
     <Compile Include="Models\CDService\WordObject.cs" />
     <Compile Include="Models\CDService\WorstDeviation.cs" />
+    <Compile Include="Models\DBModel\getPay3SCW_Result.cs" />
     <Compile Include="Models\DBModel\School_X_Data_Result.cs" />
     <Compile Include="Models\DBModel\getListenQuestionsAll_Result.cs" />
     <Compile Include="Models\DBModel\getNextCallAPIQAQA_Result.cs" />

@@ -213,7 +213,7 @@ namespace WebApi.DataLayer
         /// <returns></returns>
         public static bool RunSqlCommand(SqlCommand cmd, bool rethrow = true)
         {
-            SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["estomes2ConnectionString"].ConnectionString);
+            SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["CC_ProdConn"].ConnectionString);
             try
             {
                 cn.Open();

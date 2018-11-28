@@ -145,7 +145,7 @@
     <value>exec getNotificationStatus</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value>Data Submit successfully</value>
+    <value>Success</value>
   </data>
   <data name="InvalidAppname" xml:space="preserve">
     <value>Invalid appname/apikey to post data with.</value>

@@ -58,25 +58,82 @@ namespace WebApi.DataLayer
                                          review_ID = records.review_ID.ToString(),
                                          Comments = records.Comments,
                                          autofail = records.autofail.ToString(),
-                                         reviewer = records.autofail.ToString(),
-                                         appname = records.autofail.ToString(),
-                                         total_score = records.autofail.ToString(),
-                                         total_score_with_fails = records.autofail.ToString(),
-                                         call_length = records.autofail.ToString(),
+                                         reviewer = records.reviewer,
+                                         appname = records.appname,
+                                         total_score = records.total_score.ToString(),
+                                         total_score_with_fails = records.total_score_with_fails.ToString(),
+                                         call_length = records.call_length.ToString(),
                                          has_cardinal = "",
-                                         fs_audio = records.autofail.ToString(),
-                                         week_ending_date = records.autofail.ToString(),
-                                         num_missed = records.autofail.ToString(),
-                                         missed_list = records.autofail.ToString(),
-                                         call_made_date = records.autofail.ToString(),
-                                         AGENT = records.autofail.ToString(),
-                                         ANI = records.autofail.ToString(),
-                                         DNIS = records.autofail.ToString(),
-                                         TIMESTAMP = records.autofail.ToString(),
-                                         TALK_TIME = records.autofail.ToString(),
-                                         CALL_TIME = records.autofail.ToString(),
-                                         CALL_TYPE = records.autofail.ToString(),
-                                         leadid = records.autofail.ToString()
+                                         fs_audio = records.fs_audio,
+                                         week_ending_date = records.week_ending_date.ToString(),
+                                         num_missed = records.num_missed.ToString(),
+                                         missed_list = records.missed_list,
+                                         call_made_date = records.call_made_date.ToString(),
+                                         AGENT = records.AGENT,
+                                         ANI = records.ANI,
+                                         DNIS = records.DNIS,
+                                         TIMESTAMP = records.TIMESTAMP,
+                                         TALK_TIME = records.TALK_TIME,
+                                         CALL_TIME = records.CALL_TIME.ToString(),
+                                         CALL_TYPE = records.CALL_TYPE,
+                                         leadid = records.leadid,
+                                         AGENT_GROUP = records.AGENT_GROUP,
+                                         Email = records.Email,
+                                         City = records.City,
+                                         State = records.State,
+                                         Zip = records.Zip,
+                                         Datacapturekey = records.Datacapturekey.ToString(),
+                                         Datacapture = records.Datacapture.ToString(),
+                                         Status = records.Status,
+                                         Program = records.Program,
+                                         X_ID = records.X_ID.ToString(),
+                                         Datacapture_Status = records.Datacapture_Status,
+                                         num_of_schools = records.num_of_schools,
+                                         MAX_REVIEWS = records.MAX_REVIEWS.ToString(),
+                                         review_started = records.review_started.ToString(),
+                                         Number_of_Schools = records.Number_of_Schools,
+                                         EducationLevel = records.EducationLevel,
+                                         HighSchoolGradYear = records.HighSchoolGradYear,
+                                         DegreeStartTimeframe = records.DegreeStartTimeframe,
+                                         Expr3 = records.Expr3,
+                                         First_Name = records.First_Name,
+                                         Last_Name = records.Last_Name,
+                                         address = records.address,
+                                         phone = records.phone,
+                                         call_date = records.call_date.ToString(),
+                                         audio_link = records.audio_link,
+                                         profile_id = records.profile_id,
+                                         audio_user = "", 
+                                         audio_password = "", 
+                                         LIST_NAME = records.LIST_NAME,
+                                         review_date = records.review_date.ToString(),
+                                         CAMPAIGN = records.CAMPAIGN,
+                                         DISPOSITION = records.DISPOSITION,
+                                         bad_call = records.bad_call.ToString(),
+                                         to_upload = "", 
+                                         SESSION_ID = records.SESSION_ID,
+                                         agent_deviation = records.agent_deviation.ToString(),
+                                         pass_fail = records.pass_fail,
+                                         scorecard = records.scorecard.ToString(),
+                                         uploaded = records.uploaded.ToString(),
+                                         formatted_comments = records.formatted_comments,
+                                         formatted_missed = records.formatted_missed,
+                                         fileUrl = records.fileUrl,
+                                         statusMessage = records.statusMessage,
+                                         mediaId = "",
+                                         requestStatus = "", 
+                                         fileStatus = "", 
+                                         response = "",
+                                         review_time = "", 
+                                         wasEdited = records.wasEdited.ToString(),
+                                         website = records.website.ToString(),
+                                         pending_id = records.pending_id.ToString(),
+                                         bad_call_reason = records.bad_call_reason,
+                                         date_added = records.date_added.ToString(),
+                                         calib_score = records.calib_score.ToString(),
+                                         edited_score = records.edited_score.ToString(),
+                                         compliance_sheet = records.compliance_sheet,
+                                         scorecard_name = records.scorecard_name,
                                      }).ToList();
 
                     foreach (var scr in SubCallRecord)
@@ -90,11 +147,11 @@ namespace WebApi.DataLayer
                                                 select new ScorecardResponse
                                                 {
                                                     position = string.IsNullOrEmpty(form_q_scores.click_text) ? form_q_scores.q_position : form_q_scores.click_text,
-                                                    question = questions.q_short_name.ToString(),
-                                                    result = questionA.answer_text.ToString(),
+                                                    question = questions.q_short_name,
+                                                    result = questionA.answer_text,
                                                     QID = questions.id,
                                                     QAPoints = (int)questions.QA_points,
-                                                    ViewLink = form_q_scores.view_link.ToString(),
+                                                    ViewLink = form_q_scores.view_link,
                                                     comments_allowed = (bool)questions.comments_allowed,
                                                     RightAnswer = (bool)questionA.right_answer,
                                                 }).ToList();
@@ -108,8 +165,8 @@ namespace WebApi.DataLayer
                                              where collected_data.form_id == F_ID
                                              select new ClerkedData
                                              {
-                                                 value = sc_inputs.value.ToString(),
-                                                 data = collected_data.value_data.ToString(),
+                                                 value = sc_inputs.value,
+                                                 data = collected_data.value_data,
                                                  position = collected_data.value_position.ToString(),
                                                  ID = collected_data.value_id.ToString()
                                              }).ToList();
@@ -354,9 +411,9 @@ namespace WebApi.DataLayer
                 var isExist = dataContext.XCC_REPORT_NEW.Where(x => x.ID == xcc_Id).FirstOrDefault();
                 var dateQuery = dataContext.Database.SqlQuery<DateTime>("SELECT dbo.getMTdate()");
                 DateTime mtdate = dateQuery.AsEnumerable().First();
-                Entities.XCC_REPORT_NEW xccReportNew = new Entities.XCC_REPORT_NEW();
+                XCC_REPORT_NEW xccReportNew = new XCC_REPORT_NEW();
 
-                Entities.heatbeat_data heartBeatData = new Entities.heatbeat_data();
+                heatbeat_data heartBeatData = new heatbeat_data();
                 if (!object.Equals(isExist, null))
                 {
                     //Common.UpdateTable("update xcc_report_new set heartbeat_who = '" + HB.username + "', last_heartbeat = dbo.getMTdate() where id = " + HB.xcc_id);
@@ -385,7 +442,7 @@ namespace WebApi.DataLayer
         public ButtonAction SwitchUser(SimpleUser SU)
         {
             ButtonAction ba = new ButtonAction();
-            //if (HttpContext.Current.User.IsInRole("Admin"))
+            if (HttpContext.Current.User.IsInRole("Admin"))
             {
                 string alt_user = SU.username;
                 using (CC_ProdEntities dataContext = new CC_ProdEntities())
@@ -394,14 +451,12 @@ namespace WebApi.DataLayer
                     var result = dataContext.UserExtraInfoes.Where(x => x.username == alt_user.Replace("'", "''") && x.active != 0 && x.user_role != "inactive").ToList();
                     if (result.Count > 0)
                     {
-                        //UserImpersonation.ImpersonateUser(alt_user, "dashboard/");
                         //HttpCookie cookie = HttpContext.Current.Request.Cookies["filter"];
                         //if (cookie != null)
                         //{
                         //    cookie.Expires = DateTime.Now.AddYears(-1);
-                        //    HttpContext.Current.Response.Cookies.Add(cookie);
+                        //  HttpContext.Current.Response.Cookies.Add(cookie);
                         //}
-
                         ba.ActionRedirect = "dashboard";
                         ba.ActionResult = "Success";
                         ba.ActionTask = "Redirect";
@@ -413,7 +468,7 @@ namespace WebApi.DataLayer
                         ba.ActionTask = "User does not exist";
                     }
                 }
-            }
+          }
             return ba;
         }
         #endregion SwitchUser
@@ -426,7 +481,6 @@ namespace WebApi.DataLayer
         /// <returns></returns>
         public ButtonAction SwitchUserBack(SimpleUser SU)
         {
-            //UserImpersonation.Deimpersonate(false);
             ButtonAction ba = new ButtonAction();
             ba.ActionRedirect = "dashboard";
             ba.ActionResult = "Success";
@@ -447,8 +501,36 @@ namespace WebApi.DataLayer
             List<Payworksheet> pw = new List<Payworksheet>();
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
-                var result = dataContext.getPay3SCW(SI.WeekEnding, "", null);
+                var result = dataContext.Database.SqlQuery<getPay3SCW_Result>(
+              " exec getPay3SCW '" + SI.WeekEnding + "', '" + "" + "','" + null + "'"
+              ).ToList();
 
+                foreach (var dr in result)
+                {
+                    Payworksheet pw_item = new Payworksheet();
+                    pw_item.appname = dr.appname;
+                    //pw_item.app_difficulty = dr.app_difficulty.ToString() ;
+                    pw_item.@base = dr.Base.ToString();
+                    pw_item.calibration_score = dr.calibration_score.ToString();
+                    pw_item.calltime = dr.calltime.ToString();
+                    pw_item.cal_percent = dr.cal_percent.ToString();
+                    pw_item.deduct = dr.deduct.ToString();
+                    pw_item.efficiency = dr.efficiency.ToString();
+                    pw_item.eff_percent = dr.eff_percent.ToString();
+                   
+                    pw_item.num_calibrations = dr.num_calibrations.ToString();
+                    pw_item.num_calls = dr.num_calls.ToString();
+                    pw_item.num_disputes = dr.num_disputes.ToString();
+                    pw_item.reviewer = dr.reviewer.ToString();
+                    pw_item.reviewtime = dr.reviewtime.ToString();
+                    pw_item.scorecard = dr.scorecard.ToString();
+                    pw_item.sc_date = dr.sc_date.ToString();
+                    pw_item.short_name = dr.short_name;
+                    pw_item.startdate = dr.startdate.ToString();
+                    pw_item.websites = dr.websites.ToString();
+                    pw_item.website_pay = dr.website_pay.ToString();
+                    pw.Add(pw_item);
+                }
             }
             return pw;
         }
@@ -1451,14 +1533,7 @@ namespace WebApi.DataLayer
                         objUserObject.UserName = isUserExtraInfo.username.ToString();
                         objUserObject.SpeedInc = isUserExtraInfo.speed_increment.ToString();
                         objUserObject.StartImmediately = Convert.ToBoolean(isUserExtraInfo.calls_start_immediately);
-                        try
-                        {
-                            objUserObject.PreviousUser = UserImpersonation.PrevUserName;
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-
+                        
                         //DataTable links_dt =Common.GetTable("exec getMyMenu '" + userName + "'");
                         var isLinks = dataContext.getMyMenu(userName).ToList();
                         if (isLinks.Count > 0)
@@ -2167,8 +2242,8 @@ namespace WebApi.DataLayer
                         dataContext.form_notifications.Remove(isExist);
                         int result = dataContext.SaveChanges();
                     }
+                    return Messages.Deleted;
                 }
-                return Messages.Deleted;
             }
             catch (Exception ex)
             {
@@ -4438,7 +4513,7 @@ namespace WebApi.DataLayer
         /// <param name="nextTrainingRequest"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public TrainingCall GetNextTraining(NextTrainingRequest nextTrainingRequest, string username) // String 'List(Of CallRecord)
+        public TrainingCall GetNextTraining(NextTrainingRequest nextTrainingRequest, string username)
         {
             TrainingCall objTrainingCall = new TrainingCall();
             //string listen_sql = "exec getMyNextTrainingCall '" + username + "'";

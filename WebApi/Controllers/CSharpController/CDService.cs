@@ -2252,7 +2252,8 @@ namespace WebApi.Controllers.CSharpController
             DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
 
             DataTable stats_dt;
-            stats_dt = Common.GetTable("SELECT distinct AGent FROM [XCC_REPORT_NEW]  where scorecard in (select user_scorecard from userapps where username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and agent is not null and agent != '' and max_reviews > -1 and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + "  order by AGent");
+            stats_dt = Common.GetTable("SELECT distinct AGent FROM [XCC_REPORT_NEW]  where scorecard in (select user_scorecard from userapps where username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and agent is not null and agent != '' and max_reviews > -1 and call_date between '" + start_date + "' and '" + end_date +
+                "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + "  order by AGent");
 
             foreach (DataRow dr in stats_dt.Rows)
             {
