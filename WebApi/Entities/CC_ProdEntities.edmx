@@ -20534,7 +20534,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <FunctionImport Name="getPayHistory" ReturnType="Collection(Model.PayHistory_Result)">
           <Parameter Name="reviewer" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="getCompletedSCCSCall" ReturnType="Collection(Model.getCompletedSCCSCall_Result)">
+          <FunctionImport Name="getCompletedSCCSCall">
             <Parameter Name="f_id" Mode="In" Type="Int32" />
             <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
@@ -20978,11 +20978,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="DateTime" Name="week_ending" Nullable="false" />
           <Property Type="Decimal" Name="total_pay" Nullable="false" />
           <Property Type="String" Name="email_address" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="getCompletedSCCSCall_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="section" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="section_order" Nullable="false" />
         </ComplexType>
         <ComplexType Name="getCompletedSCCall_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -28580,13 +28575,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getCompletedSCCSCall" FunctionName="Model.Store.getCompletedSCCSCall">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.getCompletedSCCSCall_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="section" ColumnName="section" />
-                <ScalarProperty Name="section_order" ColumnName="section_order" />
-              </ComplexTypeMapping>
-            </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getCompletedSCCall" FunctionName="Model.Store.getCompletedSCCall">
             <ResultMapping>

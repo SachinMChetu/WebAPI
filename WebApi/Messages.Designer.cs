@@ -214,7 +214,7 @@ namespace WebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Updated successfully.
+        ///   Looks up a localized string similar to Updated.
         /// </summary>
         internal static string Updated {
             get {

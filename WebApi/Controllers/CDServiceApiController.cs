@@ -224,11 +224,14 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CDService/updateUserInfo")]
         [HttpPost]
-        public string updateUserInfo(string value, string field)
+        [ResponseType(typeof(UpdateUserModel))]
+        public string updateUserInfo(UpdateUserModel objUpdateUserModel)
         {
             string Message = string.Empty;
             try
             {
+                string value = objUpdateUserModel.value;
+                string field = objUpdateUserModel.field;
                 Message = objCDServiceLayer.updateUserInfo(value, field);
             }
             catch (Exception ex)
@@ -273,12 +276,15 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CDService/GetQualityA")]
         [HttpPost]
-        public List<DBOptions> GetQualityA(string start_date, string end_date, string scorecard)
+        [ResponseType(typeof(GroupsModel))]
+        public List<DBOptions> GetQualityA(GroupsModel objGroupsModel)
         {
             List<DBOptions> objDBOptions = new List<DBOptions>();
             try
             {
-
+                string start_date = objGroupsModel.start_date;
+                string end_date = objGroupsModel.start_date;
+                string scorecard = objGroupsModel.scorecard;
                 objDBOptions = objCDServiceLayer.GetQualityA(start_date, end_date, scorecard);
             }
             catch (Exception ex)
@@ -418,11 +424,15 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CDService/GetGroups")]
         [HttpPost]
-        public List<DBOptions> GetGroups(string start_date, string end_date, string scorecard)
+        [ResponseType(typeof(GroupsModel))]
+        public List<DBOptions> GetGroups(GroupsModel objGroupsModel)
         {
             List<DBOptions> objUserInfo = new List<DBOptions>();
             try
             {
+                string start_date = objGroupsModel.start_date;
+                string end_date = objGroupsModel.start_date;
+                string scorecard = objGroupsModel.scorecard;
                 objUserInfo = objCDServiceLayer.GetGroups( start_date,end_date, scorecard);
             }
             catch (Exception ex)

@@ -169,7 +169,7 @@
     <value>Selected</value>
   </data>
   <data name="Updated" xml:space="preserve">
-    <value>Data Updated successfully</value>
+    <value>Updated</value>
   </data>
   <data name="UserLockedMessage" xml:space="preserve">
     <value>User is lockedout</value>

@@ -300,8 +300,6 @@
     <Compile Include="Controllers\CDServiceApiController.cs" />
     <Compile Include="Controllers\ClientUserController.cs" />
     <Compile Include="Controllers\ConversionController.cs" />
-    <Compile Include="Controllers\CSharpController\CallCriteriaAPI.cs" />
-    <Compile Include="Controllers\CSharpController\CDService.cs" />
     <Compile Include="Controllers\CustomPrincipal.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\NIDashboardController.cs" />
@@ -833,9 +831,6 @@
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getCompletedSCClientCalibration_Result.cs">
-      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\getCompletedSCCSCall_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\getCompletedSCEdited_Result.cs">
@@ -1664,6 +1659,7 @@
     <Compile Include="Models\CDService\DetailsModel.cs" />
     <Compile Include="Models\CDService\disputeResult.cs" />
     <Compile Include="Models\CDService\Event.cs" />
+    <Compile Include="Models\CDService\GroupsModel.cs" />
     <Compile Include="Models\CDService\Job.cs" />
     <Compile Include="Models\CDService\Keyword.cs" />
     <Compile Include="Models\CDService\KeywordObject.cs" />
@@ -1698,6 +1694,7 @@
     <Compile Include="Models\CDService\transcript.cs" />
     <Compile Include="Models\CDService\TranscriptData.cs" />
     <Compile Include="Models\CDService\Transcripts.cs" />
+    <Compile Include="Models\CDService\UpdateUserModel.cs" />
     <Compile Include="Models\CDService\UserInfo.cs" />
     <Compile Include="Models\CDService\vendor_data.cs" />
     <Compile Include="Models\CDService\Visitor.cs" />
@@ -1705,7 +1702,11 @@
     <Compile Include="Models\CDService\Word.cs" />
     <Compile Include="Models\CDService\WordObject.cs" />
     <Compile Include="Models\CDService\WorstDeviation.cs" />
+    <Compile Include="Models\DBModel\app_settings_Result.cs" />
+    <Compile Include="Models\DBModel\form_q_scores_Result.cs" />
+    <Compile Include="Models\DBModel\getCompletedSCCSCall_Result.cs" />
     <Compile Include="Models\DBModel\getPay3SCW_Result.cs" />
+    <Compile Include="Models\DBModel\getTemplateItemsAll_Result.cs" />
     <Compile Include="Models\DBModel\School_X_Data_Result.cs" />
     <Compile Include="Models\DBModel\getListenQuestionsAll_Result.cs" />
     <Compile Include="Models\DBModel\getNextCallAPIQAQA_Result.cs" />
@@ -1713,6 +1714,7 @@
     <Compile Include="Models\DBModel\question_options_Result.cs" />
     <Compile Include="Models\DBModel\rejection_reasons_Result.cs" />
     <Compile Include="Models\DBModel\section_order_Result.cs" />
+    <Compile Include="Models\DBModel\vwFOrm_Result.cs" />
     <Compile Include="Models\LoginInfo.cs" />
     <Compile Include="DataLayer\MultiformUploadRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

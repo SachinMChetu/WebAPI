@@ -747,7 +747,7 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PayHistory_Result>("getPayHistory", reviewerParameter);
         }
     
-        public virtual ObjectResult<getCompletedSCCSCall_Result> getCompletedSCCSCall(Nullable<int> f_id, string username)
+        public virtual int getCompletedSCCSCall(Nullable<int> f_id, string username)
         {
             var f_idParameter = f_id.HasValue ?
                 new ObjectParameter("f_id", f_id) :
@@ -757,7 +757,7 @@ namespace WebApi.Entities
                 new ObjectParameter("username", username) :
                 new ObjectParameter("username", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCompletedSCCSCall_Result>("getCompletedSCCSCall", f_idParameter, usernameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getCompletedSCCSCall", f_idParameter, usernameParameter);
         }
     
         public virtual ObjectResult<getCompletedSCCall_Result> getCompletedSCCall(Nullable<int> f_id, string username)
