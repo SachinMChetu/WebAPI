@@ -3419,8 +3419,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.sc_training_approvals' 
     <Property Name="train_status" Type="varchar" MaxLength="100" />
     <Property Name="retrain_date" Type="datetime" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.sc_update' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="sc_update">
     <Key>
       <PropertyRef Name="id" />
@@ -7663,12 +7661,21 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     <Parameter Name="question_id" Type="int" Mode="In" />
     <Parameter Name="add_link" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetCDServiceXccReportNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="agentGroup" Type="varchar" Mode="In" />
+  <Function Name="GetCDGetGroups" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="scoreCard" Type="int" Mode="In" />
     <Parameter Name="Agent" Type="varchar" Mode="In" />
     <Parameter Name="start_date" Type="varchar" Mode="In" />
     <Parameter Name="end_date" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetCDServiceXccReportNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="agentGroup" Type="varchar" Mode="In" />
+    <Parameter Name="scoreCard" Type="int" Mode="In" />
+    <Parameter Name="UserName" Type="varchar" Mode="In" />
+    <Parameter Name="Agent" Type="varchar" Mode="In" />
+    <Parameter Name="start_date" Type="varchar" Mode="In" />
+    <Parameter Name="end_date" Type="varchar" Mode="In" />
+    <Parameter Name="special_filter" Type="varchar" Mode="In" />
+    <Parameter Name="Type" Type="varchar" Mode="In" />
   </Function>
   <Function Name="getCICCalls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="getCICNightlyReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -11124,6 +11131,11 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     <Parameter Name="form_id" Type="int" Mode="In" />
   </Function>
   <Function Name="updateTypicalScorecardFields" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="UpdateUserExtraInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Field" Type="varchar" Mode="In" />
+    <Parameter Name="Value" Type="varchar" Mode="In" />
+    <Parameter Name="userName" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="UpperLeft" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
     <Parameter Name="incoming" Type="varchar" Mode="In" />
   </Function>
@@ -11278,6 +11290,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     <EntitySet Name="saved_queries" EntityType="Self.saved_queries" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sc_inputs" EntityType="Self.sc_inputs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sc_notes" EntityType="Self.sc_notes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sc_update" EntityType="Self.sc_update" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="schedule_slots" EntityType="Self.schedule_slots" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SchedulingAssignedQAs" EntityType="Self.SchedulingAssignedQAs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SchedulingDaysSheet" EntityType="Self.SchedulingDaysSheet" Schema="dbo" store:Type="Tables" />
@@ -13073,14 +13086,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
     [sc_training_approvals].[train_status] AS [train_status], 
     [sc_training_approvals].[retrain_date] AS [retrain_date]
     FROM [dbo].[sc_training_approvals] AS [sc_training_approvals]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="sc_update" EntityType="Self.sc_update" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [sc_update].[id] AS [id], 
-    [sc_update].[reviewer] AS [reviewer], 
-    [sc_update].[sc_id] AS [sc_id], 
-    [sc_update].[date_reviewed] AS [date_reviewed]
-    FROM [dbo].[sc_update] AS [sc_update]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="SchedulingUserDays" EntityType="Self.SchedulingUserDays" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 

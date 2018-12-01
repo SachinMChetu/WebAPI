@@ -3997,16 +3997,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="sc_update">
-      <EntityTypeMapping TypeName="Model.sc_update">
-        <MappingFragment StoreEntitySet="sc_update">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="reviewer" ColumnName="reviewer" />
-          <ScalarProperty Name="sc_id" ColumnName="sc_id" />
-          <ScalarProperty Name="date_reviewed" ColumnName="date_reviewed" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="SchedulingUserDays">
       <EntityTypeMapping TypeName="Model.SchedulingUserDay">
         <MappingFragment StoreEntitySet="SchedulingUserDays">
@@ -5880,25 +5870,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="getPay3SCW" FunctionName="Model.Store.getPay3SCW">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="Model.GetPay3SCW_Result" />
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getPay3SCW" FunctionName="Model.Store.getPay3SCW" />
     <FunctionImportMapping FunctionImportName="getPayHistory" FunctionName="Model.Store.getPayHistory">
       <ResultMapping>
         <ComplexTypeMapping TypeName="Model.PayHistory_Result" />
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="getCompletedSCCSCall" FunctionName="Model.Store.getCompletedSCCSCall">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="Model.getCompletedSCCSCall_Result">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="section" ColumnName="section" />
-          <ScalarProperty Name="section_order" ColumnName="section_order" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getCompletedSCCSCall" FunctionName="Model.Store.getCompletedSCCSCall" />
     <FunctionImportMapping FunctionImportName="getCompletedSCCall" FunctionName="Model.Store.getCompletedSCCall">
       <ResultMapping>
         <ComplexTypeMapping TypeName="Model.getCompletedSCCall_Result">
@@ -7574,7 +7552,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="getNotificationStatus" FunctionName="Model.Store.getNotificationStatus" />
-    <FunctionImportMapping FunctionImportName="GetCDServiceXccReportNew" FunctionName="Model.Store.GetCDServiceXccReportNew" />
     <FunctionImportMapping FunctionImportName="GetRecordxccReportNew" FunctionName="Model.Store.GetRecordxccReportNew">
       <ResultMapping>
         <ComplexTypeMapping TypeName="Model.GetRecordxccReportNew_Result">
@@ -7746,6 +7723,41 @@
           <ScalarProperty Name="num_missed_a" ColumnName="num_missed_a" />
           <ScalarProperty Name="num_missed_q" ColumnName="num_missed_q" />
           <ScalarProperty Name="num_missed_cal" ColumnName="num_missed_cal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getDetailDataCustom" FunctionName="Model.Store.getDetailDataCustom" />
+    <FunctionImportMapping FunctionImportName="GetCDServiceXccReportNew" FunctionName="Model.Store.GetCDServiceXccReportNew">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetCDServiceXccReportNew_Result">
+          <ScalarProperty Name="AGent" ColumnName="AGent" />
+          <ScalarProperty Name="Campaign" ColumnName="Campaign" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateUserExtraInfo" FunctionName="Model.Store.UpdateUserExtraInfo" />
+    <FunctionImportMapping FunctionImportName="getMyAppnames" FunctionName="Model.Store.getMyAppnames">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.getMyAppnames_Result">
+          <ScalarProperty Name="scorecard" ColumnName="scorecard" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="sc_update">
+      <EntityTypeMapping TypeName="Model.sc_update">
+        <MappingFragment StoreEntitySet="sc_update">
+          <ScalarProperty Name="date_reviewed" ColumnName="date_reviewed" />
+          <ScalarProperty Name="sc_id" ColumnName="sc_id" />
+          <ScalarProperty Name="reviewer" ColumnName="reviewer" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetCDGetGroups" FunctionName="Model.Store.GetCDGetGroups">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model.GetCDGetGroups_Result">
+          <ScalarProperty Name="agent_group" ColumnName="agent_group" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

@@ -10,10 +10,11 @@ namespace WebApi.Models.DBModel
        
         public string answer_text { get; set; }
         public bool? acp_required { get; set; }
-        //public float? answer_points { get; set; }
+        public double answer_points { get; set; }
         public bool? custom_comment_required { get; set; }
         public bool? right_answer { get; set; }
         public bool? autoselect { get; set; }
         public int id { get; set; }
+        public int? question_id { get; set; }
     }
 }

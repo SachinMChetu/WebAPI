@@ -142,7 +142,7 @@ namespace WebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Submit successfully.
+        ///   Looks up a localized string similar to Success.
         /// </summary>
         internal static string Insert {
             get {
@@ -214,7 +214,7 @@ namespace WebApi {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Updated successfully.
+        ///   Looks up a localized string similar to Updated.
         /// </summary>
         internal static string Updated {
             get {

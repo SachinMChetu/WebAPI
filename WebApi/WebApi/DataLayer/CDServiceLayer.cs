@@ -14,6 +14,8 @@ using System.ServiceModel;
 using System.Text;
 using System.Web;
 using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using WebApi.Entities;
 using WebApi.Models.CDService;
 
@@ -429,7 +431,6 @@ namespace WebApi.DataLayer
         /// </summary>
         /// <param name="xcc_id"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public TranscriptData GetTranscript(string xcc_id)
         {
             TranscriptData objTranscriptData = new TranscriptData();
@@ -510,7 +511,6 @@ namespace WebApi.DataLayer
         /// <param name="username"></param>
         /// <param name="f_id"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public List<ActionButton> GetActionButtons(string username, string f_id)
         {
             List<ActionButton> abs = new List<ActionButton>();
@@ -900,7 +900,6 @@ namespace WebApi.DataLayer
         /// <param name="value"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public string updateUserInfo(string value, string field)
         {
             bool update_result = Convert.ToBoolean("True");
@@ -925,93 +924,710 @@ namespace WebApi.DataLayer
                 else
                 {
                     //Common.UpdateTable("update userextrainfo set " + field + " = '" + value.Replace("'", "''") + "' where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
-                    var isExist = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).FirstOrDefault();
-                    UserExtraInfo tblUserExtraInfo = new UserExtraInfo();
-                    if (isExist != null)
-                    {
-                        int Id = isExist.id;
-                        tblUserExtraInfo = dataContext.UserExtraInfoes.Find(Id);
-                        //dataContext.Entry(tblUserExtraInfo).State = EntityState.Modified;
-                        //tblUserExtraInfo.q_order = value.Replace("'", "''");
-                       //int result = dataContext.SaveChanges();
-                    }
+                    var isExist = dataContext.UpdateUserExtraInfo(field, value.Replace("'", "''"), HttpContext.Current.User.Identity.Name.Replace("'", "''"));
                 }
             }
                 return update_result.ToString();
         }
 
-        ///// <summary>
-        ///// GetAgents
-        ///// </summary>
-        ///// <param name="start_date"></param>
-        ///// <param name="end_date"></param>
-        ///// <param name="scorecard"></param>
-        ///// <param name="group"></param>
-        ///// <returns></returns>
-        ////[OperationContract()]
-        //public List<DBOptions> GetAgents(string start_date, string end_date, string scorecard, string group)
-        //{
-        //    List<DBOptions> mi_items = new List<DBOptions>();
-        //    //DataTable sup_test = Common.GetTable("select user_group,user_role from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
-        //    using (CC_ProdEntities dataContext = new CC_ProdEntities())
-        //    {
-        //        var sup_test = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).FirstOrDefault();
-        //        if (sup_test != null)
-        //        {
-        //            if (sup_test.user_role == "supervisor" & sup_test.user_group != "")
-        //            {
-        //                group = sup_test.user_group;
-        //            }
-        //        }
-        //        string filter = "";
-        //        string agentGroup = "";
-        //        int scoreCard =0;
-        //        string agent = "";
-        //        if (group.IndexOf("'") == -1)
-        //        {
-        //            group = "'" + group + "'";
-        //        }
-        //        if (group != "'NOGROUP'")
-        //        {
-        //            agentGroup =  group;
-        //        }
-        //        if (scorecard != "0" & scorecard != "")
-        //        {
-        //            scoreCard =Convert.ToInt32(scorecard);
-        //        }
-        //        if (HttpContext.Current.User.IsInRole("Agent"))
-        //        {
-        //            agent += HttpContext.Current.User.Identity.Name.Replace("'", "''") ;
-        //        }
-        //        //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
-        //        var UserApp = dataContext.UserApps.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).ToList();
-        //        foreach (var dr in UserApp)
-        //        {
-        //        // DataTable stats_dt = Common.GetTable("SELECT distinct AGent FROM [XCC_REPORT_NEW]  where scorecard in (select user_scorecard from userapps where " +
-        //        //"username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and agent is not null and agent != '' " +
-        //       // "and max_reviews > -1 and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + "  order by AGent");
-        //       var xcc_REPORT_NEW = dataContext.XCC_REPORT_NEW.Where(x => x.AGENT_GROUP == agentGroup && x.scorecard ==scoreCard 
-        //       && x.AGENT == agent && x.AGENT !=null && x.MAX_REVIEWS > -1 && x.call_date >=Convert.ToDateTime(start_date) && x.call_date <= Convert.ToDateTime(end_date)).OrderBy(x => x.AGENT).ToList();
-        //            foreach (var dr in xcc_REPORT_NEW)
-        //           {
-        //             DBOptions _mi = new DBOptions();
-        //            _mi.text = dr["AGent"].ToString();
-        //            _mi.value = dr["AGent"].ToString();
+        /// <summary>
+        /// GetAgents
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="scorecard"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public List<DBOptions> GetAgents(string start_date, string end_date, string scorecard, string group)
+        {
+            List<DBOptions> mi_items = new List<DBOptions>();
+            //DataTable sup_test = Common.GetTable("select user_group,user_role from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                var sup_test = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).FirstOrDefault();
+                if (sup_test != null)
+                {
+                    if (sup_test.user_role == "supervisor" & sup_test.user_group != "")
+                    {
+                        group = sup_test.user_group;
+                    }
+                }
+                string agentGroup = "";
+                int scoreCard = 0;
+                string agent = "";
+                string UserName = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+                if (group.IndexOf("'") == -1)
+                {
+                    group = "'" + group + "'";
+                }
+                if (group != "'NOGROUP'")
+                {
+                    agentGroup = group;
+                }
+                if (scorecard != "0" & scorecard != "")
+                {
+                    scoreCard = Convert.ToInt32(scorecard);
+                }
+                if (HttpContext.Current.User.IsInRole("Agent"))
+                {
+                    agent = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+                }
+                //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
+                var user_dt = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).FirstOrDefault();
+                // DataTable stats_dt = Common.GetTable("SELECT distinct AGent FROM [XCC_REPORT_NEW]  where scorecard in (select user_scorecard from userapps where " +
+                //"username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and agent is not null and agent != '' " +
+                // "and max_reviews > -1 and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + "  order by AGent");
+                var xcc_REPORT_NEW = dataContext.GetCDServiceXccReportNew(agentGroup, scoreCard, UserName, agent, end_date, end_date, user_dt.special_filter,"Agent").ToList();
+                    foreach (var dr in xcc_REPORT_NEW)
+                    {
+                        DBOptions _mi = new DBOptions();
+                        _mi.text = dr.AGent;
+                        _mi.value = dr.AGent;
 
-        //            if (HttpContext.Current.Session["Agent"].ToString() == dr["Agent"].ToString())
-        //            {
-        //                _mi.selected = "selected";
-        //            }
-        //            else
-        //            { 
-        //                _mi.selected = "";
-        //            }
-        //            mi_items.Add(_mi);
-        //        }
-        //     }
-        //    }
-        //    return mi_items;
-        //}
+                        if (HttpContext.Current.Session["Agent"].ToString() == dr.AGent)
+                        {
+                            _mi.selected = "selected";
+                        }
+                        else
+                        {
+                            _mi.selected = "";
+                        }
+                        mi_items.Add(_mi);
+                }
+            }
+            return mi_items;
+        }
+
+
+        /// <summary>
+        /// GetDetails
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="hdnAgentFilter"></param>
+        /// <param name="pagenum"></param>
+        /// <param name="pagerows"></param>
+        /// <param name="Sort_statement"></param>
+        /// <param name="rowstart"></param>
+        /// <param name="rowend"></param>
+        /// <param name="filter_array"></param>
+        /// <returns></returns>
+        public string GetDetails(string start_date, string end_date, string hdnAgentFilter, string pagenum = "1", string pagerows = "50", string Sort_statement = "", string rowstart = "0", string rowend = "0", string filter_array = "")
+        {
+            GridView gvQADetails = new GridView();
+            gvQADetails.AutoGenerateColumns = false;
+
+            gvQADetails.RowCreated += GridView1_RowCreated;
+            gvQADetails.RowDataBound += gvQADetails_RowDataBound;
+
+            string called_sp = "getDetailData";
+            if (filter_array != "")
+            {
+                called_sp = "getDetailDataArray";
+            }
+            StringWriter sw = new StringWriter();
+            addField(ref gvQADetails, "CALL ID");
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                //DataTable user_col_count_dt = Common.GetTable("select * from available_columns join user_columns on user_columns.column_id = available_columns.id where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' order by col_order");
+                var AvailableColumns = (from availableColumns in dataContext.available_columns
+                                     join userColumns in dataContext.user_columns on availableColumns.id equals userColumns.column_id
+                                     where userColumns.username == HttpContext.Current.User.Identity.Name.Replace("'", "''") select new { availableColumns.column_required, availableColumns.column_name, userColumns.col_order }).OrderBy(x => x.col_order).ToList();
+
+                if (AvailableColumns.Count == 0)
+                {
+                    addField(ref gvQADetails, "RESULT");
+                    addField(ref gvQADetails, "COMMENTS");
+                    addField(ref gvQADetails, "AGENT");
+                    addField(ref gvQADetails, "CAMPAIGN");
+                    addField(ref gvQADetails, "REVIEW DATE");
+                    addField(ref gvQADetails, "PHONE");
+                    addField(ref gvQADetails, "CALL DATE");
+                    addField(ref gvQADetails, "CALL LENGTH");
+                    addField(ref gvQADetails, "SCORE");
+                    addField(ref gvQADetails, "# MISSED");
+                    addField(ref gvQADetails, "MISSED ITEMS");
+                    addField(ref gvQADetails, "Session ID");
+                    if (HttpContext.Current.User.IsInRole("Admin") | HttpContext.Current.User.IsInRole("QA Lead"))
+                    {
+                        addField(ref gvQADetails, "Efficiency");
+                    }
+                }
+                else
+                {
+                    foreach (var dr in AvailableColumns)
+                    {
+                        if (dr.column_required.ToString() == "False" | dr.column_required.ToString() == "")
+                        {
+                            addField(ref gvQADetails, dr.column_name.Replace("[", "").Replace("]", ""));
+                        }
+                    }
+
+                    called_sp = "getDetailDataCustom";
+                }
+
+                gvQADetails.UseAccessibleHeader = false;
+                string this_user = HttpContext.Current.User.Identity.Name;
+                if (Sort_statement == "undefined" | Strings.Trim(Sort_statement) == "order by [] desc")
+                { 
+                    Sort_statement = "";
+                }
+                string myRole = "";
+                string[] user_roles = Roles.GetRolesForUser(this_user);
+                foreach (var role in user_roles)
+                { 
+                    myRole = role;
+                }
+                if (hdnAgentFilter.IndexOf("and vwform.agent =") > -1 & HttpContext.Current.User.Identity.Name.ToLower() == "agent")
+                {
+                    this_user = "agent";
+                    myRole = "Agent";
+                }
+                DataTable dt;
+                if (Convert.ToInt32(pagenum) == 0 || Convert.ToInt32(pagenum) == -1)
+                {
+                    if (Convert.ToInt32(pagenum) == 0)
+                    {
+                        dt = Common.GetTable(called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','1','1','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'");
+                        
+                    }
+                    else
+                    {
+                        dt = Common.GetTable(called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','" + 1 + "','10000','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'");
+                    }
+                    }
+                else if (filter_array != "")
+                {
+                    dt = Common.GetTable(called_sp + " '" + this_user + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user + "','" + myRole + "','" + pagenum + "','" + pagerows + "','" + Sort_statement + "','" + rowstart + "','" + rowend + "'");
+                }
+                else
+                {
+                    dt = Common.GetTable(called_sp + " '" + this_user + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user + "','" + myRole + "','" + pagenum + "','" + pagerows + "','" + Sort_statement + "','" + rowstart + "','" + rowend + "'");
+                }
+                gvQADetails.DataSource = dt;
+                gvQADetails.DataBind();
+                
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+                if (Convert.ToInt32(pagenum) == 0 | Convert.ToInt32(pagenum) == -1)
+                {
+
+                    gvQADetails.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    gvQADetails.HeaderRow.RenderControl(hw);
+                    if (Convert.ToInt32(pagenum) == -1)
+                    {
+                        foreach (GridViewRow gvr in gvQADetails.Rows)
+                            gvr.RenderControl(hw);
+                    }
+                }
+                else
+                    foreach (GridViewRow gvr in gvQADetails.Rows)
+                    {
+                        gvr.RenderControl(hw);
+                    }
+            }
+            return sw.ToString();
+        }
+
+        /// <summary>
+        /// GridView1_RowCreated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e) // Handles gvQADetails.RowCreated
+        {
+            GridView gvQADetails = (GridView)sender;
+            if (e.Row.RowType == DataControlRowType.Pager)
+            {
+                BulletedList bl = new BulletedList();
+                bl.CssClass = "table-navigation";
+                int index;
+                for (index = 1; index <= gvQADetails.PageCount; index++)
+                {
+                    if (index == gvQADetails.PageIndex + 1)
+                    {
+                        ListItem li = new ListItem();
+                        li.Text = index.ToString();
+                        li.Attributes.Add("class", "selected-page");
+                        Label lbl = new Label();
+                        lbl.Text = "<span style=\"color:red;\"> </span> <b style=\"background-color: Silver;color:red;border-style:solid;border-color:silver;border-width:2px;padding:2px 2px 2px 2px\">" + index.ToString() + "</b> ";
+                        e.Row.Cells[0].Controls.Add(lbl);
+                        bl.Items.Add(li);
+                    }
+                    else
+                    {
+                        ListItem li = new ListItem();
+                        li.Text = index.ToString();
+                        LinkButton linkbutton = new LinkButton();
+                        linkbutton.ID = "LinkPage" + index;
+                        linkbutton.CommandName = "Page";
+                        linkbutton.CommandArgument = index.ToString();
+                        linkbutton.Text = index.ToString();
+                        linkbutton.CssClass = "link";
+                        StringWriter sw = new StringWriter();
+                        HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+                        linkbutton.RenderControl(hw);
+                        li.Text = sw.ToString().Replace("&lt;", "<").Replace("&gt;", ">");
+                        bl.Items.Add(li);
+                    }
+                }
+                e.Row.Cells[0].Controls.Add(bl);
+            }
+        }
+
+        /// <summary>
+        /// addField
+        /// </summary>
+        /// <param name="gvQADetails"></param>
+        /// <param name="fieldname"></param>
+        protected void addField(ref GridView gvQADetails, string fieldname)
+        {
+            var bfield = new BoundField();
+            bfield.HeaderText = fieldname;
+            bfield.DataField = fieldname;
+            bfield.ItemStyle.HorizontalAlign = HorizontalAlign.Left;
+            bfield.HtmlEncode = false;
+            gvQADetails.Columns.Add(bfield);
+        }
+
+
+        /// <summary>
+        /// GetQualityA
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="scorecard"></param>
+        /// <returns></returns>
+        //[OperationContract()]
+        public List<DBOptions> GetQualityA(string start_date, string end_date, string scorecard)
+        {
+
+            List<DBOptions> mi_items = new List<DBOptions>();
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                DateTime startDate =new DateTime();
+                if(start_date !="")
+                {
+                    startDate = Convert.ToDateTime(start_date);
+                }
+                DateTime etartDate = new DateTime() ;
+                if (end_date != "")
+                {
+                    etartDate = Convert.ToDateTime(end_date);
+                }
+                //DataTable stats_dt;
+                //stats_dt = Common.GetTable("Select distinct reviewer from vwform  where call_date between '" + start_date + "' and '" + end_date + "'  order by reviewer");
+                var  stats_dt = (from x in dataContext.vwForms
+                                       where x.call_date >= startDate && x.call_date <= etartDate
+                                 select new { x.reviewer }).Distinct().ToList();
+            foreach (var dr in stats_dt)
+                {
+                    DBOptions _mi = new DBOptions();
+                    _mi.text = dr.reviewer;
+                    _mi.value = dr.reviewer;
+                    mi_items.Add(_mi);
+                }
+            }
+            return mi_items;
+        }
+
+        /// <summary>
+        /// GetCampaigns
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="scorecard"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        //[OperationContract()]
+        public List<DBOptions> GetCampaigns(string start_date, string end_date, string scorecard, string group)
+        {
+            List<DBOptions> mi_items = new List<DBOptions>();
+
+            string agentGroup = "";
+            int scoreCard = 0;
+            string agent = "";
+            string UserName = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+            if (group.IndexOf("'") == -1)
+            {
+                group = "'" + group + "'";
+            }
+            if (group != "'NOGROUP'")
+            {
+                agentGroup = group;
+            }
+            if (scorecard != "0" & scorecard != "")
+            {
+                scoreCard = Convert.ToInt32(scorecard);
+            }
+            if (HttpContext.Current.User.IsInRole("Agent"))
+            {
+                agent = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+            }
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
+
+                //stats_dt = Common.GetTable("SELECT distinct Campaign FROM [XCC_REPORT_NEW]  where  scorecard in (select user_scorecard from userapps where username =  " +"'" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and call_date between '" + start_date + "' and '" + end_date + "' " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + " and campaign is not null  order by campaign");
+                var user_dt = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")).FirstOrDefault();
+                var xcc_REPORT_NEW = dataContext.GetCDServiceXccReportNew(agentGroup, scoreCard, UserName, agent, end_date, end_date, user_dt.special_filter, null).ToList();
+                foreach (var dr in xcc_REPORT_NEW)
+                {
+                    foreach (var dr1 in xcc_REPORT_NEW)
+                    {
+                        DBOptions _mi = new DBOptions();
+                        _mi.text = dr1.Campaign.ToString();
+                        _mi.value = dr.Campaign.ToString();
+
+                        if (HttpContext.Current.Session["Campaign"].ToString() == dr.Campaign.ToString())
+                        {
+                            _mi.selected = "selected";
+                        }
+                        else
+                        { 
+                            _mi.selected = "";
+                        }
+                        mi_items.Add(_mi);
+                    }
+                }
+                return mi_items;
+            }
+        }
+
+        /// <summary>
+        /// GetDetailCount
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="hdnAgentFilter"></param>
+        /// <param name="filter_array"></param>
+        /// <returns></returns>
+        public string GetDetailCount(string start_date, string end_date, string hdnAgentFilter = "", string filter_array = "")
+        {
+
+            if (hdnAgentFilter == null)
+            {
+                hdnAgentFilter = "";
+            }
+            if (filter_array == null)
+            {
+                filter_array = "";
+            }
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                //dt = Common.GetTable("getDetailDataCount '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + filter_array.Replace("'", "''") + "'");
+                var avg_dt = dataContext.Database.SqlQuery<int>(
+                   " exec getDetailDataCount '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + filter_array.Replace("'", "''") + "'"
+                   ).FirstOrDefault();
+
+                return avg_dt.ToString();
+            }
+        }
+
+        /// <summary>
+        /// GetGroups
+        /// </summary>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <param name="scorecard"></param>
+        /// <returns></returns>
+        public List<DBOptions> GetGroups(string start_date, string end_date, string scorecard)
+        {
+
+            string my_group = "";
+            List<DBOptions> mi_items = new List<DBOptions>();
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+              
+                string userName = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+                int scoreCard = 0;
+                if (scorecard != null && scorecard != "")
+                {
+                    scoreCard = Convert.ToInt32(scorecard);
+                }
+                //if (scorecard == "0" | scorecard == "")
+                //{
+                //    scorecard = " in (select user_scorecard from userapps  where username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''") + "') ";
+                //}
+                //else
+                //{
+                //    scorecard = " in (" + scorecard + ") ";
+                //}
+                //DataTable sup_test = Common.GetTable("select user_group,user_role from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''") + "'");
+                ////var sup_test = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''")).FirstOrDefault();
+                //if (sup_test != null)
+                //{
+                //    if (sup_test.user_role == "supervisor" & sup_test.user_group != "")
+                //    {
+                //        scorecard = scorecard + " and agent_group = '" + sup_test.user_group + "' ";
+                //        my_group = sup_test.user_group;
+                //    }
+                //}
+                //if (HttpContext.Current.User.IsInRole("Agent"))
+                //{
+                //    scorecard += " and agent ='" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' ";
+                //}
+                //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
+                //stats_dt = Common.GetTable("SELECT distinct agent_group FROM [XCC_REPORT_NEW]  where scorecard " + scorecard + " and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + " order by agent_group");
+               
+                var stats_dt = dataContext.GetCDGetGroups(scoreCard, userName, start_date, end_date).ToList();
+                foreach (var dr in stats_dt)
+                {
+                    DBOptions _mi = new DBOptions();
+                    _mi.text = dr.agent_group;
+                    _mi.value = dr.agent_group;
+
+                    if (my_group == dr.agent_group)
+                    {
+                        _mi.selected = "selected";
+                    }
+                    else
+                    { 
+                        _mi.selected = "";
+                    }
+
+                    mi_items.Add(_mi);
+                }
+            }
+            return mi_items;
+        }
+
+        /// <summary>
+        /// GetAppnames
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<DBOptions> GetAppnames(string filter)
+        {
+            List<DBOptions> mi_items = new List<DBOptions>();
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                filter = Strings.Replace(filter, "undefined", "");
+                string app_filter = "";
+                if (HttpContext.Current.Session["agent_appname"] != null)
+                {
+                    app_filter = HttpContext.Current.Session["agent_appname"].ToString();
+                }
+                //stats_dt = Common.GetTable("exec getMyAppnames '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + filter.Replace("'", "''") + "','" + app_filter + "'");
+                var stats_dt = dataContext.getMyAppnames(HttpContext.Current.User.Identity.Name.Replace("'", "''"), filter.Replace("'", "''"), app_filter).ToList();
+                foreach (var dr in stats_dt)
+                {
+                    DBOptions _mi = new DBOptions();
+                    _mi.text = dr.scorecard;
+                    _mi.value = dr.ID.ToString();
+                    mi_items.Add(_mi);
+                }
+                return mi_items;
+            }
+        }
+
+        /// <summary>
+        /// UpdateScorecard
+        /// </summary>
+        /// <param name="scorecard"></param>
+        public void UpdateScorecard(string scorecard)
+        {
+           
+                //Common.UpdateTable("delete from sc_update where reviewer = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' and sc_id = '" + scorecard + "'");
+                //Common.UpdateTable("insert into sc_update (reviewer, sc_id, date_reviewed) select '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + scorecard + "', dbo.getMTDate()");
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                int Id = Convert.ToInt32(scorecard.Trim());
+                var isExist = dataContext.sc_update.Where(x => x.reviewer == HttpContext.Current.User.Identity.Name.Replace("'", "''") && x.sc_id== Id).FirstOrDefault();
+                if (isExist != null)
+                {
+                    dataContext.sc_update.Remove(isExist);
+                    int result = dataContext.SaveChanges();
+                }
+                var dateQuery = dataContext.Database.SqlQuery<DateTime>("SELECT dbo.getMTdate()");
+                DateTime Date = dateQuery.AsEnumerable().First();
+                sc_update tblsc_update = new sc_update();
+                if (HttpContext.Current.User.Identity.Name.Replace("'", "''") != null)
+                {
+
+                    tblsc_update.reviewer = HttpContext.Current.User.Identity.Name.Replace("'", "''");
+                    tblsc_update.sc_id = Id;
+                    tblsc_update.date_reviewed = Date;
+                    dataContext.sc_update.Add(tblsc_update);
+                   int Result=dataContext.SaveChanges();
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// getUserInfo
+        /// </summary>
+        /// <returns></returns>
+        public UserInfo getUserInfo()
+        {
+          
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                UserInfo ui = new UserInfo();
+                //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
+                var user_dt = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Trim()).FirstOrDefault();
+                if (user_dt !=null)
+                {
+                    ui.username = HttpContext.Current.User.Identity.Name;
+                    ui.SpeedInc = user_dt.speed_increment.ToString();
+                    ui.first_name = user_dt.first_name;
+                    ui.last_name = user_dt.last_name;
+                    ui.phone = user_dt.phone_number;
+                    ui.ImmediatePlay = Convert.ToBoolean(user_dt.calls_start_immediately);
+                    ui.bypass = Convert.ToBoolean(user_dt.bypass);
+                    ui.email = user_dt.email_address;
+                    ui.guideline_display = user_dt.guideline_display.ToString();
+                    ui.presubmit = user_dt.presubmit.ToString();
+                    ui.export_type = user_dt.export_type.ToString();
+                }
+                return ui;
+            }
+        }
+
+        private int comment_header = 0;
+        private int missed_list_header = 0;
+        private int call_id_header = 0;
+        private int call_result_header = 0;
+        private int[] cols_with_data;
+        /// <summary>
+        /// gvQADetails_RowDataBound
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void gvQADetails_RowDataBound(object sender, GridViewRowEventArgs e) // Handles gvQADetails.RowDataBound
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                for (var x = 0; x <= e.Row.Cells.Count - 1; x++)
+                {
+                    if (e.Row.Cells[x].Text == "COMMENTS")
+                    {
+                        comment_header = x;
+                    }
+                    if (e.Row.Cells[x].Text == "MISSED ITEMS")
+                    { 
+                        missed_list_header = x;
+                    }
+                    if (e.Row.Cells[x].Text == "CALL ID")
+                    {
+                        call_id_header = x;
+                    }
+                    if (e.Row.Cells[x].Text == "RESULT")
+                    {
+                        call_result_header = x;
+                    }
+                }
+
+                cols_with_data = new int[e.Row.Cells.Count + 1];
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                for (var x = 0; x <= e.Row.Cells.Count - 1; x++)
+                {
+                    if (e.Row.Cells[x].Text != "&nbsp;")
+                    {
+                        cols_with_data[x] = cols_with_data[x] + 1;
+                    }
+                }
+
+                bool isCalib = false;
+                bool isedited = false;
+                string sort_class = "";
+                DataRowView dr = (DataRowView)e.Row.DataItem;
+                if (dr["play_btn_class"].ToString() != "")
+                {
+                    isCalib = true;
+                    sort_class += "calib";
+                }
+
+                if (dr["wasEdited"].ToString() != "")
+                {
+                    isedited = true;
+                    sort_class += "edit";
+                }
+                if (sort_class != "")
+                {
+                    e.Row.Cells[call_id_header].Attributes.Add("data-text", sort_class);
+                }
+                    try
+                {
+                    if (dr["Result"].ToString() == "Pass")
+                        e.Row.Cells[call_result_header].Text = "<span class='final-result'>PASS <i class='fa fa-check'></i></span>";
+
+                    if (dr["Result"].ToString() == "N/A")
+                        e.Row.Cells[call_result_header].Text = "<span class='final-result' title='" + dr["bad_call_reason"].ToString().Replace("'", "").Replace("\"", "") + "' style='color:darkgray'>N/A &nbsp;&nbsp;<i class='fa fa-question-circle'></i></span>";
+
+                    if (dr["Result"].ToString() == "Fail")
+                    {
+                        dr[call_result_header] = "<span class='final-result' " + sort_class + ">FAIL <i class='fa fa-times'></i></span>";
+                        e.Row.Attributes.Add("class", "fail-row");
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+
+                if (dr[comment_header].ToString() != "&nbsp;" & (dr[comment_header].ToString().Trim()) != "-")
+                {
+                    e.Row.Attributes.Add("class", "popup-comments");
+                    dr[comment_header].ToString();
+                    string[] comments = dr[comment_header].ToString().Split('|');
+                    if (comments.Length > 1)
+                    {
+                        dr[comment_header] = "";
+                        int comment_id = 1;
+                        foreach (var comment in comments)
+                        {
+                            if (Strings.Trim(comment) != "")
+                                dr[comment_header] += "<i class='fa fa-file comment" + comment_id + "'></i><span style='white-space: normal;'>" + Strings.Trim(comment.Replace("&lt;br&gt;", "<br>")) + "</span>";
+                            comment_id += 1;
+                        }
+                    }
+                    else
+                        dr[comment_header] = "<i class='fa fa-file comment1'></i><span style='white-space: normal;'>" + dr[comment_header].ToString().Replace("&lt;br&gt;", "<br>").Trim() + "</span>";
+                }
+
+                string noti_owned = "1";
+                if (dr["non_edit"].ToString() == "1")
+                    noti_owned = "0";
+
+                if (dr["NotificationID"].ToString() != "" & dr["Notificationstep"].ToString() != "")
+                    dr[comment_header] += " <img class='noti-click yellow-ex-mark noti-click" + dr["OwnedNotification"].ToString() + "' src='img/yellow_exclamation.png' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Open " + dr["Notificationstep"].ToString() + " Notification' data-notiid='" + dr["NotificationID"].ToString() + "' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='" + dr["Notificationstep"].ToString() + "' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
+                else
+                {
+                    if (HttpContext.Current.User.IsInRole("Client") | HttpContext.Current.User.IsInRole("Supervisor") | HttpContext.Current.User.IsInRole("Admin"))
+                        dr[comment_header] += " <img class='noti-click yellow-ex-mark' src='img/yellow-plus.PNG' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Create Notification' data-source='callDetails' data-notiid='0' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='Supervisor' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
+
+
+                    try
+                    {
+                        if (HttpContext.Current.User.IsInRole("Agent") & dr["agent"].ToString() == HttpContext.Current.User.Identity.Name)
+                            dr[comment_header] += " <img class='noti-click yellow-ex-mark' src='img/yellow-plus.PNG' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Create Notification' data-source='callDetails' data-notiid='0' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='Agent' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+               
+                if (dr["play_btn_class"].ToString() == "")
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'><div></div></button></a>";
+                else
+                    // If HttpContext.Current.User.IsInRole("Agent") Then
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'  class='cali_class' title='Calibrated Call'><div></div></button></a>";
+
+
+                if (dr["wasEdited"].ToString() == "True" & dr["play_btn_class"].ToString() == "")
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button' class='edit_class'  title='Edited Call'><div></div></button></a>";
+
+                if (dr["website"].ToString() != "")
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "'  target='_blank'><button type='button' class='website_class'  title='Website Call'><div></div></button></a>";
+                e.Row.Attributes.Add("class", "playBtn");
+                dr[call_id_header].ToString();
+            }
+        }
 
         /// <summary>
         /// getString
@@ -1036,6 +1652,9 @@ namespace WebApi.DataLayer
             }
         }
     }
+
+   
+
 
     public class JsonStringResult
     {

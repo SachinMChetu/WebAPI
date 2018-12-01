@@ -859,7 +859,7 @@
         </member>
         <member name="M:WebApi.Controllers.CallCriteriaApiController.GetAllRecordsWithPending(WebApi.Models.CallCriteriaAPI.GetAllRecordData)">
             <summary>
-            GetAllRecords
+            GetAllRecordsWithPending
             </summary>
             <returns></returns>
         </member>
@@ -1285,7 +1285,7 @@
             
             </summary>
         </member>
-        <member name="M:WebApi.Controllers.CDServiceApiController.GetNotificationStatus(System.String,System.String,System.String,System.String)">
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetNotificationStatus(WebApi.Models.CDService.DetailCountvwForm)">
             <summary>
             GetNotificationStatus
             </summary>
@@ -1297,7 +1297,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WebApi.Controllers.CDServiceApiController.GetSpotCheckData(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetSpotCheckData(WebApi.Models.CDService.SpotCheckDataModel)">
+            <summary>
+            GetSpotCheckData
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetActionButtons(System.String,System.String)">
             <summary>
             GetSpotCheckData
             </summary>
@@ -1315,15 +1321,75 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetAvailableAudios(System.String)">
+            <summary>
+            GetNotificationSteps
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WebApi.Controllers.CDServiceApiController.GetNotificationSteps(System.String)">
             <summary>
             GetNotificationSteps
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WebApi.Controllers.CDServiceApiController.updateUserInfo(System.String,System.String)">
+        <member name="M:WebApi.Controllers.CDServiceApiController.updateUserInfo(WebApi.Models.CDService.UpdateUserModel)">
             <summary>
             updateUserInfo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetAgents(WebApi.Models.CDService.Campaigns)">
+            <summary>
+            GetAgents
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetQualityA(WebApi.Models.CDService.GroupsModel)">
+            <summary>
+            GetQualityA
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetCampaigns(WebApi.Models.CDService.Campaigns)">
+            <summary>
+            GetCampaigns
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetDetailCount(WebApi.Models.CDService.DetailCountvwForm)">
+            <summary>
+            GetDetailCount
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetAppnames(System.String)">
+            <summary>
+            GetAppnames
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.UpdateScorecard(System.String)">
+            <summary>
+            GetAppnames
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.getUserInfo">
+            <summary>
+            getUserInfo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetGroups(WebApi.Models.CDService.GroupsModel)">
+            <summary>
+            GetGroups
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.CDServiceApiController.GetDetails(WebApi.Models.CDService.DetailsModel)">
+            <summary>
+            GetGroups
             </summary>
             <returns></returns>
         </member>
@@ -1497,1196 +1563,6 @@
             
             </summary>
             <param name="filters"></param>		
-        </member>
-        <member name="T:WebApi.Controllers.CSharpController.CallCriteriaAPI">
-            <summary>
-            CallCriteriaAPI
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.#ctor">
-            <summary>
-            CallCriteriaAPI
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.ValidateKey">
-            <summary>
-            ValidateKey
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetTable(System.String,System.Int32)">
-            <summary>
-            GetTable
-            </summary>
-            <param name="sql"></param>
-            <param name="debug"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.AddExistingSchool(WebApi.Models.CallCriteriaAPI.AddExistingSchoolRequest)">
-            <summary>
-            AddExistingSchool
-            </summary>
-            <param name="AES"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetAllRecords(WebApi.Models.CallCriteriaAPI.GetAllRecordData)">
-            <summary>
-            GetAllRecords
-            </summary>
-            <param name="GARD"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetAllRecordsWithPending(WebApi.Models.CallCriteriaAPI.GetAllRecordData)">
-            <summary>
-            GetAllRecordsWithPending
-            </summary>
-            <param name="GARD"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetRecordID(WebApi.Models.CallCriteriaAPI.SimpleID)">
-            <summary>
-            GetRecordID
-            </summary>
-            <param name="SI"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetCallsLoaded(WebApi.Models.CallCriteriaAPI.CallsLoaded)">
-            <summary>
-            GetCallsLoaded
-            </summary>
-            <param name="CL"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetRecord(WebApi.Models.CallCriteriaAPI.SimpleID)">
-            <summary>
-            GetRecord
-            </summary>
-            <param name="SI"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.getScore(WebApi.Models.CallCriteriaAPI.getScoreData)">
-            <summary>
-            getScore
-            </summary>
-            <param name="gsd"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetScorecardRecordID(WebApi.Models.CallCriteriaAPI.SimpleID)">
-            <summary>
-            GetScorecardRecordID
-            </summary>
-            <param name="SI"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetScorecardRecord(WebApi.Models.CallCriteriaAPI.getSCRecData)">
-            <summary>
-            GetScorecardRecord
-            </summary>
-            <param name="gscd"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetScorecardRecordJ(WebApi.Models.CallCriteriaAPI.GCR)">
-            <summary>
-            GetScorecardRecordJ
-            </summary>
-            <param name="SI"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.CreateScorecard(WebApi.Models.CallCriteriaAPI.CompleteScorecard)">
-            <summary>
-            CreateScorecard
-            </summary>
-            <param name="SC"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.PostRecord">
-            <summary>
-            PostRecord
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.clean_string(System.String)">
-            <summary>
-            clean_string
-            </summary>
-            <param name="dirty_string"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.AddRecord(WebApi.Models.CallCriteriaAPI.AddRecordData)">
-            <summary>
-            AddRecord
-            </summary>
-            <param name="ADR"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.RunFFMPEG(System.String,System.String@,System.String@)">
-            <summary>
-            RunFFMPEG
-            </summary>
-            <param name="arg"></param>
-            <param name="OutResult"></param>
-            <param name="ErrResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CallCriteriaAPI.GetTable(System.Data.SqlClient.SqlCommand)">
-            <summary>
-            GetTable
-            </summary>
-            <param name="cmd"></param>
-            <returns></returns>
-        </member>
-        <member name="T:WebApi.Controllers.CSharpController.CDService">
-            <summary>
-            CDService
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAgentAvgs(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetAgentAvgs
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetScorePerf(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetScorePerf
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getTranscriptById(System.Int32,System.String)">
-            <summary>
-            getTranscriptById
-            </summary>
-            <param name="jobID"></param>
-            <param name="format"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getString(System.Uri)">
-            <summary>
-            getString
-            </summary>
-            <param name="uri"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.createUserRelativeUri(System.String,System.Collections.Specialized.NameValueCollection)">
-            <summary>
-            createUserRelativeUri
-            </summary>
-            <param name="path"></param>
-            <param name="requestParams"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getSMdata(System.String)">
-            <summary>
-            getSMdata
-            </summary>
-            <param name="sm_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getChat(System.String)">
-            <summary>
-            getChat
-            </summary>
-            <param name="session_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getChatText(System.String)">
-            <summary>
-            getChatText
-            </summary>
-            <param name="mediaid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getVBdata2(System.String)">
-            <summary>
-            getVBdata2
-            </summary>
-            <param name="mediaid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getVBdata(System.String)">
-            <summary>
-            getVBdata
-            </summary>
-            <param name="mediaid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.Deserialize``1(System.String)">
-            <summary>
-            Deserialize
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTranscriptID(System.String)">
-            <summary>
-            GetTranscriptID
-            </summary>
-            <param name="ID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQANotifications(System.String,System.String,System.String)">
-            <summary>
-            GetQANotifications
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetSupervisorNotifications(System.String,System.String,System.String)">
-            <summary>
-            GetSupervisorNotifications
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetSpotCheckData2(System.String,System.String,System.String)">
-            <summary>
-            GetSpotCheckData2
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetSpotCheckData(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetSpotCheckData
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <param name="appname"></param>
-            <param name="team_lead"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.LoadDMSVendors">
-            <summary>
-            LoadDMSVendors
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.DeleteDMSVendors(System.String)">
-            <summary>
-            DeleteDMSVendors
-            </summary>
-            <param name="vendor"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.AddDMSVendors(System.String,System.String)">
-            <summary>
-            AddDMSVendors
-            </summary>
-            <param name="vendor"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTranscript(System.String)">
-            <summary>
-            GetTranscript
-            </summary>
-            <param name="xcc_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetActionButtons(System.String,System.String)">
-            <summary>
-            GetActionButtons
-            </summary>
-            <param name="username"></param>
-            <param name="f_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ReverseMapPath(System.String)">
-            <summary>
-            ReverseMapPath
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetBadCalls(System.String,System.String)">
-            <summary>
-            GetBadCalls
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getBadCallsList(System.String,System.String,System.String)">
-            <summary>
-            getBadCallsList
-            </summary>
-            <param name="short_name"></param>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAvailableAudios(System.String)">
-            <summary>
-            GetAvailableAudios
-            </summary>
-            <param name="xcc_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetNotificationSteps(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetNotificationStatus(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetNotificationStatus
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getSCSectionStats(System.String,System.String,System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="sc_id"></param>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQStats(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetQStats
-            </summary>
-            <param name="q_id"></param>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCallDetailsList(System.String,System.String,System.Int32)">
-            <summary>
-            GetCallDetailsList
-            </summary>
-            <param name="startDate"></param>
-            <param name="endDate"></param>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAverages(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetAverages
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateNotification2(System.Int32,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String)">
-            <summary>
-            UpdateNotification2
-            </summary>
-            <param name="noti_id"></param>
-            <param name="noti_response"></param>
-            <param name="noti_button"></param>
-            <param name="noti_notes"></param>
-            <param name="noti_override"></param>
-            <param name="noti_step"></param>
-            <param name="form_id"></param>
-            <param name="question_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateNotification(System.Int32,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String)">
-            <summary>
-            UpdateNotification
-            </summary>
-            <param name="noti_id"></param>
-            <param name="noti_response"></param>
-            <param name="noti_button"></param>
-            <param name="noti_notes"></param>
-            <param name="noti_override"></param>
-            <param name="noti_step"></param>
-            <param name="form_id"></param>
-            <param name="question_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.CreateComment(System.String,System.String)">
-            <summary>
-            CreateComment
-            </summary>
-            <param name="noti_response"></param>
-            <param name="noti_id"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetStats(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetStats
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetMyCalibrations(System.String)">
-            <summary>
-            GetMyCalibrations
-            </summary>
-            <param name="username"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetSearchResults(System.String)">
-            <summary>
-            GetSearchResults
-            </summary>
-            <param name="test_string"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetActiveQA(System.String,System.String)">
-            <summary>
-            GetActiveQA
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAgentRanking(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetAgentRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="q_short_name"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getNotificationData(System.String)">
-            <summary>
-            getNotificationData
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getAppsStatus(System.String,System.String)">
-            <summary>
-            getAppsStatus
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetPay(System.String,System.String,System.String)">
-            <summary>
-            GetPay
-            </summary>
-            <param name="username"></param>
-            <param name="week_ending"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTrainTopMissed(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetTrainTopMissed
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="agent"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQATopMissed(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetQATopMissed
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="agent"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTopMissed(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetTopMissed
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="agent"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.clearDash">
-            <summary>
-            clearDash
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.deDupeDash">
-            <summary>
-            deDupeDash
-            </summary>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.updateDash(System.String,System.String)">
-            <summary>
-            updateDash
-            </summary>
-            <param name="controlname"></param>
-            <param name="controlorder"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.RemoveDash(System.String,System.String)">
-            <summary>
-            RemoveDash
-            </summary>
-            <param name="controlname"></param>
-            <param name="controlorder"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetIndicators(System.String)">
-            <summary>
-            GetIndicators
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetFormQuestions(System.String)">
-            <summary>
-            GetFormQuestions
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetMyScorecards">
-            <summary>
-            GetMyScorecards
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetMyQuestions(System.String,System.String)">
-            <summary>
-            GetMyQuestions
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetGroups(System.String,System.String,System.String)">
-            <summary>
-            GetGroups
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getWhisperCounts">
-            <summary>
-            getWhisperCounts
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAgents(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetAgents
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <param name="group"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetAppnames(System.String)">
-            <summary>
-            GetAppnames
-            </summary>
-            <param name="filter"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetSCStats(System.String,System.String,System.String)">
-            <summary>
-            GetSCStats
-            </summary>
-            <param name="scorecard"></param>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetOtherDataKeys(System.String,System.String,System.String)">
-            <summary>
-            GetOtherDataKeys
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <param name="filterarray"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetOtherDataValues(System.String,System.String,System.String)">
-            <summary>
-            GetOtherDataValues
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <param name="data_key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCampaigns(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetCampaigns
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <param name="group"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetDetailCount(System.String,System.String,System.String,System.String)">
-            <summary>
-            GetDetailCount
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetDetails(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetDetails
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="pagenum"></param>
-            <param name="pagerows"></param>
-            <param name="Sort_statement"></param>
-            <param name="rowstart"></param>
-            <param name="rowend"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GridView1_RowCreated(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)">
-            <summary>
-            GridView1_RowCreated
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.gvQADetails_RowDataBound(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)">
-            <summary>
-            gvQADetails_RowDataBound
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.addField(System.Web.UI.WebControls.GridView@,System.String)">
-            <summary>
-            addField
-            </summary>
-            <param name="gvQADetails"></param>
-            <param name="fieldname"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateUserEmail(System.String,System.String,System.String)">
-            <summary>
-            UpdateUserEmail
-            </summary>
-            <param name="username"></param>
-            <param name="oldemail"></param>
-            <param name="newemail"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateUserActive(System.String,System.String)">
-            <summary>
-            UpdateUserActive
-            </summary>
-            <param name="username"></param>
-            <param name="isActive"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateBadCallNotes(System.String,System.String)">
-            <summary>
-            UpdateBadCallNotes
-            </summary>
-            <param name="session_id"></param>
-            <param name="notes"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.AcceptBadCall(System.String)">
-            <summary>
-            AcceptBadCall
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ResetBadCall(System.String)">
-            <summary>
-            ResetBadCall
-            </summary>
-            <param name="form_id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getMyMissingCalls(System.String)">
-            <summary>
-            getMyMissingCalls
-            </summary>
-            <param name="short_name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.deleteMissingCalls(System.String)">
-            <summary>
-            deleteMissingCalls
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getMyBadCalls(System.String,System.String,System.String)">
-            <summary>
-            getMyBadCalls
-            </summary>
-            <param name="short_name"></param>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getWebsiteStats(System.String,System.String)">
-            <summary>
-            getWebsiteStats
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.AddSpotcheck(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            AddSpotcheck
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <param name="filter"></param>
-            <param name="count"></param>
-            <param name="assigned_to"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCallsLeft(System.String,System.String)">
-            <summary>
-            GetCallsLeft
-            </summary>
-            <param name="date_start"></param>
-            <param name="date_end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAApps(System.String,System.String)">
-            <summary>
-            GetQAApps
-            </summary>
-            <param name="username"></param>
-            <param name="from"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.DeleteUserApps(System.String,System.String)">
-            <summary>
-            DeleteUserApps
-            </summary>
-            <param name="username"></param>
-            <param name="appname"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.AddUserApps(System.String,System.String,System.String,System.String)">
-            <summary>
-            AddUserApps
-            </summary>
-            <param name="username"></param>
-            <param name="appname"></param>
-            <param name="quota"></param>
-            <param name="role"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateUserAppPriority(System.String,System.String)">
-            <summary>
-            UpdateUserAppPriority
-            </summary>
-            <param name="username"></param>
-            <param name="appset"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateReport">
-            <summary>
-            UpdateReport
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.SaveCoachingLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            SaveCoachingLog
-            </summary>
-            <param name="scorecard"></param>
-            <param name="QA"></param>
-            <param name="TL"></param>
-            <param name="Reason"></param>
-            <param name="ActionID"></param>
-            <param name="DiscussionPoints"></param>
-            <param name="ID"></param>
-            <param name="form_id"></param>
-            <param name="Owner"></param>
-            <param name="Action"></param>
-            <param name="Timeline"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateCoachingReport(System.String,System.String)">
-            <summary>
-            UpdateCoachingReport
-            </summary>
-            <param name="user"></param>
-            <param name="role"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCoachingLog(System.Int32)">
-            <summary>
-            GetCoachingLog
-            </summary>
-            <param name="ID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.AddActionPlans(System.String,System.String,System.String,System.Int32)">
-            <summary>
-            AddActionPlans
-            </summary>
-            <param name="Owner"></param>
-            <param name="Action"></param>
-            <param name="Timeline"></param>
-            <param name="ID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.DeleteActionPlan(System.String)">
-            <summary>
-            DeleteActionPlan
-            </summary>
-            <param name="ID"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateSign(System.Int32,System.String,System.String)">
-            <summary>
-            UpdateSign
-            </summary>
-            <param name="ID"></param>
-            <param name="Role"></param>
-            <param name="QAResponse"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ResetTLSign(System.String)">
-            <summary>
-            ResetTLSign
-            </summary>
-            <param name="id"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAData(System.String)">
-            <summary>
-            GetQAData
-            </summary>
-            <param name="QA"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateQAStart(System.String,System.String,System.String)">
-            <summary>
-            UpdateQAStart
-            </summary>
-            <param name="username"></param>
-            <param name="start_date"></param>
-            <param name="start_salary"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ClientUpdate(System.String)">
-            <summary>
-            ClientUpdate
-            </summary>
-            <param name="username"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ClientUpdateAck(System.String)">
-            <summary>
-            ClientUpdateAck
-            </summary>
-            <param name="id"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetWorstDeviation(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            GetWorstDeviation
-            </summary>
-            <param name="username"></param>
-            <param name="appname"></param>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="agent_group"></param>
-            <param name="agent"></param>
-            <param name="campaign"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateFormScore3(System.String,System.String)">
-            <summary>
-            UpdateFormScore3
-            </summary>
-            <param name="username"></param>
-            <param name="formid"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetClientCalibrations">
-            <summary>
-            GetClientCalibrations
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetUserAppsByWeekEnding(System.String,System.String)">
-            <summary>
-            GetUserAppsByWeekEnding
-            </summary>
-            <param name="user"></param>
-            <param name="wedate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getCoachingQueue(System.String)">
-            <summary>
-            getCoachingQueue
-            </summary>
-            <param name="filter"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getCoachingEscQueue">
-            <summary>
-            getCoachingEscQueue
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCampaignPerf(System.String,System.String,System.String)">
-            <summary>
-            GetCampaignPerf
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetGroupPerf(System.String,System.String)">
-            <summary>
-            GetGroupPerf
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateUserPassword(System.String,System.String)">
-            <summary>
-            UpdateUserPassword
-            </summary>
-            <param name="username"></param>
-            <param name="newpassword"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateUserMaxPerDay(System.String,System.String,System.String)">
-            <summary>
-            UpdateUserMaxPerDay
-            </summary>
-            <param name="qa"></param>
-            <param name="appname"></param>
-            <param name="maxperday"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.Escalate(System.String,System.String,System.String)">
-            <summary>
-            Escalate
-            </summary>
-            <param name="fid"></param>
-            <param name="escalatedby"></param>
-            <param name="comments"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getUserInfo">
-            <summary>
-            getUserInfo
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.updateUserInfo(System.String,System.String)">
-            <summary>
-            updateUserInfo
-            </summary>
-            <param name="value"></param>
-            <param name="field"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQACalibScore(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQADisputeScore(System.String,System.String)">
-            <summary>
-            GetQADisputeScore
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAEffScore(System.String,System.String)">
-            <summary>
-            GetQAEffScore
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQACalibRanking(System.String,System.String)">
-            <summary>
-            GetQACalibRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQADisputeRanking(System.String,System.String)">
-            <summary>
-            GetQADisputeRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAEffRanking(System.String,System.String)">
-            <summary>
-            GetQAEffRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTLCalibRanking(System.String,System.String)">
-            <summary>
-            GetTLCalibRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetTLNotifRanking(System.String,System.String)">
-            <summary>
-            GetTLNotifRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAStats(System.String,System.String,System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="hdnAgentFilter"></param>
-            <param name="filter_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCLCalibRanking(System.String,System.String)">
-            <summary>
-            GetCLCalibRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCLDisputeRanking(System.String,System.String)">
-            <summary>
-            GetCLDisputeRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetCLEffRanking(System.String,System.String)">
-            <summary>
-            GetCLEffRanking
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQnA(System.String)">
-            <summary>
-            GetQnA
-            </summary>
-            <param name="aid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.UpdateScorecard(System.String)">
-            <summary>
-            UpdateScorecard
-            </summary>
-            <param name="scorecard"></param>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQAScores(System.String,System.String)">
-            <summary>
-            GetQAScores
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetLastLoginDate(System.String)">
-            <summary>
-            GetLastLoginDate
-            </summary>
-            <param name="qa"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.ResetLastLoginDate(System.String)">
-            <summary>
-            ResetLastLoginDate
-            </summary>
-            <param name="qa"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetQualityA(System.String,System.String,System.String)">
-            <summary>
-            GetQualityA
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetNonBillable(System.String,System.String,System.String)">
-            <summary>
-            GetNonBillable
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.GetManagers(System.String,System.String,System.String)">
-            <summary>
-            GetManagers
-            </summary>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="scorecard"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.getNotifDetails(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            getNotifDetails
-            </summary>
-            <param name="detail_type"></param>
-            <param name="username"></param>
-            <param name="start_date"></param>
-            <param name="end_date"></param>
-            <param name="filter"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.Controllers.CSharpController.CDService.post_callsource(WebApi.Models.CDService.DataMapper,System.String)">
-            <summary>
-            post_callsource
-            </summary>
-            <param name="dm"></param>
-            <param name="username"></param>
-            <returns></returns>
         </member>
         <member name="T:WebApi.Controllers.CustomPrincipal">
             <summary>
@@ -4555,7 +3431,7 @@
             <param name="userName"></param>
             <returns></returns>
         </member>
-        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCSCall(System.Int32,System.String)">
+        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCSCall(System.String,System.String)">
             <summary>
             getRecordSCCSCall
             </summary>
@@ -4563,11 +3439,27 @@
             <param name="username"></param>
             <returns></returns>
         </member>
-        <member name="M:WebApi.DataLayer.CCInternalLayer.populateScorecard(System.Data.DataSet)">
+        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCSCall1(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="f_id"></param>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CCInternalLayer.populateScorecard(System.Collections.Generic.List{System.Collections.IEnumerable})">
             <summary>
             populateScorecard
             </summary>
             <param name="ds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCallComplexType(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="f_id"></param>
+            <param name="username"></param>
             <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCall(System.String,System.String)">
@@ -4576,31 +3468,6 @@
             </summary>
             <param name="f_id"></param>
             <param name="username"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCCalibration(System.String,System.String)">
-            <summary>
-            getRecordSCCalibration
-            </summary>
-            <param name="f_id"></param>
-            <param name="username"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCClientCalibration(System.String,System.String)">
-            <summary>
-            getRecordSCClientCalibration
-            </summary>
-            <param name="f_id"></param>
-            <param name="username"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.CCInternalLayer.getRecordSCEdited(System.String,System.String,System.String)">
-            <summary>
-            getRecordSCEdited
-            </summary>
-            <param name="f_id"></param>
-            <param name="username"></param>
-            <param name="call_username"></param>
             <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.CCInternalLayer.CheckForS3(System.String)">
@@ -5079,6 +3946,109 @@
             <param name="field"></param>
             <returns></returns>
         </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetAgents(System.String,System.String,System.String,System.String)">
+            <summary>
+            GetAgents
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="scorecard"></param>
+            <param name="group"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetDetails(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            GetDetails
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="hdnAgentFilter"></param>
+            <param name="pagenum"></param>
+            <param name="pagerows"></param>
+            <param name="Sort_statement"></param>
+            <param name="rowstart"></param>
+            <param name="rowend"></param>
+            <param name="filter_array"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GridView1_RowCreated(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)">
+            <summary>
+            GridView1_RowCreated
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.addField(System.Web.UI.WebControls.GridView@,System.String)">
+            <summary>
+            addField
+            </summary>
+            <param name="gvQADetails"></param>
+            <param name="fieldname"></param>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetQualityA(System.String,System.String,System.String)">
+            <summary>
+            GetQualityA
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="scorecard"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetCampaigns(System.String,System.String,System.String,System.String)">
+            <summary>
+            GetCampaigns
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="scorecard"></param>
+            <param name="group"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetDetailCount(System.String,System.String,System.String,System.String)">
+            <summary>
+            GetDetailCount
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="hdnAgentFilter"></param>
+            <param name="filter_array"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetGroups(System.String,System.String,System.String)">
+            <summary>
+            GetGroups
+            </summary>
+            <param name="start_date"></param>
+            <param name="end_date"></param>
+            <param name="scorecard"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.GetAppnames(System.String)">
+            <summary>
+            GetAppnames
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.UpdateScorecard(System.String)">
+            <summary>
+            UpdateScorecard
+            </summary>
+            <param name="scorecard"></param>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.getUserInfo">
+            <summary>
+            getUserInfo
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.DataLayer.CDServiceLayer.gvQADetails_RowDataBound(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)">
+            <summary>
+            gvQADetails_RowDataBound
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="M:WebApi.DataLayer.CDServiceLayer.getString(System.Uri)">
             <summary>
             getString
@@ -5095,49 +4065,6 @@
             <summary>
             
             </summary>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.GetJson(System.Data.DataTable)">
-            <summary>
-            GetJson
-            </summary>
-            <param name="dt"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.GetTable(System.Data.SqlClient.SqlCommand)">
-            <summary>
-            GetTable
-            </summary>
-            <param name="cmd"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.RunSqlCommands(System.Data.SqlClient.SqlCommand[])">
-            <summary>
-            RunSqlCommands
-            </summary>
-            <param name="cmds"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.GetTables(System.Data.SqlClient.SqlCommand)">
-            <summary>
-            GetTables
-            </summary>
-            <param name="cmd"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.RunSqlCommands(System.Data.SqlClient.SqlCommand,System.Boolean)">
-            <summary>
-            RunSqlCommand
-            </summary>
-            <param name="cmd"></param>
-            <param name="rethrow"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getTables(System.Data.SqlClient.SqlCommand)">
-            <summary>
-            
-            </summary>
-            <param name="cmd"></param>
-            <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.Common.RunSqlCommand(System.Data.SqlClient.SqlCommand,System.Boolean)">
             <summary>
@@ -5162,49 +4089,6 @@
             <param name="sql"></param>
             <param name="debug"></param>
         </member>
-        <member name="M:WebApi.DataLayer.Common.UpdateTable2(System.String,System.Int32)">
-            <summary>
-            UpdateTable2
-            </summary>
-            <param name="sql"></param>
-            <param name="debug"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.WriteGVExcelWithNPOI(System.Web.UI.WebControls.GridView,System.String,System.String)">
-            <summary>
-            WriteGVExcelWithNPOI
-            </summary>
-            <param name="gv"></param>
-            <param name="extension"></param>
-            <param name="filename"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.WriteExcelWithNPOI(System.Data.DataTable,System.String)">
-            <summary>
-            WriteExcelWithNPOI
-            </summary>
-            <param name="dt"></param>
-            <param name="extension"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.GV_to_CSV(System.Web.UI.WebControls.GridView,System.String)">
-            <summary>
-            GV_to_CSV
-            </summary>
-            <param name="gv"></param>
-            <param name="filename"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.StripTagsCharArray(System.String)">
-            <summary>
-            StripTagsCharArray
-            </summary>
-            <param name="source"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.RemoveHTMLTags(System.String)">
-            <summary>
-            RemoveHTMLTags
-            </summary>
-            <param name="content"></param>
-            <returns></returns>
-        </member>
         <member name="M:WebApi.DataLayer.Common.RunFFMPEG(System.String,System.String@,System.String@)">
             <summary>
             RunFFMPEG
@@ -5213,64 +4097,6 @@
             <param name="OutResult"></param>
             <param name="ErrResult"></param>
             <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Sum_Time_Column(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Sum_Time_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Avg_Time_Column(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Avg_Time_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Sum_Column(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Sum_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Avg_Weighted_Column(System.Web.UI.WebControls.GridView,System.Int32,System.Int32)">
-            <summary>
-            Avg_Weighted_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-            <param name="source_weight_col"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Avg_Column(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Avg_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Weighted_Avg_Column(System.Web.UI.WebControls.GridView,System.Int32,System.Int32)">
-            <summary>
-            Weighted_Avg_Column
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-            <param name="weight_col"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Get_Max(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Get_Max
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.Get_Min(System.Web.UI.WebControls.GridView,System.Int32)">
-            <summary>
-            Get_Min
-            </summary>
-            <param name="gv"></param>
-            <param name="col_num"></param>
         </member>
         <member name="M:WebApi.DataLayer.Common.CheckAddBinPath">
             <summary>
@@ -5282,74 +4108,6 @@
             ConvertWavToMp3
             </summary>
             <param name="wavFile"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.ConcatMP3Files_new2(System.String,System.String,System.String)">
-            <summary>
-            ConcatMP3Files_new2
-            </summary>
-            <param name="file1"></param>
-            <param name="file2"></param>
-            <param name="final_file_name"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.ConcatMP3Files(System.String,System.String,System.String)">
-            <summary>
-            ConcatMP3Files
-            </summary>
-            <param name="file1"></param>
-            <param name="file2"></param>
-            <param name="final_file_name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.ConcatMP3Files_new(System.String,System.String,System.String)">
-            <summary>
-            ConcatMP3Files_new
-            </summary>
-            <param name="file1"></param>
-            <param name="file2"></param>
-            <param name="final_file_name"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.ReGetFile(System.String,System.String)">
-            <summary>
-            ReGetFile
-            </summary>
-            <param name="FileName"></param>
-            <param name="appname"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.SendFTP(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            SendFTP
-            </summary>
-            <param name="new_file_name"></param>
-            <param name="local_file"></param>
-            <param name="ftp_site"></param>
-            <param name="ftp_login"></param>
-            <param name="ftp_password"></param>
-            <param name="thedomain"></param>
-            <param name="ftp_port"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.SendSFTP(System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            SendSFTP
-            </summary>
-            <param name="new_file_name"></param>
-            <param name="local_file"></param>
-            <param name="ftp_site"></param>
-            <param name="ftp_login"></param>
-            <param name="ftp_password"></param>
-            <param name="ftp_port"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.SFTPGetFiles(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            SFTPGetFiles
-            </summary>
-            <param name="ftp_site"></param>
-            <param name="ftp_login"></param>
-            <param name="ftp_password"></param>
-            <param name="ftp_directory"></param>
-            <param name="ftp_port"></param>
             <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.Common.RunFFPROBE(System.String,System.String@,System.String@)">
@@ -5368,79 +4126,11 @@
             <param name="MediaFilename"></param>
             <returns></returns>
         </member>
-        <member name="M:WebApi.DataLayer.Common.ValidateServerCertificate(System.Object,System.Security.Cryptography.X509Certificates.X509Certificate,System.Security.Cryptography.X509Certificates.X509Chain,System.Net.Security.SslPolicyErrors)">
-            <summary>
-            ValidateServerCertificate
-            </summary>
-            <param name="sender"></param>
-            <param name="certificate"></param>
-            <param name="chain"></param>
-            <param name="sslPolicyErrors"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.GetAudioFileName(System.Data.DataRow)">
-            <summary>
-            GetAudioFileName
-            </summary>
-            <param name="drv"></param>
-            <returns></returns>
-        </member>
         <member name="M:WebApi.DataLayer.Common.GetAudioFileName(WebApi.Entities.getScorecardData_Result)">
             <summary>
             GetAudioFileName
             </summary>
             <param name="drv"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.UploadEsto(System.Data.DataRow,System.String,System.String,System.String,System.String)">
-            <summary>
-            UploadEsto
-            </summary>
-            <param name="drv"></param>
-            <param name="theID"></param>
-            <param name="call_date"></param>
-            <param name="session_id"></param>
-            <param name="file_ending"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getBlock(System.String,System.String)">
-            <summary>
-            getBlock
-            </summary>
-            <param name="lbl"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getSidebarData(System.String,System.String)">
-            <summary>
-            getSidebarData
-            </summary>
-            <param name="lbl"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getSidebarData2(System.String,System.String)">
-            <summary>
-            getSidebarData2
-            </summary>
-            <param name="lbl"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getSidebarData3(System.String,System.String)">
-            <summary>
-            getSidebarData3
-            </summary>
-            <param name="lbl"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.getSSchoolHeader(System.String,System.String)">
-            <summary>
-            getSSchoolHeader
-            </summary>
-            <param name="lbl"></param>
-            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.Common.Email_Error(System.String,System.String)">
@@ -5449,27 +4139,6 @@
             </summary>
             <param name="error_text"></param>
             <param name="also_email"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.UpperLeft(System.String)">
-            <summary>
-            UpperLeft
-            </summary>
-            <param name="theString"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.CopyStream(System.IO.FileStream,System.IO.Stream)">
-            <summary>
-            CopyStream
-            </summary>
-            <param name="inputStream"></param>
-            <param name="outputStream"></param>
-        </member>
-        <member name="M:WebApi.DataLayer.Common.IsNumeric(System.String)">
-            <summary>
-            IsNumeric
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
         </member>
         <member name="M:WebApi.DataLayer.ListenLayer.PostListen(DAL.Models.ListenDataRequest)">
             <summary>
@@ -5883,7 +4552,7 @@
         </member>
         <member name="P:WebApi.Messages.Insert">
             <summary>
-              Looks up a localized string similar to Data Submit successfully.
+              Looks up a localized string similar to Success.
             </summary>
         </member>
         <member name="P:WebApi.Messages.InvalidAppname">
@@ -5923,7 +4592,7 @@
         </member>
         <member name="P:WebApi.Messages.Updated">
             <summary>
-              Looks up a localized string similar to Data Updated successfully.
+              Looks up a localized string similar to Updated.
             </summary>
         </member>
         <member name="P:WebApi.Messages.UserLockedMessage">

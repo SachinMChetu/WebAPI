@@ -23,7 +23,7 @@ namespace WebApi.Controllers
 
         #region Public GetAllRecordsWithPending
         /// <summary>
-        /// GetAllRecords
+        /// GetAllRecordsWithPending
         /// </summary>
         /// <returns></returns>
         [Route("CallCriteria/GetAllRecordsWithPending")]

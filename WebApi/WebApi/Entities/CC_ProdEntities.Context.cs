@@ -266,7 +266,6 @@ namespace WebApi.Entities
         public virtual DbSet<rejection_reasons> rejection_reasons { get; set; }
         public virtual DbSet<review_documents> review_documents { get; set; }
         public virtual DbSet<sc_training_approvals> sc_training_approvals { get; set; }
-        public virtual DbSet<sc_update> sc_update { get; set; }
         public virtual DbSet<SchedulingUserDay> SchedulingUserDays { get; set; }
         public virtual DbSet<school_clone> school_clone { get; set; }
         public virtual DbSet<scorecard_changes> scorecard_changes { get; set; }
@@ -327,6 +326,7 @@ namespace WebApi.Entities
         public virtual DbSet<session_viewed> session_viewed { get; set; }
         public virtual DbSet<xcc_report_new_pending> xcc_report_new_pending { get; set; }
         public virtual DbSet<otherFormDataPending> otherFormDataPendings { get; set; }
+        public virtual DbSet<sc_update> sc_update { get; set; }
     
         [DbFunction("CC_ProdEntities", "checkEDUFirstSchools")]
         public virtual IQueryable<checkEDUFirstSchools_Result> checkEDUFirstSchools(Nullable<int> f_id)
@@ -721,7 +721,7 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllRecords_Result>("GetAllRecords", call_dateParameter, appnameParameter, use_reviewParameter);
         }
     
-        public virtual ObjectResult<GetPay3SCW_Result> getPay3SCW(string week_ending, string scorecard, Nullable<int> max_efficiency)
+        public virtual int getPay3SCW(string week_ending, string scorecard, Nullable<int> max_efficiency)
         {
             var week_endingParameter = week_ending != null ?
                 new ObjectParameter("week_ending", week_ending) :
@@ -735,7 +735,7 @@ namespace WebApi.Entities
                 new ObjectParameter("max_efficiency", max_efficiency) :
                 new ObjectParameter("max_efficiency", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPay3SCW_Result>("getPay3SCW", week_endingParameter, scorecardParameter, max_efficiencyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getPay3SCW", week_endingParameter, scorecardParameter, max_efficiencyParameter);
         }
     
         public virtual ObjectResult<PayHistory_Result> getPayHistory(string reviewer)
@@ -747,7 +747,7 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PayHistory_Result>("getPayHistory", reviewerParameter);
         }
     
-        public virtual ObjectResult<getCompletedSCCSCall_Result> getCompletedSCCSCall(Nullable<int> f_id, string username)
+        public virtual int getCompletedSCCSCall(Nullable<int> f_id, string username)
         {
             var f_idParameter = f_id.HasValue ?
                 new ObjectParameter("f_id", f_id) :
@@ -757,7 +757,7 @@ namespace WebApi.Entities
                 new ObjectParameter("username", username) :
                 new ObjectParameter("username", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCompletedSCCSCall_Result>("getCompletedSCCSCall", f_idParameter, usernameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getCompletedSCCSCall", f_idParameter, usernameParameter);
         }
     
         public virtual ObjectResult<getCompletedSCCall_Result> getCompletedSCCall(Nullable<int> f_id, string username)
@@ -1695,12 +1695,149 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getNotificationStatus", start_dateParameter, end_dateParameter, filterParameter, filterarrayParameter);
         }
     
-        public virtual ObjectResult<string> GetCDServiceXccReportNew(string agentGroup, Nullable<int> scoreCard, string agent, string start_date, string end_date)
+        public virtual ObjectResult<GetRecordxccReportNew_Result> GetRecordxccReportNew(string sESSION_ID, string aPPNAME, string uSERNAME)
+        {
+            var sESSION_IDParameter = sESSION_ID != null ?
+                new ObjectParameter("SESSION_ID", sESSION_ID) :
+                new ObjectParameter("SESSION_ID", typeof(string));
+    
+            var aPPNAMEParameter = aPPNAME != null ?
+                new ObjectParameter("APPNAME", aPPNAME) :
+                new ObjectParameter("APPNAME", typeof(string));
+    
+            var uSERNAMEParameter = uSERNAME != null ?
+                new ObjectParameter("USERNAME", uSERNAME) :
+                new ObjectParameter("USERNAME", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRecordxccReportNew_Result>("GetRecordxccReportNew", sESSION_IDParameter, aPPNAMEParameter, uSERNAMEParameter);
+        }
+    
+        public virtual int getDetailDataCustom(string username, string start, string end, string filter, string user, string user_role, string pagenum, string pagerows, string sort_statement, string rowstart, string rowend, string filterarray)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var startParameter = start != null ?
+                new ObjectParameter("start", start) :
+                new ObjectParameter("start", typeof(string));
+    
+            var endParameter = end != null ?
+                new ObjectParameter("end", end) :
+                new ObjectParameter("end", typeof(string));
+    
+            var filterParameter = filter != null ?
+                new ObjectParameter("filter", filter) :
+                new ObjectParameter("filter", typeof(string));
+    
+            var userParameter = user != null ?
+                new ObjectParameter("user", user) :
+                new ObjectParameter("user", typeof(string));
+    
+            var user_roleParameter = user_role != null ?
+                new ObjectParameter("user_role", user_role) :
+                new ObjectParameter("user_role", typeof(string));
+    
+            var pagenumParameter = pagenum != null ?
+                new ObjectParameter("pagenum", pagenum) :
+                new ObjectParameter("pagenum", typeof(string));
+    
+            var pagerowsParameter = pagerows != null ?
+                new ObjectParameter("pagerows", pagerows) :
+                new ObjectParameter("pagerows", typeof(string));
+    
+            var sort_statementParameter = sort_statement != null ?
+                new ObjectParameter("sort_statement", sort_statement) :
+                new ObjectParameter("sort_statement", typeof(string));
+    
+            var rowstartParameter = rowstart != null ?
+                new ObjectParameter("rowstart", rowstart) :
+                new ObjectParameter("rowstart", typeof(string));
+    
+            var rowendParameter = rowend != null ?
+                new ObjectParameter("rowend", rowend) :
+                new ObjectParameter("rowend", typeof(string));
+    
+            var filterarrayParameter = filterarray != null ?
+                new ObjectParameter("filterarray", filterarray) :
+                new ObjectParameter("filterarray", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getDetailDataCustom", usernameParameter, startParameter, endParameter, filterParameter, userParameter, user_roleParameter, pagenumParameter, pagerowsParameter, sort_statementParameter, rowstartParameter, rowendParameter, filterarrayParameter);
+        }
+    
+        public virtual ObjectResult<GetCDServiceXccReportNew_Result> GetCDServiceXccReportNew(string agentGroup, Nullable<int> scoreCard, string userName, string agent, string start_date, string end_date, string special_filter, string type)
         {
             var agentGroupParameter = agentGroup != null ?
                 new ObjectParameter("agentGroup", agentGroup) :
                 new ObjectParameter("agentGroup", typeof(string));
     
+            var scoreCardParameter = scoreCard.HasValue ?
+                new ObjectParameter("scoreCard", scoreCard) :
+                new ObjectParameter("scoreCard", typeof(int));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var agentParameter = agent != null ?
+                new ObjectParameter("Agent", agent) :
+                new ObjectParameter("Agent", typeof(string));
+    
+            var start_dateParameter = start_date != null ?
+                new ObjectParameter("start_date", start_date) :
+                new ObjectParameter("start_date", typeof(string));
+    
+            var end_dateParameter = end_date != null ?
+                new ObjectParameter("end_date", end_date) :
+                new ObjectParameter("end_date", typeof(string));
+    
+            var special_filterParameter = special_filter != null ?
+                new ObjectParameter("special_filter", special_filter) :
+                new ObjectParameter("special_filter", typeof(string));
+    
+            var typeParameter = type != null ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCDServiceXccReportNew_Result>("GetCDServiceXccReportNew", agentGroupParameter, scoreCardParameter, userNameParameter, agentParameter, start_dateParameter, end_dateParameter, special_filterParameter, typeParameter);
+        }
+    
+        public virtual int UpdateUserExtraInfo(string field, string value, string userName)
+        {
+            var fieldParameter = field != null ?
+                new ObjectParameter("Field", field) :
+                new ObjectParameter("Field", typeof(string));
+    
+            var valueParameter = value != null ?
+                new ObjectParameter("Value", value) :
+                new ObjectParameter("Value", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("userName", userName) :
+                new ObjectParameter("userName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateUserExtraInfo", fieldParameter, valueParameter, userNameParameter);
+        }
+    
+        public virtual ObjectResult<getMyAppnames_Result> getMyAppnames(string username, string filter, string app_filter)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var filterParameter = filter != null ?
+                new ObjectParameter("filter", filter) :
+                new ObjectParameter("filter", typeof(string));
+    
+            var app_filterParameter = app_filter != null ?
+                new ObjectParameter("app_filter", app_filter) :
+                new ObjectParameter("app_filter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getMyAppnames_Result>("getMyAppnames", usernameParameter, filterParameter, app_filterParameter);
+        }
+    
+        public virtual ObjectResult<GetCDGetGroups_Result> GetCDGetGroups(Nullable<int> scoreCard, string agent, string start_date, string end_date)
+        {
             var scoreCardParameter = scoreCard.HasValue ?
                 new ObjectParameter("scoreCard", scoreCard) :
                 new ObjectParameter("scoreCard", typeof(int));
@@ -1717,24 +1854,7 @@ namespace WebApi.Entities
                 new ObjectParameter("end_date", end_date) :
                 new ObjectParameter("end_date", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetCDServiceXccReportNew", agentGroupParameter, scoreCardParameter, agentParameter, start_dateParameter, end_dateParameter);
-        }
-    
-        public virtual ObjectResult<GetRecordxccReportNew_Result> GetRecordxccReportNew(string sESSION_ID, string aPPNAME, string uSERNAME)
-        {
-            var sESSION_IDParameter = sESSION_ID != null ?
-                new ObjectParameter("SESSION_ID", sESSION_ID) :
-                new ObjectParameter("SESSION_ID", typeof(string));
-    
-            var aPPNAMEParameter = aPPNAME != null ?
-                new ObjectParameter("APPNAME", aPPNAME) :
-                new ObjectParameter("APPNAME", typeof(string));
-    
-            var uSERNAMEParameter = uSERNAME != null ?
-                new ObjectParameter("USERNAME", uSERNAME) :
-                new ObjectParameter("USERNAME", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRecordxccReportNew_Result>("GetRecordxccReportNew", sESSION_IDParameter, aPPNAMEParameter, uSERNAMEParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCDGetGroups_Result>("GetCDGetGroups", scoreCardParameter, agentParameter, start_dateParameter, end_dateParameter);
         }
     }
 }

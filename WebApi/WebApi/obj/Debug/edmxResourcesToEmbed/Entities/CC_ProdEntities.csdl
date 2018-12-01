@@ -3968,15 +3968,6 @@
     <Property Name="train_status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="retrain_date" Type="DateTime" Precision="3" />
   </EntityType>
-  <EntityType Name="sc_update">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="reviewer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="sc_id" Type="Int32" />
-    <Property Name="date_reviewed" Type="DateTime" Precision="3" />
-  </EntityType>
   <EntityType Name="SchedulingUserDay">
     <Key>
       <PropertyRef Name="Id" />
@@ -5807,7 +5798,6 @@
     <EntitySet Name="rejection_reasons" EntityType="Self.rejection_reasons" />
     <EntitySet Name="review_documents" EntityType="Self.review_documents" />
     <EntitySet Name="sc_training_approvals" EntityType="Self.sc_training_approvals" />
-    <EntitySet Name="sc_update" EntityType="Self.sc_update" />
     <EntitySet Name="SchedulingUserDays" EntityType="Self.SchedulingUserDay" />
     <EntitySet Name="school_clone" EntityType="Self.school_clone" />
     <EntitySet Name="scorecard_changes" EntityType="Self.scorecard_changes" />
@@ -5999,7 +5989,7 @@
       <Parameter Name="use_review" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="school_data" EntityType="Model.school_data" />
-    <FunctionImport Name="getPay3SCW" ReturnType="Collection(Model.GetPay3SCW_Result)">
+    <FunctionImport Name="getPay3SCW">
       <Parameter Name="week_ending" Mode="In" Type="String" />
       <Parameter Name="scorecard" Mode="In" Type="String" />
       <Parameter Name="max_efficiency" Mode="In" Type="Int32" />
@@ -6007,7 +5997,7 @@
     <FunctionImport Name="getPayHistory" ReturnType="Collection(Model.PayHistory_Result)">
       <Parameter Name="reviewer" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="getCompletedSCCSCall" ReturnType="Collection(Model.getCompletedSCCSCall_Result)">
+    <FunctionImport Name="getCompletedSCCSCall">
       <Parameter Name="f_id" Mode="In" Type="Int32" />
       <Parameter Name="username" Mode="In" Type="String" />
     </FunctionImport>
@@ -6297,17 +6287,51 @@
       <Parameter Name="filter" Mode="In" Type="String" />
       <Parameter Name="filterarray" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="GetCDServiceXccReportNew" ReturnType="Collection(String)">
-      <Parameter Name="agentGroup" Mode="In" Type="String" />
-      <Parameter Name="scoreCard" Mode="In" Type="Int32" />
-      <Parameter Name="Agent" Mode="In" Type="String" />
-      <Parameter Name="start_date" Mode="In" Type="String" />
-      <Parameter Name="end_date" Mode="In" Type="String" />
-    </FunctionImport>
     <FunctionImport Name="GetRecordxccReportNew" ReturnType="Collection(Model.GetRecordxccReportNew_Result)">
       <Parameter Name="SESSION_ID" Mode="In" Type="String" />
       <Parameter Name="APPNAME" Mode="In" Type="String" />
       <Parameter Name="USERNAME" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getDetailDataCustom">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="start" Mode="In" Type="String" />
+      <Parameter Name="end" Mode="In" Type="String" />
+      <Parameter Name="filter" Mode="In" Type="String" />
+      <Parameter Name="user" Mode="In" Type="String" />
+      <Parameter Name="user_role" Mode="In" Type="String" />
+      <Parameter Name="pagenum" Mode="In" Type="String" />
+      <Parameter Name="pagerows" Mode="In" Type="String" />
+      <Parameter Name="sort_statement" Mode="In" Type="String" />
+      <Parameter Name="rowstart" Mode="In" Type="String" />
+      <Parameter Name="rowend" Mode="In" Type="String" />
+      <Parameter Name="filterarray" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetCDServiceXccReportNew" ReturnType="Collection(Model.GetCDServiceXccReportNew_Result)">
+      <Parameter Name="agentGroup" Mode="In" Type="String" />
+      <Parameter Name="scoreCard" Mode="In" Type="Int32" />
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Agent" Mode="In" Type="String" />
+      <Parameter Name="start_date" Mode="In" Type="String" />
+      <Parameter Name="end_date" Mode="In" Type="String" />
+      <Parameter Name="special_filter" Mode="In" Type="String" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateUserExtraInfo">
+      <Parameter Name="Field" Mode="In" Type="String" />
+      <Parameter Name="Value" Mode="In" Type="String" />
+      <Parameter Name="userName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="getMyAppnames" ReturnType="Collection(Model.getMyAppnames_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="filter" Mode="In" Type="String" />
+      <Parameter Name="app_filter" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="sc_update" EntityType="Model.sc_update" />
+    <FunctionImport Name="GetCDGetGroups" ReturnType="Collection(Model.GetCDGetGroups_Result)">
+      <Parameter Name="scoreCard" Mode="In" Type="Int32" />
+      <Parameter Name="Agent" Mode="In" Type="String" />
+      <Parameter Name="start_date" Mode="In" Type="String" />
+      <Parameter Name="end_date" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="GetAllRecords_Result">
@@ -6417,12 +6441,6 @@
     <Property Type="DateTime" Name="week_ending" Nullable="false" />
     <Property Type="Decimal" Name="total_pay" Nullable="false" />
     <Property Type="String" Name="email_address" Nullable="false" />
-  </ComplexType>
-  <ComplexType Name="GetPay3SCW_Result" />
-  <ComplexType Name="getCompletedSCCSCall_Result">
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="section" Nullable="false" MaxLength="10" />
-    <Property Type="Int32" Name="section_order" Nullable="false" />
   </ComplexType>
   <ComplexType Name="getCompletedSCCall_Result">
     <Property Type="Int32" Name="ID" Nullable="false" />
@@ -8116,5 +8134,25 @@
     <Property Type="Int32" Name="num_missed_a" Nullable="true" />
     <Property Type="Int32" Name="num_missed_q" Nullable="true" />
     <Property Type="Int32" Name="num_missed_cal" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetCDServiceXccReportNew_Result">
+    <Property Type="String" Name="AGent" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="Campaign" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="getMyAppnames_Result">
+    <Property Type="String" Name="scorecard" Nullable="true" MaxLength="203" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="sc_update">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reviewer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="sc_id" Type="Int32" />
+    <Property Name="date_reviewed" Type="DateTime" Precision="3" />
+  </EntityType>
+  <ComplexType Name="GetCDGetGroups_Result">
+    <Property Type="String" Name="agent_group" Nullable="false" />
   </ComplexType>
 </Schema>

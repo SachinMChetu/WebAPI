@@ -145,7 +145,7 @@
     <value>exec getNotificationStatus</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value>Data Submit successfully</value>
+    <value>Success</value>
   </data>
   <data name="InvalidAppname" xml:space="preserve">
     <value>Invalid appname/apikey to post data with.</value>
@@ -169,7 +169,7 @@
     <value>Selected</value>
   </data>
   <data name="Updated" xml:space="preserve">
-    <value>Data Updated successfully</value>
+    <value>Updated</value>
   </data>
   <data name="UserLockedMessage" xml:space="preserve">
     <value>User is lockedout</value>
