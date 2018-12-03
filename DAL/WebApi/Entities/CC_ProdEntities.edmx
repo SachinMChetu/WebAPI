@@ -21171,11 +21171,11 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="String" Name="label" Nullable="false" />
         </ComplexType>
         <ComplexType Name="getMyMenu_Result" >
-          <Property Type="Int32" Name="link" Nullable="false" />
           <Property Type="String" Name="url" Nullable="false" />
           <Property Type="Int32" Name="link_order" Nullable="false" />
           <Property Type="String" Name="span_data" Nullable="false" />
           <Property Type="String" Name="link_class" Nullable="false" />
+          <Property Type="String" Name="link" Nullable="false" />
         </ComplexType>
         <ComplexType Name="getMyModules_Result" >
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -28797,7 +28797,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <FunctionImportMapping FunctionImportName="getMyMenu" FunctionName="Model.Store.getMyMenu" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.getMyMenu_Result">
-                <ScalarProperty Name="link" ColumnName="link" />
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="link_order" ColumnName="link_order" />
                 <ScalarProperty Name="span_data" ColumnName="span_data" />

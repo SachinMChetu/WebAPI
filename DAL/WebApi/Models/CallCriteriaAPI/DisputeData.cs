@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct DisputeData
+    public class DisputeData
     {
         public string user;
         public string role;

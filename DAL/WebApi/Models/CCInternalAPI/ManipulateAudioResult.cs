@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// ManipulateAudioResult
     /// </summary>
-    public struct ManipulateAudioResult
+    public class ManipulateAudioResult
     {
         public bool IsSuccess;
         public string Message;

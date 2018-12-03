@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// CommentData
     /// </summary>
-    public struct CommentData
+    public class CommentData
     {
         public string comment_header;
         public string comment;

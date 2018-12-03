@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct ListenData
+    public class ListenData
     {
         public string client_logo;
         public string appname;

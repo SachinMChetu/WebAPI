@@ -6,7 +6,7 @@ using System.Web;
 namespace WebApi.Models.CCInternalAPI
 {
 
-    public struct CallScores
+    public class CallScores
     {
         public string reviewer;
         public string score;

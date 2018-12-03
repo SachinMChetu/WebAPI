@@ -18,23 +18,23 @@ namespace WebApi.Entities
         public string moduleName { get; set; }
         public string moduleWidth { get; set; }
         public string moduleControlName { get; set; }
-        public int admin { get; set; }
-        public int qa { get; set; }
-        public int agent { get; set; }
-        public int supervisor { get; set; }
-        public int client { get; set; }
-        public int qa_lead { get; set; }
-        public int Trainee { get; set; }
-        public int Manager { get; set; }
-        public int default_order { get; set; }
-        public bool Inactive { get; set; }
-        public int Center_manager { get; set; }
-        public int calibrator { get; set; }
-        public bool call_center { get; set; }
-        public int partner { get; set; }
-        public int recalibrator { get; set; }
-        public int client_calibrator { get; set; }
-        public int tango_tl { get; set; }
+        public int? admin { get; set; }
+        public int? qa { get; set; }
+        public int? agent { get; set; }
+        public int? supervisor { get; set; }
+        public int? client { get; set; }
+        public int? qa_lead { get; set; }
+        public int? Trainee { get; set; }
+        public int? Manager { get; set; }
+        public int? default_order { get; set; }
+        public bool? Inactive { get; set; }
+        public int? Center_manager { get; set; }
+        public int? calibrator { get; set; }
+        public bool? call_center { get; set; }
+        public int? partner { get; set; }
+        public int? recalibrator { get; set; }
+        public int? client_calibrator { get; set; }
+        public int? tango_tl { get; set; }
         public string plus_minus { get; set; }
         public string controlorder { get; set; }
     }

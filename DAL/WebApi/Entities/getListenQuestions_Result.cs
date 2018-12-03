@@ -15,10 +15,10 @@ namespace WebApi.Entities
     {
         public string q_short_name { get; set; }
         public string question { get; set; }
-        public int linked_answer { get; set; }
-        public int linked_comment { get; set; }
-        public bool single_comment { get; set; }
-        public bool comments_allowed { get; set; }
+        public int? linked_answer { get; set; }
+        public int? linked_comment { get; set; }
+        public bool? single_comment { get; set; }
+        public bool? comments_allowed { get; set; }
         public int id { get; set; }
     }
 }

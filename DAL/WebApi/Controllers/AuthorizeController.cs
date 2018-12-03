@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.Security;
-using WebApi.DataLayer;
 using WebApi.Models;
 using WebApi.Models.CCInternalAPI;
 
@@ -66,21 +61,6 @@ namespace WebApi.Controllers
                             //var Password = user.GetPassword;
                             if (UserName == objLogin.UserName)
                             {
-
-                                //SessionModel sessionModel = new SessionModel();
-                                //sessionModel.User = user;
-                                //sessionModel.UserRoles = rolesForUser.ToList();
-                                //CurrentUser = new CustomPrincipal(userName, rolesForUser);
-                                //HttpContext.Current.User = CurrentUser;
-                               // HttpContext.Current.Session["User"] = CurrentUser;
-
-                                //LoginUserInfo usr = new LoginUserInfo(sessionModel);
-
-                                //HttpClient client = new HttpClient();
-                                //string authInfo = objLogin.UserName + ":" + objLogin.Password;
-                                //authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-                                //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authInfo);
-
                                 objResponse.Message = Messages.LoginSuccess;
                                 objResponse.Status = 1;
 

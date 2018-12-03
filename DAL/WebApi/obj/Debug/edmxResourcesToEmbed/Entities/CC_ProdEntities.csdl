@@ -6630,11 +6630,11 @@
     <Property Type="String" Name="label" Nullable="false" />
   </ComplexType>
   <ComplexType Name="getMyMenu_Result">
-    <Property Type="Int32" Name="link" Nullable="false" />
     <Property Type="String" Name="url" Nullable="false" />
     <Property Type="Int32" Name="link_order" Nullable="false" />
     <Property Type="String" Name="span_data" Nullable="false" />
     <Property Type="String" Name="link_class" Nullable="false" />
+    <Property Type="String" Name="link" Nullable="false" />
   </ComplexType>
   <ComplexType Name="getMyModules_Result">
     <Property Type="Int32" Name="id" Nullable="false" />

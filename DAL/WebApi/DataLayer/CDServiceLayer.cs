@@ -1092,7 +1092,8 @@ namespace WebApi.DataLayer
                     if (Convert.ToInt32(pagenum) == 0)
                     {
                         dt = Common.GetTable(called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','1','1','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'");
-                        
+                        //var query = from dashboardData in dataContext.Database.SqlQuery<MyNomination>("exec "+ called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','1','1','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'")
+                                    //select dashboardData;
                     }
                     else
                     {
@@ -1107,6 +1108,7 @@ namespace WebApi.DataLayer
                 {
                     dt = Common.GetTable(called_sp + " '" + this_user + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user + "','" + myRole + "','" + pagenum + "','" + pagerows + "','" + Sort_statement + "','" + rowstart + "','" + rowend + "'");
                 }
+                
                 gvQADetails.DataSource = dt;
                 gvQADetails.DataBind();
                 

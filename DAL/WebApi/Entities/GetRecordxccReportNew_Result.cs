@@ -123,14 +123,14 @@ namespace WebApi.Entities
         public Nullable<bool> needs_trim { get; set; }
         public Nullable<System.DateTime> xcc_review_date { get; set; }
         public Nullable<System.DateTime> last_queried { get; set; }
-        public Nullable<int> id1 { get; set; }
-        public string session_id1 { get; set; }
+        //public Nullable<int> id1 { get; set; }
+        //public string session_id1 { get; set; }
         public Nullable<System.DateTime> review_date { get; set; }
         public Nullable<int> review_ID { get; set; }
         public string Comments { get; set; }
         public string autofail { get; set; }
         public string reviewer { get; set; }
-        public string appname1 { get; set; }
+        //public string appname1 { get; set; }
         public string dispute { get; set; }
         public Nullable<System.DateTime> dispute_date { get; set; }
         public string dispute_by { get; set; }

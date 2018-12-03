@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct CallScores
+    public class CallScores
     {
         public string reviewer;
         public string score;

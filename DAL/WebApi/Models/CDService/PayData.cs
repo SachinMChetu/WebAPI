@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CDService
 {
-    public struct PayData
+    public class PayData
     {
         public string startdate;
         public string @base;

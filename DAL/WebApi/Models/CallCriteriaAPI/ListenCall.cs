@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct ListenCall
+    public class ListenCall
     {
         public CompleteScorecard Scorecard;
         public ListenData ListenData;

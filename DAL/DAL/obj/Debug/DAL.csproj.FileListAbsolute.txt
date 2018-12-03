@@ -149,8 +149,6 @@ D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Mvc.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Http.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\Swashbuckle.Core.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\HttpMultipartParser.dll
-D:\Vijay\WebAPI\DAL\bin\Debug\NAudio.dll
-D:\Vijay\WebAPI\DAL\bin\Debug\NAudio.Lame.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\Renci.SshNet.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Net.Http.Formatting.dll
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Http.Cors.dll
@@ -168,7 +166,6 @@ D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Optimization.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Mvc.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Http.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\HttpMultipartParser.xml
-D:\Vijay\WebAPI\DAL\bin\Debug\NAudio.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\Renci.SshNet.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Net.Http.Formatting.xml
 D:\Vijay\WebAPI\DAL\bin\Debug\System.Web.Http.Cors.xml

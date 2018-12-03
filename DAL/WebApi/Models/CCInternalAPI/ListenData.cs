@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
 
 
 
-    public struct ListenData
+    public class ListenData
     {
         public string client_logo;
         public string appname;

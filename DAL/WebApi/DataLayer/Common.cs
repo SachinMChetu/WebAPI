@@ -1,23 +1,15 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.VisualBasic;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using WebApi.Entities;
 
 namespace WebApi.DataLayer

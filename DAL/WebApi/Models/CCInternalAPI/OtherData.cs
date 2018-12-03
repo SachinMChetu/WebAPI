@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CCInternalAPI
 {
-    public struct OtherData
+    public class OtherData
     {
         public string key;
         public string value;
@@ -14,6 +14,4 @@ namespace WebApi.Models.CCInternalAPI
         public string label;
         public string id;
     }
-
-
 }

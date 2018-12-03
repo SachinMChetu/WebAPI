@@ -47,7 +47,7 @@ namespace DAL.Models
         public string comment_pos{get;set;}
         public string comment_header{get;set;}
     }
-    public struct ClerkedData
+    public class ClerkedData
     {
        public string value{get;set;}
        public string position{get;set;}

@@ -13,10 +13,10 @@ namespace WebApi.Entities
     
     public partial class getMyMenu_Result
     {
-        public int link { get; set; }
         public string url { get; set; }
         public int link_order { get; set; }
         public string span_data { get; set; }
         public string link_class { get; set; }
+        public string link { get; set; }
     }
 }

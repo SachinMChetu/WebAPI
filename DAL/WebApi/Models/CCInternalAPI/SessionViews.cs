@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CCInternalAPI
 {
-    public struct SessionViews
+    public class SessionViews
     {
         public string view_by;
         public string view_date;

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct ScorecardData
+    public class ScorecardData
     {
         public List<SectionData> Sections;
         public UserObject ScorecardUser;

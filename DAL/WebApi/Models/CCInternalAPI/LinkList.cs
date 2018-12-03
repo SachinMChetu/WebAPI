@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CCInternalAPI
 {
-    public struct LinkList
+    public class LinkList
     {
         public string LinkText;
         public string LinkURL;

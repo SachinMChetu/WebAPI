@@ -6,7 +6,7 @@ using System.Web;
 namespace WebApi.Models.CCInternalAPI
 {
 
-    public struct CheckItems
+    public class CheckItems
     {
         public string Item;
         public bool Checked;

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CDService
 {
-    public struct AppStatus
+    public class AppStatus
     {
         public string appname;
         public string total_loaded;

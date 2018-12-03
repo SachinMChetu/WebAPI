@@ -6083,7 +6083,6 @@
     <FunctionImportMapping FunctionImportName="getMyMenu" FunctionName="Model.Store.getMyMenu">
       <ResultMapping>
         <ComplexTypeMapping TypeName="Model.getMyMenu_Result">
-          <ScalarProperty Name="link" ColumnName="link" />
           <ScalarProperty Name="url" ColumnName="url" />
           <ScalarProperty Name="link_order" ColumnName="link_order" />
           <ScalarProperty Name="span_data" ColumnName="span_data" />

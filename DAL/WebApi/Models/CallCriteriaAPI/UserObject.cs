@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct UserObject
+    public class UserObject
     {
         public string UserRole;
         public List<LinkList> UserLinks;

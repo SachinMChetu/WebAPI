@@ -9,7 +9,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// AllCallRecord
     /// </summary>
-    public struct AllCallRecord
+    public class AllCallRecord
     {
         public string client_logo;
         public string F_ID;

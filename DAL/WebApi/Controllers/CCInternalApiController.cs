@@ -665,12 +665,12 @@ namespace WebApi.Controllers
             UserObject objUserObject = new UserObject();
             try
             {
-                //if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                //{
-                //    objUserObject.UserName = "Not Authenticated";
-                //    return objUserObject;
-                //}
-                string username = "Courtney"; //HttpContext.Current.User.Identity.Name; //Courtney
+                if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    objUserObject.UserName = "Not Authenticated";
+                    return objUserObject;
+                }
+                string username =HttpContext.Current.User.Identity.Name;
 
                 objUserObject = objCCInternalLayer.GetUserData(username);
             }
@@ -695,8 +695,8 @@ namespace WebApi.Controllers
             List<CallLoaded> objCallLoaded = new List<CallLoaded>();
             try
             {
-                //string appname = HttpContext.Current.Request["appname"];
-                string appname = "83bar";
+                string appname = HttpContext.Current.Request["appname"];
+                //string appname = "83bar";
                 objCallLoaded = objCCInternalLayer.GetCallsLoaded(CL, appname);
             }
             catch (Exception ex)

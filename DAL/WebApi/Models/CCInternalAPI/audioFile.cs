@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CCInternalAPI
 {
-    public struct audioFile
+    public class audioFile
     {
         public string audio_file;
         public string order;

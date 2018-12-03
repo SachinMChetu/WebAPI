@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct AudioFile
+    public class AudioFile
     {
         public string audio_file;
         public string order;

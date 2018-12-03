@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct UserModule
+    public class UserModule
     {
         public string module_title;
         public string module_width;

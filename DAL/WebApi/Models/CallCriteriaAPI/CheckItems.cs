@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CallCriteriaAPI
 {
-    public struct CheckItems
+    public class CheckItems
     {
         public string Item;
         public bool Checked;
