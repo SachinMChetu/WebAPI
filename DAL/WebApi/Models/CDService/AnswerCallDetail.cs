@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace WebApi.Models.CDService
+{
+    public class AnswerCallDetail
+    {
+        public int ReviewID;
+        public string Phone;
+        public string LeadID;
+        public string Agent;
+    }
+}
