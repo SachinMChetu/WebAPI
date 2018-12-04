@@ -1228,19 +1228,6 @@ namespace WebApi.Entities
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getListenQuestions_SectionLess_Result>("getListenQuestions_SectionLess", sectionParameter, scorecard_idParameter, xcc_idParameter, show_calcParameter, usernameParameter);
         }
     
-        public virtual ObjectResult<getCoachingQueueJson_Result> getCoachingQueueJson(string username, string filter)
-        {
-            var usernameParameter = username != null ?
-                new ObjectParameter("username", username) :
-                new ObjectParameter("username", typeof(string));
-    
-            var filterParameter = filter != null ?
-                new ObjectParameter("filter", filter) :
-                new ObjectParameter("filter", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCoachingQueueJson_Result>("getCoachingQueueJson", usernameParameter, filterParameter);
-        }
-    
         public virtual int calibDataInsert()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("calibDataInsert");
@@ -1868,6 +1855,19 @@ namespace WebApi.Entities
                 new ObjectParameter("Id", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAudioFileName_Result>("GetAudioFileName", userNameParameter, idParameter);
+        }
+    
+        public virtual int getCoachingQueueJson(string username, string filter)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var filterParameter = filter != null ?
+                new ObjectParameter("filter", filter) :
+                new ObjectParameter("filter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getCoachingQueueJson", usernameParameter, filterParameter);
         }
     }
 }

@@ -821,9 +821,6 @@
     <Compile Include="Entities\getClientCalibrations_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\getCoachingQueueJson_Result.cs">
-      <DependentUpon>CC_ProdEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entities\getCombinedComments_Result.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
@@ -1530,6 +1527,7 @@
     <Compile Include="Models\CallCriteriaAPI\QAScores.cs" />
     <Compile Include="Models\CallCriteriaAPI\QnA.cs" />
     <Compile Include="Models\CallCriteriaAPI\Question.cs" />
+    <Compile Include="Models\CallCriteriaAPI\SchoolDataModel.cs" />
     <Compile Include="Models\CallCriteriaAPI\SchoolItem.cs" />
     <Compile Include="Models\CallCriteriaAPI\ScorecardData.cs" />
     <Compile Include="Models\CallCriteriaAPI\ScorecardResponse.cs" />
@@ -1542,6 +1540,7 @@
     <Compile Include="Models\CallCriteriaAPI\training_item.cs" />
     <Compile Include="Models\CallCriteriaAPI\UserModule.cs" />
     <Compile Include="Models\CallCriteriaAPI\UserObject.cs" />
+    <Compile Include="Models\CallCriteriaAPI\XCCNewReportModel.cs" />
     <Compile Include="Models\CCInternalAPI\AddExistingSchoolRequest.cs" />
     <Compile Include="Models\CCInternalAPI\AddRecordData.cs" />
     <Compile Include="Models\CCInternalAPI\AgentRanking.cs" />
@@ -1707,6 +1706,7 @@
     <Compile Include="Models\CDService\WorstDeviation.cs" />
     <Compile Include="Models\DBModel\app_settings_Result.cs" />
     <Compile Include="Models\DBModel\form_q_scores_Result.cs" />
+    <Compile Include="Models\DBModel\getCoachingQueueJson_Result.cs" />
     <Compile Include="Models\DBModel\getCompletedSCCSCall_Result.cs" />
     <Compile Include="Models\DBModel\getPay3SCW_Result.cs" />
     <Compile Include="Models\DBModel\getTemplateItemsAll_Result.cs" />

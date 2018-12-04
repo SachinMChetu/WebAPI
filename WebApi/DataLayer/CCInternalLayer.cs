@@ -1027,6 +1027,7 @@ namespace WebApi.DataLayer
                                    .With<vwFOrm_Result>()
                                    .With<getTemplateItemsAll_Result>()
                                    .With<app_settings_Result>()
+
                                    .Execute();
                 }
                 return result;
@@ -2560,7 +2561,7 @@ namespace WebApi.DataLayer
                 using (CC_ProdEntities dataContext = new CC_ProdEntities())
                 {
 
-                    int Id =endPointData.ID;
+                    int Id = endPointData.ID;
                     //Common.UpdateTable("update system_comments set comment = '" + UC.comment.Replace("'", "''") + "' where id = " + UC.ID);
                     var isExist = dataContext.vwForms.Where(x => x.F_ID == Id).FirstOrDefault();
                     int x_id = isExist.X_ID;
@@ -2642,7 +2643,7 @@ namespace WebApi.DataLayer
                 var resultvwForm = dataContext.vwForms.Where(x => x.F_ID == Id).FirstOrDefault();
                 string appname = string.Empty;
                 int scorecard = 0;
-                if (resultvwForm!=null)
+                if (resultvwForm != null)
                 {
                     appname = resultvwForm.appname.ToString();
                     scorecard = Convert.ToInt32(resultvwForm.scorecard);
@@ -2670,7 +2671,7 @@ namespace WebApi.DataLayer
                         tblcalibration_pending.form_id = Id;
                         tblcalibration_pending.reviewer = resultformScore.reviewer;
                         tblcalibration_pending.review_type = Messages.Selected;
-                        tblcalibration_pending.week_ending = weekEnding; 
+                        tblcalibration_pending.week_ending = weekEnding;
                         tblcalibration_pending.appname = appname;
                         tblcalibration_pending.cp_who_added = username;
                         tblcalibration_pending.client_start = Date;
@@ -2934,12 +2935,12 @@ namespace WebApi.DataLayer
         public string CompleteReview(SimpleID simpleID)
         {
             int f_id = 0;
-            if (simpleID.ID !="")
+            if (simpleID.ID != "")
             {
-               f_id = Convert.ToInt32(simpleID.ID);
+                f_id = Convert.ToInt32(simpleID.ID);
             }
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
-            { 
+            {
                 return "";
             }
             try
@@ -3034,9 +3035,9 @@ namespace WebApi.DataLayer
                 List<ScorecardData> scds = new List<ScorecardData>();
                 var isvwForm = dataContext.vwForms.Where(x => x.F_ID == x_id).FirstOrDefault();
                 int Idform = 0;
-                if (isvwForm !=null)
+                if (isvwForm != null)
                 {
-                     Idform = isvwForm.X_ID;
+                    Idform = isvwForm.X_ID;
                 }
                 var scorecardResTemp = (from XCC_REPORT_NEW in dataContext.XCC_REPORT_NEW
                                         join scorecards in dataContext.scorecards on XCC_REPORT_NEW.scorecard equals scorecards.id
@@ -3048,7 +3049,12 @@ namespace WebApi.DataLayer
                 if (scorecardResTemp.Equals(1))
                 {
                     //Common.UpdateTable("update xcc_report_new set bad_call = 1, bad_call_accepted = dbo.getMTDate(), bad_call_accepted_who = '" + HttpContext.Current.User.Identity.Name + "',  bad_call_who='" + HttpContext.Current.User.Identity.Name + "',  bad_call_date=dbo.getMTDate(), max_reviews=1,  bad_call_reason='" + reject_reason.Replace("'", "''") + "' where id = (select review_id from vwForm where f_id = " + x_id + ")");
-                    var isExist = dataContext.XCC_REPORT_NEW.Where(x => x.ID == isvwForm.review_ID).FirstOrDefault();
+                    int reviewId = 0;
+                    if (isvwForm != null)
+                    {
+                        reviewId =Convert.ToInt32(isvwForm.review_ID);
+                    }
+                    var isExist = dataContext.XCC_REPORT_NEW.Where(x => x.ID == reviewId).FirstOrDefault();
                     XCC_REPORT_NEW tblXCC_REPORT_NEW = new XCC_REPORT_NEW();
                     if (isExist != null)
                     {
@@ -3143,7 +3149,15 @@ namespace WebApi.DataLayer
             {
                 return;
             }
-            reject_reason = markBadCallData.reject_reason;
+
+            if (markBadCallData.reject_reason != null)
+            {
+                reject_reason = markBadCallData.reject_reason;
+            }
+            else
+            {
+                reject_reason = "Known Bad";
+            }
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
                 var dateQuery = dataContext.Database.SqlQuery<DateTime>("SELECT dbo.getMTdate()");
@@ -3198,7 +3212,7 @@ namespace WebApi.DataLayer
                     //Common.UpdateTable("update vwForm set calib_score = null, total_score=null, total_score_with_fails = null, display_score = null,  pass_fail='N/A',original_qa_score=null,   qa_start = '" + startdate.ToString() + "', qa_last_action='" + enddate + "', review_time = '" + review_time + "' where review_id = " + x_id);
                     var tblscore = dataContext.form_score3.Where(x => x.review_ID == x_id).FirstOrDefault();
                     form_score3 tblscore3 = new form_score3();
-                    if (isExist != null)
+                    if (tblscore != null)
                     {
                         tblscore3 = dataContext.form_score3.Find(tblscore.id);
                         dataContext.Entry(tblscore3).State = EntityState.Modified;
@@ -3217,7 +3231,7 @@ namespace WebApi.DataLayer
                     //Common.UpdateTable("delete from calibration_form where original_form in (select f_id from vwForm where review_id = " + x_id + ")");
                     var isform = dataContext.vwForms.Where(x => x.review_ID == x_id).FirstOrDefault();
                     int f_Id = 0;
-                    if (!object.Equals(isform,null))
+                    if (!object.Equals(isform, null))
                     {
                         f_Id = isform.F_ID;
                     }
@@ -3261,13 +3275,13 @@ namespace WebApi.DataLayer
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
                 int Id = 0;
-                if(simpleID.ID !=null)
+                if (simpleID.ID != null)
                 {
-                   Id = Convert.ToInt32(simpleID.ID);
+                    Id = Convert.ToInt32(simpleID.ID);
                 }
                 //DataTable fid_dt = GetTable("select review_id, scorecard from vwForm where f_id = " + simpleID.ID);
                 var isform = dataContext.vwForms.Where(x => x.F_ID == Id).FirstOrDefault();
-                if (object.Equals(isform,null))
+                if (object.Equals(isform, null))
                 {
                     return sc;
                 }
@@ -3356,8 +3370,8 @@ namespace WebApi.DataLayer
                                         if (ti_dr.option_text.ToString() != "")
                                         {
                                             TemplateItem titem = new TemplateItem();
-                                            temp_list.Add(ti_dr.option_text.ToString());
-                                            titem.option_text = ti_dr.option_text.ToString();
+                                            temp_list.Add(ti_dr.option_text);
+                                            titem.option_text = ti_dr.option_text;
                                             titem.option_id = Convert.ToInt32(ti_dr.id);
                                             objTemplateItem.Add(titem);
                                         }
@@ -3375,11 +3389,11 @@ namespace WebApi.DataLayer
                                     {
                                         Answer ans = new Answer();
                                         ans.Answers = dra.answer_text.ToString();
-                                       if(dra.answer_points != 0)
-                                        { 
+                                        if (dra.answer_points != 0)
+                                        {
                                             ans.Points = Convert.ToInt32(dra.answer_points);
                                         }
-                                       else
+                                        else
                                         {
                                             ans.Points = 0;
                                         }
@@ -3492,7 +3506,7 @@ namespace WebApi.DataLayer
                                     {
                                         Answer ans = new Answer();
                                         ans.Answers = dra.answer_text;
-                                        if(dra.answer_points !=0)
+                                        if (dra.answer_points != 0)
                                         {
                                             ans.Points = Convert.ToInt32(dra.answer_points);
                                         }
@@ -3648,7 +3662,7 @@ namespace WebApi.DataLayer
                 //username = "B_JessicaArroyo";
                 //var getPopulatedScorecard = dataContext.getPopulatedScorecard(Convert.ToInt32(scorecard_ID), Convert.ToInt32(xcc_id), username, 0).ToList();
                 int xccId = 0;
-                if (xcc_id !="")
+                if (xcc_id != "")
                 {
                     xccId = Convert.ToInt32(xcc_id);
                 }
@@ -3684,9 +3698,14 @@ namespace WebApi.DataLayer
             List<getListenQuestionsAll_Result> q_dt = ds[2].Cast<getListenQuestionsAll_Result>().ToList();
             List<question_options_Result> ti_dt = ds[3].Cast<question_options_Result>().ToList();
             List<question_answers_Result> ans_dt = ds[4].Cast<question_answers_Result>().ToList();
+            List<q_instructions> instr_dt = ds[5].Cast<q_instructions>().ToList();
+            List<q_faqs> faq_dt = ds[6].Cast<q_faqs>().ToList();
+            List<getotherformdata_Result> cq_dt = ds[7].Cast<getotherformdata_Result>().ToList();
+            List<sc_inputs> clerk_dt = ds[8].Cast<sc_inputs>().ToList();
+            List<answer_comments> cmt_dt = ds[9].Cast<answer_comments>().ToList();
 
-            string other_sort_order = " Order by id";
-            if (sc_dt.meta_sort== "Alphbetical")
+            string other_sort_order = string.Empty;
+            if (sc_dt.meta_sort == "Alphbetical")
             {
                 other_sort_order = " order by data_key";
             }
@@ -3747,7 +3766,7 @@ namespace WebApi.DataLayer
                     {
                         ques.DropDownType = drq.ddlQuery;
                     }
-                    // ques.QAPoints = Convert.ToInt32(drq.QA_points);
+                    //ques.QAPoints = Convert.ToInt32(drq.QA_points);
                     ques.QAPoints = 0;
                     ques.comments_allowed = Convert.ToBoolean(drq.comments_allowed);
                     ques.QID = Convert.ToInt32(drq.id);
@@ -3769,18 +3788,18 @@ namespace WebApi.DataLayer
                     }
                     List<Answer> ans_list = new List<Answer>();
 
-                    //DataRow[] filteredans_dt = ans_dt.Select("question_id = " + drq["id"]);
+                    //var filteredans_dt = ans_dt.Select("question_id = " + drq["id"]);
                     var filteredans_dt = ans_dt.Where(x => x.question_id == drq.id).ToList();
                     foreach (var dra in filteredans_dt)
                     {
                         Answer ans = new Answer();
                         ans.Answers = dra.answer_text;
                         ans.acp_required = Convert.ToBoolean(dra.acp_required);
-                        if(dra.answer_points !=0)
+                        if (dra.answer_points != 0)
                         {
                             ans.Points = Convert.ToInt32(dra.answer_points);
                         }
-                       else
+                        else
                         {
                             ans.Points = 0;
                         }
@@ -3796,18 +3815,17 @@ namespace WebApi.DataLayer
                         }
                         ans.AnswerID = dra.id;
                         //DataRow[] filteredcmt_dt = cmt_dt.Select("answer_id = " + dra["id"]);
-
-                        //List<Comment> cmt_list = new List<Comment>();
-                        //foreach (DataRow drcmt in filteredcmt_dt)
-                        //{
-                        //    // Try
-                        //    Comment cmt = new Comment();
-                        //    cmt.CommentText = drcmt["comment"].ToString();
-                        //    cmt.CommentID = Convert.ToInt32(drcmt["ID"]);
-                        //    cmt.AnswerStatement = drcmt["answer_statement"].ToString();
-                        //    cmt.CommentPoints = Convert.IsDBNull(drcmt["comment_points"]) ? new float() : (float)drcmt["comment_points"];
-                        //    cmt_list.Add(cmt);
-                        //}
+                        var filteredcmt_dt = cmt_dt.Where(x => x.question_id == dra.id).ToList();
+                        List<Comment> cmt_list = new List<Comment>();
+                        foreach (var drcmt in filteredcmt_dt)
+                        {
+                            Comment cmt = new Comment();
+                            cmt.CommentText = drcmt.comment;
+                            cmt.CommentID = Convert.ToInt32(drcmt.id);
+                            cmt.AnswerStatement = drcmt.answer_statement;
+                            cmt.CommentPoints = Convert.ToInt32(drcmt.comment_points);
+                            cmt_list.Add(cmt);
+                        }
 
                         // Comments from dropdowns are simply answer comments presented in drop down form for YES answer only
                         if (dra.answer_text == "Yes")
@@ -3820,119 +3838,121 @@ namespace WebApi.DataLayer
                             // }
                             // ans.DropdownItems = ddlList;
                         }
-                        //ans.Comments = cmt_list;
+                        ans.Comments = cmt_list;
                         ans_list.Add(ans);
                     }
                     //        ques.answers = ans_list;
-                    //        DataRow[] filteredinstr_dt = instr_dt.Select("question_id = " + drq["id"]);
-                    //        List<Instruction> instr_list = new List<Instruction>();
-                    //        foreach (var drinst in filteredinstr_dt)
-                    //        {
+                    var filteredinstr_dt = instr_dt.Where(x => x.question_id == drq.id).ToList();
+                    List<Instruction> instr_list = new List<Instruction>();
+                    foreach (var drinst in filteredinstr_dt)
+                    {
 
-                    //            Instruction instr = new Instruction();
-                    //            instr.InstructionText = drinst["question_text"].ToString();
-                    //            instr_list.Add(instr);
-                    //        }
-                    //        ques.instructions = instr_list;
+                        Instruction instr = new Instruction();
+                        instr.InstructionText = drinst.question_text;
+                        instr_list.Add(instr);
+                    }
+                    ques.instructions = instr_list;
+                    var filteredfaq_dt = faq_dt.Where(x => x.question_id == drq.id).ToList();
+                    //DataRow[] filteredfaq_dt = faq_dt.Select("question_id = " + drq["id"]);
+                    List<FAQ> faq_list = new List<FAQ>();
+                    foreach (var drfaq in filteredfaq_dt)
+                    {
+                        FAQ faq = new FAQ();
+                        faq.QuestionText = drfaq.question_text;
+                        faq.AnswerText = drfaq.question_answer;
+                        faq_list.Add(faq);
+                    }
+                    ques.FAQs = faq_list;
+                    ques_list.Add(ques);
+                }
+                sec.questions = ques_list;
 
-                    //        DataRow[] filteredfaq_dt = faq_dt.Select("question_id = " + drq["id"]);
-                    //        List<FAQ> faq_list = new List<FAQ>();
-                    //        foreach (var drfaq in filteredfaq_dt)
-                    //        {
-                    //            FAQ faq = new FAQ();
-                    //            faq.QuestionText = drfaq["question_text"].ToString();
-                    //            faq.AnswerText = drfaq["question_answer"].ToString();
-                    //            faq_list.Add(faq);
-                    //        }
-                    //        ques.FAQs = faq_list;
-                    //        ques_list.Add(ques);
-                    //    }
-                    //    sec.questions = ques_list;
+                if (sec.questions.Count > 0)
+                {
+                    sec_list.Add(sec);
+                }
+                // }
 
-                    //    if (sec.questions.Count > 0)
-                    //        sec_list.Add(sec);
-                    //}
+                if (xcc_id != "" & sc_dt.show_custom_questions.ToString() == "True")
+                {
+                    if (cq_dt.Count > 0)
+                    {
+                        //Models.CCInternalAPI.Section sec = new Models.CCInternalAPI.Section();
+                        sec.section = "Custom Questions";
+                        sec.description = "Custom Questions";
+                        //List<WebApi.Models.CCInternalAPI.Question> ques_list = new List<WebApi.Models.CCInternalAPI.Question>();
+                        foreach (var cq_dr in cq_dt)
+                        {
+                            WebApi.Models.CCInternalAPI.Question ques = new WebApi.Models.CCInternalAPI.Question();
+                            ques.QuestionShort = cq_dr.data_key;
+                            ques.question = cq_dr.label;
 
-                    //if (xcc_id != "" & sc_dt.show_custom_questions.ToString() == "True")
-                    //{
-                    //    if (cq_dt.Rows.Count > 0)
-                    //    {
-                    //        Section sec = new Section();
-                    //        sec.section = "Custom Questions";
-                    //        sec.description = "Custom Questions";
-                    //        List<Question> ques_list = new List<Question>();
-                    //        foreach (DataRow cq_dr in cq_dt.Rows)
-                    //        {
-                    //            Question ques = new Question();
-                    //            ques.QuestionShort = cq_dr["data_key"].ToString();
-                    //            ques.question = cq_dr["label"].ToString();
+                            ques.QID = '-' + Convert.ToInt32(cq_dr.id);
+                            List<FAQ> faq_list = new List<FAQ>();
+                            FAQ faq = new FAQ();
+                            faq.QuestionText = "Verify the Agent asked the question: ";
+                            faq.AnswerText = cq_dr.label;
+                            faq_list.Add(faq);
+                            faq = new FAQ();
+                            faq.QuestionText = "Extra Info: ";
+                            faq.AnswerText = "School: " + cq_dr.school_name + "<br>" + "Answer: " + cq_dr.data_value;
+                            faq_list.Add(faq);
 
-                    //            ques.QID = '-' + Convert.ToInt32(cq_dr["id"]);
-                    //            List<FAQ> faq_list = new List<FAQ>();
-                    //            FAQ faq = new FAQ();
-                    //            faq.QuestionText = "Verify the Agent asked the question: ";
-                    //            faq.AnswerText = cq_dr["label"].ToString();
-                    //            faq_list.Add(faq);
-                    //            faq = new FAQ();
-                    //            faq.QuestionText = "Extra Info: ";
-                    //            faq.AnswerText = "School: " + cq_dr["school_name"].ToString() + "<br>" + "Answer: " + cq_dr["data_value"].ToString();
-                    //            faq_list.Add(faq);
-
-                    //            ques.FAQs = faq_list;
-                    //            List<Answer> ans_list = new List<Answer>();
-                    //            Answer ans = new Answer();
-                    //            ans.Answers = "Yes";
-                    //            ans.Points = 0;
-                    //            ans.RightAnswer = Convert.ToBoolean("True");
-                    //            ans.autoselect = 0;
-                    //            ans.AnswerID = -1;
-                    //            List<Comment> cmt_list = new List<Comment>();
-                    //            Comment cmt = new Comment();
-                    //            cmt.CommentText = "Agent did ask this custom question";
-                    //            cmt.CommentID = -1;
-                    //            cmt_list.Add(cmt);
-                    //            ans.Comments = cmt_list;
-                    //            ans_list.Add(ans);
-                    //            ans = new Answer();
-                    //            ans.Answers = "No";
-                    //            ans.Points = 0;
-                    //            ans.RightAnswer = Convert.ToBoolean("False");
-                    //            ans.autoselect = 0;
-                    //            ans.AnswerID = -2;
-                    //            cmt_list = new List<Comment>();
-                    //            cmt = new Comment();
-                    //            cmt.CommentText = "Agent did NOT ask this custom question";
-                    //            cmt.CommentID = -2;
-                    //            cmt_list.Add(cmt);
-                    //            ans.Comments = cmt_list;
-                    //            ans_list.Add(ans);
-                    //            ques.instructions = new List<Instruction>();
-                    //            ques.answers = ans_list;
-                    //            ques_list.Add(ques);
-                    //        }
-                    //        sec.questions = ques_list;
-                    //        sec_list.Add(sec);
-                    //    }
-                    //}
-                    //sc.Sections = sec_list;
-                    //if (clerk_dt.Rows.Count > 0)
-                    //{
-                    //    List<ClerkedData> cds = new List<ClerkedData>();
-                    //    foreach (DataRow clerk_item in clerk_dt.Rows)
-                    //    {
-                    //        ClerkedData cd = new ClerkedData();
-                    //        cd.value = clerk_item["value"].ToString();
-                    //        cd.ID = clerk_item["id"].ToString();
-                    //        try
-                    //        {
-                    //            cd.required = Convert.ToBoolean(clerk_item["required_value"]);
-                    //        }
-                    //        catch (Exception ex)
-                    //        {
-                    //        }
-                    //        cds.Add(cd);
-                    //    }
-                    //    sc.ClerkData = cds;
+                            ques.FAQs = faq_list;
+                            List<Answer> ans_list = new List<Answer>();
+                            Answer ans = new Answer();
+                            ans.Answers = "Yes";
+                            ans.Points = 0;
+                            ans.RightAnswer = Convert.ToBoolean("True");
+                            ans.autoselect = 0;
+                            ans.AnswerID = -1;
+                            List<Comment> cmt_list = new List<Comment>();
+                            Comment cmt = new Comment();
+                            cmt.CommentText = "Agent did ask this custom question";
+                            cmt.CommentID = -1;
+                            cmt_list.Add(cmt);
+                            ans.Comments = cmt_list;
+                            ans_list.Add(ans);
+                            ans = new Answer();
+                            ans.Answers = "No";
+                            ans.Points = 0;
+                            ans.RightAnswer = Convert.ToBoolean("False");
+                            ans.autoselect = 0;
+                            ans.AnswerID = -2;
+                            cmt_list = new List<Comment>();
+                            cmt = new Comment();
+                            cmt.CommentText = "Agent did NOT ask this custom question";
+                            cmt.CommentID = -2;
+                            cmt_list.Add(cmt);
+                            ans.Comments = cmt_list;
+                            ans_list.Add(ans);
+                            ques.instructions = new List<Instruction>();
+                            ques.answers = ans_list;
+                            ques_list.Add(ques);
+                        }
+                        sec.questions = ques_list;
+                        sec_list.Add(sec);
+                    }
+                }
+                sc.Sections = sec_list;
+                if (clerk_dt.Count > 0)
+                {
+                    List<ClerkedData> cds = new List<ClerkedData>();
+                    foreach (var clerk_item in clerk_dt)
+                    {
+                        ClerkedData cd = new ClerkedData();
+                        cd.value = clerk_item.value;
+                        cd.ID = clerk_item.id.ToString();
+                        try
+                        {
+                            cd.required = Convert.ToBoolean(clerk_item.required_value);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        cds.Add(cd);
+                    }
+                    sc.ClerkData = cds;
                 }
             }
             return sc;
@@ -3966,7 +3986,7 @@ namespace WebApi.DataLayer
                         new SqlParameter("@scorecard",scorecard),
                         new SqlParameter("@xcc_id",xcc_id),
                         new SqlParameter("@username",username),
-                        new SqlParameter("@show_calc",1)
+                        new SqlParameter("@show_calc",show_calc)
                     };
 
                     command.Parameters.AddRange(parameters.ToArray());
@@ -3977,6 +3997,11 @@ namespace WebApi.DataLayer
                                    .With<getListenQuestionsAll_Result>()
                                    .With<question_options_Result>()
                                    .With<question_answers_Result>()
+                                   .With<q_instructions>()
+                                   .With<q_faqs>()
+                                   .With<getotherformdata_Result>()
+                                   .With<sc_inputs>()
+                                   .With<answer_comments>()
                                    .Execute();
                 }
                 return result;
@@ -4007,8 +4032,11 @@ namespace WebApi.DataLayer
             {
                 using (CC_ProdEntities dataContext = new CC_ProdEntities())
                 {
-                    var isgetCoachingQueueJson = dataContext.getCoachingQueueJson(userName, filter).ToList();
-                    var item = (from resut in isgetCoachingQueueJson
+
+                    filter = string.Empty;
+                    var result = dataContext.Database.SqlQuery<getCoachingQueueJson_Result>(
+                    " exec getCoachingQueueJson @username='" + userName + "',@filter= '" + filter + "'").ToList();
+                    var item = (from resut in result
                                 select new CoachingQueue
                                 {
                                     NotificationID = resut.NotificationID,
@@ -4017,7 +4045,7 @@ namespace WebApi.DataLayer
                                     call_date = resut.call_date,
                                     dateadded = resut.dateadded,
                                     notificationStep = resut.notificationStep,
-                                    form_id = resut.form_id,
+                                    form_id = resut.form_id.ToString(),
                                     form_id_plus = resut.form_id_plus,
                                     first_error = resut.first_error,
                                     OwnedNotification = resut.OwnedNotification,
@@ -4483,7 +4511,7 @@ namespace WebApi.DataLayer
                     foreach (QuestionFaq item in faqs)
                     {
                         int Id = 0;
-                        if(item.id.Trim() !="")
+                        if (item.id.Trim() != "")
                         {
                             Id = Convert.ToInt32(item.id.Trim());
                         }

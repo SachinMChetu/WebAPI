@@ -20685,10 +20685,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="show_calc" Mode="In" Type="Int32" />
             <Parameter Name="username" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="getCoachingQueueJson" ReturnType="Collection(Model.getCoachingQueueJson_Result)">
-            <Parameter Name="username" Mode="In" Type="String" />
-            <Parameter Name="filter" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="calibDataInsert" />
           <FunctionImport Name="getMyNextTrainingCall" ReturnType="Collection(Model.getMyNextTrainingCall_Result)">
           <Parameter Name="username" Mode="In" Type="String" />
@@ -20877,6 +20873,10 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <FunctionImport Name="GetAudioFileName" ReturnType="Collection(Model.GetAudioFileName_Result)">
             <Parameter Name="userName" Mode="In" Type="String" />
             <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getCoachingQueueJson">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetAllRecords_Result">
@@ -21654,24 +21654,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Property Type="Boolean" Name="comments_allowed" Nullable="false" />
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="template" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="getCoachingQueueJson_Result" >
-          <Property Type="String" Name="NotificationID" Nullable="false" />
-          <Property Type="String" Name="non_edit" Nullable="false" />
-          <Property Type="String" Name="sup_override" Nullable="false" />
-          <Property Type="String" Name="agent" Nullable="false" />
-          <Property Type="String" Name="Property" Nullable="false" />
-          <Property Type="String" Name="total_score" Nullable="false" />
-          <Property Type="String" Name="call_date" Nullable="false" />
-          <Property Type="String" Name="dateadded" Nullable="false" />
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="String" Name="phone" Nullable="false" />
-          <Property Type="String" Name="notificationStep" Nullable="false" />
-          <Property Type="String" Name="form_id" Nullable="false" />
-          <Property Type="String" Name="form_id_plus" Nullable="false" />
-          <Property Type="String" Name="first_error" Nullable="false" />
-          <Property Type="String" Name="OwnedNotification" Nullable="false" />
-          <Property Type="String" Name="AllComments" Nullable="false" />
         </ComplexType>
         <ComplexType Name="getMyNextTrainingCall_Result" >
           <Property Type="Int32" Name="pref_user" Nullable="false" />
@@ -29373,28 +29355,6 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="getCoachingQueueJson" FunctionName="Model.Store.getCoachingQueueJson" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="Model.getCoachingQueueJson_Result">
-                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
-                <ScalarProperty Name="non_edit" ColumnName="non_edit" />
-                <ScalarProperty Name="sup_override" ColumnName="sup_override" />
-                <ScalarProperty Name="agent" ColumnName="agent" />
-                <ScalarProperty Name="Property" ColumnName="Property" />
-                <ScalarProperty Name="total_score" ColumnName="total_score" />
-                <ScalarProperty Name="call_date" ColumnName="call_date" />
-                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="notificationStep" ColumnName="notificationStep" />
-                <ScalarProperty Name="form_id" ColumnName="form_id" />
-                <ScalarProperty Name="form_id_plus" ColumnName="form_id_plus" />
-                <ScalarProperty Name="first_error" ColumnName="first_error" />
-                <ScalarProperty Name="OwnedNotification" ColumnName="OwnedNotification" />
-                <ScalarProperty Name="AllComments" ColumnName="AllComments" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="calibDataInsert" FunctionName="Model.Store.calibDataInsert" />
           <FunctionImportMapping FunctionImportName="getMyNextTrainingCall" FunctionName="Model.Store.getMyNextTrainingCall" >
             <ResultMapping>
@@ -30485,6 +30445,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCoachingQueueJson" FunctionName="Model.Store.getCoachingQueueJson" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

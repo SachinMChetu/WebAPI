@@ -1210,7 +1210,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/MarkCallBad")]
         [HttpPost]
-        [ResponseType(typeof(MarkBadCallData2))]
+        [ResponseType(typeof(MarkBadCallData))]
         public void MarkCallBad(MarkBadCallData markBadCallData)
         {
             try

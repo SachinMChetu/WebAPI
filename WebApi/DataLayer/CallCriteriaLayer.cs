@@ -140,8 +140,8 @@ namespace WebApi.DataLayer
                                                  select new ScorecardResponse
                                                  {
                                                      position = string.IsNullOrEmpty(form_q_scores.click_text) ? form_q_scores.q_position : form_q_scores.click_text,
-                                                     question = questions.q_short_name.ToString(),
-                                                     result = questionA.answer_text.ToString(),
+                                                     question = questions.q_short_name,
+                                                     result = questionA.answer_text,
                                                      QID = questions.id,
                                                      QAPoints = (int)questions.QA_points,
                                                      ViewLink = form_q_scores.view_link.ToString(),
@@ -216,7 +216,7 @@ namespace WebApi.DataLayer
                 {
                     DateTime loadedDate = Convert.ToDateTime(callsLoaded.loaded_date);
                     //DataTable dt = GetTable("select * from xcc_report_new where call_date = '" + callsLoaded.loaded_date + "' and appname = '" + appname + "'");
-                    var xccReportNew = dataContext.XCC_REPORT_NEW.Where(x => x.call_date == loadedDate && x.appname == "callsource").ToList();
+                    var xccReportNew = dataContext.XCC_REPORT_NEW.Where(x => x.call_date == loadedDate && x.appname == appname).ToList();
                     foreach (var dr in xccReportNew)
                     {
                         CallLoaded call_loaded = new CallLoaded();
@@ -287,7 +287,7 @@ namespace WebApi.DataLayer
                     userName = username;
                 }
                 //reply = new SqlCommand("select vwForm.*,isnull(client_logo, vwForm.appname) as client_logo, (select total_score from vwCF where active_cali = 1 and f_id = @id) as qa_cali_score  from vwForm join app_settings on vwForm.appname = app_settings.appname where f_id = @id" + add_sql, cn);
-                var getvwForm = dataContext.getvwForm(ID, "vs", userName).ToList();
+                var getvwForm = dataContext.getvwForm(ID, AppName, userName).ToList();
 
                 if (getvwForm.Count == 0)
                 {
@@ -308,7 +308,7 @@ namespace WebApi.DataLayer
                     scr.total_score = dr.display_score.ToString();
                     scr.total_score_with_fails = dr.display_score.ToString();
                     scr.call_length = dr.call_length.ToString();
-                    scr.has_cardinal = ""; // dr("has_cardinal").ToString()
+                    scr.has_cardinal = ""; 
                     scr.fs_audio = dr.fs_audio;
                     scr.week_ending_date = dr.week_ending_date.ToString();
                     scr.num_missed = dr.num_missed.ToString();
@@ -366,9 +366,9 @@ namespace WebApi.DataLayer
                     scr.formatted_missed = dr.formatted_missed;
                     scr.fileUrl = dr.fileUrl;
                     scr.statusMessage = dr.statusMessage;
-                    scr.mediaId = ""; // dr("mediaId").ToString()
-                    scr.requestStatus = ""; // dr("requestStatus").ToString()
-                    scr.fileStatus = ""; // dr("fileStatus").ToString()
+                    scr.mediaId = "";
+                    scr.requestStatus = ""; 
+                    scr.fileStatus = ""; 
                     scr.response = "";
                     scr.review_time = "";
                     scr.wasEdited = dr.wasEdited.ToString();
@@ -430,7 +430,7 @@ namespace WebApi.DataLayer
                     scd.CallScore = cs;
 
                     List<string> audio_list = new List<string>();
-                    if (dr.phone.ToString() == "")
+                    if (dr.phone == "")
                     {
                         //dt = GetTable("select max(wav_data.ID) as WID, filename, url_prefix, recording_user, record_password, session_id  from WAV_DATA  join app_settings on WAV_DATA.appname = app_settings.appname where (WAV_DATA.session_id = '" + dr["session_id"] + "')  and app_settings.appname = '" + dr["appname"] + "' and  WAV_DATA.appname = '" + dr["appname"] + "' group by filename, url_prefix, recording_user, record_password, session_id");
                         string SESSIONId = dr.SESSION_ID;
@@ -500,7 +500,7 @@ namespace WebApi.DataLayer
                         List<ScorecardResponse> qrs = new List<ScorecardResponse>();
 
                         //DataTable qdt = GetTable("Select * from  dbo.[getAllClientQuestions](" + dr["F_ID"].ToString() + ", " + section_dr["ID"].ToString() + ") left join (Select q_position, answer_text, form_q_scores.question_id, right_answer, view_link from form_q_scores join question_answers On question_answers.ID = form_q_scores.original_question_answered where form_id = " + dr["F_ID"].ToString() + ") a On  a.question_id = q_id  join questions On questions.ID = q_id  where active = 1 order by all_q_order");
-                        var isProAllClientQuestions = dataContext.getProAllClientQuestions(dr.F_ID, section_dr.ID, Convert.ToInt32(ID), username).ToList();
+                        var isProAllClientQuestions = dataContext.getProAllClientQuestions(dr.F_ID, section_dr.ID, ID, username).ToList();
                         foreach (var qdr in isProAllClientQuestions)
                         {
                             ScorecardResponse qr = new ScorecardResponse();
@@ -612,8 +612,8 @@ namespace WebApi.DataLayer
                         {
                             ScorecardResponse qr = new ScorecardResponse();
                             qr.position = qdr.q_pos.ToString();
-                            qr.question = qdr.q_short_name.ToString();
-                            qr.result = qdr.answer_text.ToString();
+                            qr.question = qdr.q_short_name;
+                            qr.result = qdr.answer_text;
                             qr.QID = Convert.ToInt32(qdr.q_id);
                             qr.QType = qdr.q_type;
                             if (qdr.QA_points != null)
@@ -815,7 +815,7 @@ namespace WebApi.DataLayer
                                 qr.question = qdr.q_short_name;
                                 qr.result = qdr.answer_text;
                                 qr.QID = qdr.q_id;
-                                if (qdr.QA_points != null)
+                                if (qdr.QA_points > 0)
                                 {
                                     qr.QAPoints = Convert.ToInt32(qdr.QA_points);
                                 }
@@ -1044,7 +1044,7 @@ namespace WebApi.DataLayer
                     }
                 }
 
-                XCCNewReport xcrpt = new XCCNewReport();
+                XCCNewReportModel xcrpt = new XCCNewReportModel();
                 xcrpt.SessionId = xccRpt.ContainsKey("SESSION_ID") ? xccRpt["SESSION_ID"] : string.Empty;
                 xcrpt.Agent = xccRpt.ContainsKey("AGENT") ? xccRpt["AGENT"] : string.Empty;
                 xcrpt.DisPosition = xccRpt.ContainsKey("DISPOSITION") ? xccRpt["DISPOSITION"] : string.Empty;
@@ -1170,7 +1170,7 @@ namespace WebApi.DataLayer
                     scr.total_score = dr.display_score.ToString();
                     scr.total_score_with_fails = dr.display_score.ToString();
                     scr.call_length = dr.call_length.ToString();
-                    scr.has_cardinal = ""; // dr("has_cardinal").ToString()
+                    scr.has_cardinal = ""; 
                     scr.fs_audio = dr.fs_audio;
                     scr.week_ending_date = dr.week_ending_date.ToString();
                     scr.num_missed = dr.num_missed.ToString();
@@ -1245,7 +1245,7 @@ namespace WebApi.DataLayer
                         scr.F_ID = "0";
                     }
                     List<ScorecardResponse> qrs = new List<ScorecardResponse>();
-                    DataTable qdt;
+                  
                     if (scr.wasEdited == "" & scr.calib_score != "")
                     {
                         //qdt = GetTable("select * from calibration_scores join questions on questions.id = calibration_scores.question_id  join question_answers on question_answers.ID = calibration_scores.question_result where form_id = (select top 1 id from vwCF where f_id = " + scr.F_ID + " and active_cali = 1) order by questions.q_order");
@@ -1336,11 +1336,11 @@ namespace WebApi.DataLayer
                                              select new ScorecardResponse
                                              {
                                                  position = form_q_scores.q_position,
-                                                 question = questions.q_short_name.ToString(),
-                                                 result = questionA.answer_text.ToString(),
+                                                 question = questions.q_short_name,
+                                                 result = questionA.answer_text,
                                                  QID = questions.id,
                                                  QAPoints = (int)questions.QA_points,
-                                                 ViewLink = form_q_scores.view_link.ToString(),
+                                                 ViewLink = form_q_scores.view_link,
                                                  comments_allowed = (bool)questions.comments_allowed,
                                                  RightAnswer = (bool)questionA.right_answer,
                                                  q_order = questions.q_order,
@@ -1474,7 +1474,7 @@ namespace WebApi.DataLayer
                                     break;
                                 }
                         }
-                        if (isxcc_report.audio_link.ToString() == "")
+                        if (isxcc_report.audio_link == "")
                         {
                             ss_obj.status = "WAITING/CONVERTING audio";
                         }
@@ -1549,15 +1549,15 @@ namespace WebApi.DataLayer
             {
                 //string raw_post = OperationContext.Current.RequestContext.RequestMessage.ToString();
                 //SqlCommand reply = new SqlCommand("insert into flatPost(raw_data, ip_address) Select @raw_data, @ip_address", cn);
-                //string remoteAddr = HttpContext.Current.Request.ServerVariables["remote_addr"];
-                //string page = HttpContext.Current.Request.QueryString.ToString();
-                //flatPost flatPost = new flatPost()
-                //{
-                //    raw_data = page,
-                //    ip_address = remoteAddr,
-                //};
-                //dataContext.flatPosts.Add(flatPost);
-                //int result1 = dataContext.SaveChanges();
+                string remoteAddr = HttpContext.Current.Request.ServerVariables["remote_addr"];
+                string page = HttpContext.Current.Request.QueryString.ToString();
+                flatPost flatPost = new flatPost()
+                {
+                    raw_data = page,
+                    ip_address = remoteAddr,
+                };
+                dataContext.flatPosts.Add(flatPost);
+                int result1 = dataContext.SaveChanges();
 
                 //Common.UpdateTable("exec add_ip '" + HttpContext.Current.Request.ServerVariables["remote_addr"] + "','" + appname + "'");
                 //int insert = dataContext.add_ip(remoteAddr, appname);
@@ -1574,7 +1574,7 @@ namespace WebApi.DataLayer
                     //return "Invalid appname/apikey to post data with.";
                 }
                 string[] domain = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].Split('.');
-                XCCNewReport xcrpt = new XCCNewReport();
+                XCCNewReportModel xcrpt = new XCCNewReportModel();
                 if (appname != "")
                 {
                     //sql = "declare @xcc_id int; insert into xcc_report_new_pending(";
@@ -1805,7 +1805,7 @@ namespace WebApi.DataLayer
                     {
                         //string sql_school = "insert into school_data(pending_id,";
                         //string param_scure = " @pending_id,";
-                        SchoolData objSchoolData = new SchoolData();
+                        SchoolDataModel objSchoolData = new SchoolDataModel();
                         string AOI1 = object.Equals(si.AOI1, null) ? "0" : si.AOI1;
                         string AOI2 = object.Equals(si.AOI2, null) ? "0" : si.AOI2;
                         string College = object.Equals(si.College, null) ? "0" : si.College;
@@ -1942,8 +1942,6 @@ namespace WebApi.DataLayer
                         {
                             Message = Messages.Insert;
                         }
-                        //Common.Email_Error("FAIL: " + ex.Message + " " + "insert into otherFormDataPending(form_id, data_key, data_value, data_type) select " + new_id + ",'" + od.key.ToString() + "','" + od.value.ToString() + "','" + type.ToString() + "'");
-                        //return "FAIL: " + ex.Message;
                     }
                 }
                 return Message = Messages.Insert;
@@ -2052,7 +2050,7 @@ namespace WebApi.DataLayer
                                     foreach (var drcmt in isanswer_comments)
                                     {
                                         Comment cmt = new Comment();
-                                        cmt.CommentText = drcmt.comment.ToString();
+                                        cmt.CommentText = drcmt.comment;
                                         cmt.CommentID = Convert.ToInt32(drcmt.id);
                                         cmt.CommentPoints = Convert.ToInt32(drcmt.comment_points);
                                         cmt_list.Add(cmt);
@@ -2356,7 +2354,7 @@ namespace WebApi.DataLayer
                                     foreach (var drcmt in isanswer_comments)
                                     {
                                         Comment cmt = new Comment();
-                                        cmt.CommentText = drcmt.comment.ToString();
+                                        cmt.CommentText = drcmt.comment;
                                         cmt.CommentID = Convert.ToInt32(drcmt.id);
                                         cmt.CommentPoints = Convert.ToInt32(drcmt.comment_points);
                                         cmt_list.Add(cmt);
@@ -2440,7 +2438,7 @@ namespace WebApi.DataLayer
                                     foreach (var drcmt in isanswer_comments)
                                     {
                                         Comment cmt = new Comment();
-                                        cmt.CommentText = drcmt.comment.ToString();
+                                        cmt.CommentText = drcmt.comment;
                                         cmt.CommentID = Convert.ToInt32(drcmt.id);
                                         cmt.CommentPoints = Convert.ToInt32(drcmt.comment_points);
                                         cmt_list.Add(cmt);
@@ -2648,7 +2646,7 @@ namespace WebApi.DataLayer
                                 foreach (var drcmt in isanswer_comments)
                                 {
                                     Comment cmt = new Comment();
-                                    cmt.CommentText = drcmt.comment.ToString();
+                                    cmt.CommentText = drcmt.comment;
                                     cmt.CommentID = Convert.ToInt32(drcmt.id);
                                     cmt.CommentPoints = Convert.ToInt32(drcmt.comment_points);
                                     cmt_list.Add(cmt);
@@ -2664,7 +2662,7 @@ namespace WebApi.DataLayer
                             foreach (var drinst in isq_instructions)
                             {
                                 Instruction instr = new Instruction();
-                                instr.InstructionText = drinst.question_text.ToString();
+                                instr.InstructionText = drinst.question_text;
                                 instr_list.Add(instr);
                             }
                             ques.instructions = instr_list;
@@ -2702,70 +2700,4 @@ namespace WebApi.DataLayer
                 return dirty_string;
         }
     }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class SchoolData
-{
-    public int pending_id { get; set; }
-    public string AOI1 { get; set; }
-    public string AOI2 { get; set; }
-    public string College { get; set; }
-    public string DegreeOfInterest { get; set; }
-    public string L1_SubjectName { get; set; }
-    public string L2_SubjectName { get; set; }
-    public string Modality { get; set; }
-    public string School { get; set; }
-    public string Portal { get; set; }
-    public string TCPA { get; set; }
-}
-
-/// <summary>
-/// 
-/// </summary>
-public class XCCNewReport
-{
-
-    public string appname { get; set; }
-    public string SessionId { get; set; }
-    public string Agent { get; set; }
-    public string DisPosition { get; set; }
-    public string Campaign { get; set; }
-    public string Ani { get; set; }
-    public string Dnis { get; set; }
-    public string TimeStamp { get; set; }
-    public string TalkTime { get; set; }
-    public string CallTime { get; set; }
-    public string HandleTime { get; set; }
-    public string CallType { get; set; }
-    public string ListName { get; set; }
-    public string Leadid { get; set; }
-    public string AgentGroup { get; set; }
-    public DateTime Date { get; set; }
-    public string Email { get; set; }
-    public string City { get; set; }
-    public string State { get; set; }
-    public DateTime call_date { get; set; }
-    public string Citizenship { get; set; }
-    public string Military { get; set; }
-    public string AGENT_NAME { get; set; }
-    public string website { get; set; }
-    public int? scorecard { get; set; }
-    public string Zip { get; set; }
-    public float Datacapturekey { get; set; }
-    public float Datacapture { get; set; }
-    public string Status { get; set; }
-    public string Program { get; set; }
-    public string Datacapture_Status { get; set; }
-    public string num_of_schools { get; set; }
-    public string EducationLevel { get; set; }
-    public string HighSchoolGradYear { get; set; }
-    public string DegreeStartTimeframe { get; set; }
-    public string First_Name { get; set; }
-    public string Last_Name { get; set; }
-    public string audio_link { get; set; }
-    public string profile_id { get; set; }
-    public int? sort_order { get; set; }
 }
