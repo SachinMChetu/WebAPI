@@ -313,7 +313,6 @@
     <Compile Include="DataLayer\Common.cs" />
     <Compile Include="DataLayer\ListenLayer.cs" />
     <Compile Include="DataLayer\MultipleResultSets.cs" />
-    <Compile Include="DataLayer\UnitOfWork.cs" />
     <Compile Include="DataLayer\UserFilter.cs" />
     <Compile Include="DataLayer\UserLayer1.cs" />
     <Compile Include="Controllers\DashboardControllerv2_4Controller.cs" />
@@ -330,7 +329,6 @@
     <Compile Include="Code\DashboardHelpers.cs" />
     <Compile Include="Controllers\SessiontestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="DataLayer\Utility.cs" />
     <Compile Include="Entities\acm_directory.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
@@ -445,7 +443,6 @@
     <Compile Include="Entities\bad_call_backup.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\BillingData.cs">
       <DependentUpon>CC_ProdEntities.tt</DependentUpon>
     </Compile>
