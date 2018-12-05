@@ -2804,6 +2804,7 @@ namespace WebApi.DataLayer
                             dataContext.Entry(tblotherFormDatas).State = EntityState.Modified;
                             tblotherFormDatas.data_value = UMDI.value.Replace("'", "''");
                             result = dataContext.SaveChanges();
+                            ret_resp = Messages.Updated;
                         }
                     }
                     else
@@ -2826,13 +2827,18 @@ namespace WebApi.DataLayer
                                 dataContext.system_comments.Add(tblsystem_comments);
                                 result = dataContext.SaveChanges();
                             }
+                            ret_resp = Messages.Updated;
                         }
                         else
                         {
-
                             //Common.UpdateTable("update " + UMDI.table + " set [" + UMDI.key + "] = '" + UMDI.value.Replace("'", "''") + "' where id = " + UMDI.id);
+                            var updateDynamic = dataContext.UpdateDynamicQuery(UMDI.table, UMDI.key, UMDI.value.Replace("'", "''"), Id);
+                            if (updateDynamic.Equals(1))
+                            {
+                                ret_resp = Messages.Updated;
+                            }
                         }
-
+                      
                     }
                     foreach (int removeitem in updateAllItems.removeother)
                     {
@@ -2843,13 +2849,8 @@ namespace WebApi.DataLayer
                         {
                             dataContext.otherFormDatas.Remove(isExist);
                             result = dataContext.SaveChanges();
-
-                        }
-                        if (ret_resp == "")
-                        {
                             ret_resp = Messages.Updated;
                         }
-
                     }
                 }
             }
@@ -2862,16 +2863,16 @@ namespace WebApi.DataLayer
         /// ChangeCallScorecard
         /// </summary>
         /// <param name="changeScorecardData"></param>
-        public void ChangeCallScorecard(ChangeScorecardData changeScorecardData)
+        public string ChangeCallScorecard(ChangeScorecardData changeScorecardData)
         {
             try
             {
-                int result = 0;
+              
                 int x_id = changeScorecardData.x_id;
                 int new_scorecard = Convert.ToInt32(changeScorecardData.new_scorecard);
                 if (!HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    return;
+                    return "";
                 }
                 using (CC_ProdEntities dataContext = new CC_ProdEntities())
                 {
@@ -2883,8 +2884,9 @@ namespace WebApi.DataLayer
                         tblXCC_REPORT_NEW = dataContext.XCC_REPORT_NEW.Find(isExist.ID);
                         dataContext.Entry(tblXCC_REPORT_NEW).State = EntityState.Modified;
                         tblXCC_REPORT_NEW.scorecard = new_scorecard;
-                        result = dataContext.SaveChanges();
+                       int result = dataContext.SaveChanges();
                     }
+                    return Messages.Updated;
                 }
             }
             catch (Exception ex)
@@ -3002,13 +3004,13 @@ namespace WebApi.DataLayer
                     {
                         var getList = dataContext.markExistingCallBad(isExist.form_id);
                     }
+                    return Messages.Updated;
                 }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return Messages.Updated;
         }
         #endregion Public CompleteReview
 
@@ -3141,13 +3143,13 @@ namespace WebApi.DataLayer
         /// MarkCallBad
         /// </summary>
         /// <param name="markBadCallData"></param>
-        public void MarkCallBad(MarkBadCallData markBadCallData)
+        public string MarkCallBad(MarkBadCallData markBadCallData)
         {
             int x_id = markBadCallData.x_id;
             string reject_reason;
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                return;
+                return "";
             }
 
             if (markBadCallData.reject_reason != null)
@@ -3260,6 +3262,7 @@ namespace WebApi.DataLayer
                         dataContext.SaveChanges();
                     }
                 }
+                return Messages.Insert;
             }
         }
         #endregion Public MarkCallBad

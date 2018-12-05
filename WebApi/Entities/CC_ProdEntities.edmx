@@ -11041,6 +11041,12 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
           <Parameter Name="scorecard" Type="int" Mode="In" />
           <Parameter Name="percent" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateDynamicQuery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TableName" Type="varchar" Mode="In" />
+          <Parameter Name="Field" Type="varchar" Mode="In" />
+          <Parameter Name="Value" Type="varchar" Mode="In" />
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateExtendedUserProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userId" Type="int" Mode="In" />
           <Parameter Name="userName" Type="varchar" Mode="In" />
@@ -20878,6 +20884,12 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="filter" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="UpdateDynamicQuery">
+            <Parameter Name="TableName" Mode="In" Type="String" />
+            <Parameter Name="Field" Mode="In" Type="String" />
+            <Parameter Name="Value" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetAllRecords_Result">
           <Property Type="Int32" Name="F_ID" Nullable="false" />
@@ -30446,6 +30458,7 @@ warning 6002: The table/view 'CC_Prod-2018-8-29-9-27.dbo.vwTrain' does not have 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="getCoachingQueueJson" FunctionName="Model.Store.getCoachingQueueJson" />
+          <FunctionImportMapping FunctionImportName="UpdateDynamicQuery" FunctionName="Model.Store.UpdateDynamicQuery" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1869,5 +1869,26 @@ namespace WebApi.Entities
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("getCoachingQueueJson", usernameParameter, filterParameter);
         }
+    
+        public virtual int UpdateDynamicQuery(string tableName, string field, string value, Nullable<int> id)
+        {
+            var tableNameParameter = tableName != null ?
+                new ObjectParameter("TableName", tableName) :
+                new ObjectParameter("TableName", typeof(string));
+    
+            var fieldParameter = field != null ?
+                new ObjectParameter("Field", field) :
+                new ObjectParameter("Field", typeof(string));
+    
+            var valueParameter = value != null ?
+                new ObjectParameter("Value", value) :
+                new ObjectParameter("Value", typeof(string));
+    
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateDynamicQuery", tableNameParameter, fieldParameter, valueParameter, idParameter);
+        }
     }
 }

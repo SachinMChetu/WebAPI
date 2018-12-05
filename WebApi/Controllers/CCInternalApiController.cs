@@ -1083,16 +1083,18 @@ namespace WebApi.Controllers
         [Route("CCInternal/ChangeCallScorecard")]
         [HttpPost]
         [ResponseType(typeof(ChangeScorecardData))]
-        public void ChangeCallScorecard(ChangeScorecardData changeScorecardData)
+        public string ChangeCallScorecard(ChangeScorecardData changeScorecardData)
         {
+            string message = string.Empty;
             try
             {
-                objCCInternalLayer.ChangeCallScorecard(changeScorecardData);
+                message= objCCInternalLayer.ChangeCallScorecard(changeScorecardData);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return message;
         }
         #endregion Public ChangeScorecardData
 
@@ -1108,7 +1110,7 @@ namespace WebApi.Controllers
         [ResponseType(typeof(RemoveCalib))]
         public string RemoveCalibrator(RemoveCalib removeCalib)
         {
-            string message = "";
+            string message = string.Empty;
             int f_id = Convert.ToInt32(removeCalib.FID);
             string calibrator = removeCalib.calibrator;
 
@@ -1163,7 +1165,7 @@ namespace WebApi.Controllers
         [ResponseType(typeof(MarkCaliBad))]
         public string MarkCalibrationBad(MarkCaliBad markCaliBad)
         {
-            string message = "";
+            string message = string.Empty ;
             try
             {
                 message = objCCInternalLayer.MarkCalibrationBad(markCaliBad);
@@ -1210,17 +1212,18 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/MarkCallBad")]
         [HttpPost]
-        [ResponseType(typeof(MarkBadCallData))]
-        public void MarkCallBad(MarkBadCallData markBadCallData)
+        public string MarkCallBad(MarkBadCallData markBadCallData)
         {
+            string Message = string.Empty;
             try
             {
-                objCCInternalLayer.MarkCallBad(markBadCallData);
+                Message=objCCInternalLayer.MarkCallBad(markBadCallData);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return Message;
         }
         #endregion Public MarkCallBad
 

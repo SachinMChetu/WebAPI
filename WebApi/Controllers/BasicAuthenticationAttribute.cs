@@ -74,13 +74,7 @@ namespace WebApi.Controllers
                             var roles = Roles.GetRolesForUser(userName);
                             var guid = Guid.NewGuid().ToString();
                             CurrentUser = new CustomPrincipal(userName, roles, guid);
-                            //HttpContext.Current.User = CurrentUser;
-                            
-                            //CurrentUser.CurrentGuid = guid;
                             HttpContext.Current.Session["UserInfo"] = CurrentUser;
-                            //var principal = new GenericPrincipal(new GenericIdentity(userName), null);
-                            //Thread.CurrentPrincipal = principal;
-
                             actionContext.Response =
                                actionContext.Request.CreateResponse(HttpStatusCode.OK,
                                   "User " + userName + " successfully authenticated");
