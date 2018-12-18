@@ -13,13 +13,13 @@ namespace WebApi.Entities
     
     public partial class GetActionButtonsData_Result
     {
-        public int wasEdited { get; set; }
+        public int? wasEdited { get; set; }
         public string website { get; set; }
         public string check_reason { get; set; }
-        public bool bad_call { get; set; }
+        public bool? bad_call { get; set; }
         public System.DateTime bca_date { get; set; }
         public string close_reason { get; set; }
-        public decimal edited_score { get; set; }
-        public decimal calib_score { get; set; }
+        public decimal? edited_score { get; set; }
+        public decimal? calib_score { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// 
     /// </summary>
-    public struct SchoolItem
+    public class SchoolItem
     {
 
         public string School { get; set; }

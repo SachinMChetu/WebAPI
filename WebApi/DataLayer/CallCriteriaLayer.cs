@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using WebApi.Entities;
@@ -38,9 +37,8 @@ namespace WebApi.DataLayer
                         useReview = Convert.ToInt32(use_review);
                     }
                     CallRecord scr = new CallRecord();
-                    ObjectResult<GetAllRecordsWithPending_Result> objGetAllRecords = dataContext.GetAllRecordsWithPending(call_date, appname, useReview);
-
-                    var SubCallRecord = (from records in objGetAllRecords
+                   var objGetAllRecords = dataContext.GetAllRecordsWithPending(call_date, appname, useReview);
+                   var SubCallRecord = (from records in objGetAllRecords
                                          select new CallRecord
                                          {
                                              F_ID = records.F_ID.ToString(),
@@ -968,18 +966,18 @@ namespace WebApi.DataLayer
                 {
                     scr.sessions_viewed = clerksession_viewed;
                 }
-                //CDService cdservice = new CDService();
-                //String strButton = cdservice.GetNotificationSteps(ID);
-                //List<string> buttons = new List<string>(strButton.Split('|'));
-                //if (buttons.Count > 0)
-                //{
-                //    scr.dispute_buttons = buttons;
-                //}
-                //List<Models.CDService.ActionButton> abs = cdservice.GetActionButtons(username, ID);
-                //if (abs.Count > 0)
-                //{
-                //    scr.ActionButtons = abs;
-                //}
+                CDServiceLayer onjCDServiceLayer = new CDServiceLayer();
+                String strButton = onjCDServiceLayer.GetNotificationSteps(ID.ToString());
+                List<string> buttons = new List<string>(strButton.Split('|'));
+                if (buttons.Count > 0)
+                {
+                    scr.dispute_buttons = buttons;
+                }
+                List<Models.CDService.ActionButton> abs = onjCDServiceLayer.GetActionButtons(username, ID.ToString());
+                if (abs.Count > 0)
+                {
+                    scr.ActionButtons = abs;
+                }
                 //reply = new SqlCommand("Select count(*) from spotcheck where f_id = @id and checked_date is not null", cn);
                 var spotcheck = dataContext.spotchecks.Where(x => x.f_id == ID && x.checked_date != null).Count();
                 if (spotcheck > 0)
@@ -2695,9 +2693,13 @@ namespace WebApi.DataLayer
         private string clean_string(string dirty_string)
         {
             if (dirty_string != null)
+            {
                 return dirty_string.Replace("+", " ").Replace("%20", " ");
+            }
             else
+            {
                 return dirty_string;
+            }
         }
     }
 }

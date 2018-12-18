@@ -5,12 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel;
 using System.Text;
 using System.Web;
 using System.Web.Security;
@@ -27,9 +24,11 @@ namespace WebApi.DataLayer
     public class CDServiceLayer
     {
         private Uri baseUri = new Uri("https://api.speechmatics.com/v1.0");
-        public string userID = "10608";     // User ID: 10608 
-        public string userToken = "ZGEzMDgyMGUtNzgxOC00NGMwLWFjMjMtMTZjZmMxMTFkN2Q2";     // API Auth Token: ZGEzMDgyMGUtNzgxOC00NGMwLWFjMjMtMTZjZmMxMTFkN2Q2
 
+        // User ID: 10608 
+        public string userID = System.Configuration.ConfigurationManager.AppSettings["userID"].ToString();
+        // API Auth Token: ZGEzMDgyMGUtNzgxOC00NGMwLWFjMjMtMTZjZmMxMTFkN2Q2
+        public string userToken = System.Configuration.ConfigurationManager.AppSettings["userToken"].ToString();
         /// <summary>
         /// getTranscriptById
         /// </summary>
@@ -87,8 +86,6 @@ namespace WebApi.DataLayer
             return wo;
         }
 
-
-        //[OperationContract()]
         /// <summary>
         /// getChat
         /// </summary>
@@ -256,7 +253,6 @@ namespace WebApi.DataLayer
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public TranscriptData GetTranscriptID(string ID)
         {
             TranscriptData td = new TranscriptData();
@@ -327,7 +323,6 @@ namespace WebApi.DataLayer
         /// <param name="appname"></param>
         /// <param name="team_lead"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public string GetSpotCheckData(string start_date, string end_date, string scorecard, string appname, string team_lead)
         {
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
@@ -387,7 +382,7 @@ namespace WebApi.DataLayer
                 //var dt=dataContext.getSpotCheckData(startDate,endDate, scoreCard,appname,team_lead)
                 string json = "";
                 //while (reader.Read())
-                  //json = json + reader[0];
+                //json = json + reader[0];
                 return json;
             }
         }
@@ -400,7 +395,6 @@ namespace WebApi.DataLayer
         /// <param name="end_date"></param>
         /// <param name="scorecard"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public string GetSpotCheckData2(string start_date, string end_date, string scorecard)
         {
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
@@ -544,15 +538,15 @@ namespace WebApi.DataLayer
                     ab.Endpoint = "ResetCall";
                     abs.Add(ab);
                 }
-                if(drv.check_reason !=null && drv.close_reason != null)
-                { 
-                if (drv.check_reason == "QA/QA Missed Items" & (HttpContext.Current.User.IsInRole("Admin") | HttpContext.Current.User.IsInRole("QA Lead") | HttpContext.Current.User.IsInRole("Account Manager")) & (drv.close_reason.IndexOf("Send to QA") > -1))
+                if (drv.check_reason != null && drv.close_reason != null)
                 {
-                    ActionButton ab = new ActionButton();
-                    ab.Action = "Reassign Notification";
-                    ab.Endpoint = "ReassignNotification";
-                    abs.Add(ab);
-                }
+                    if (drv.check_reason == "QA/QA Missed Items" & (HttpContext.Current.User.IsInRole("Admin") | HttpContext.Current.User.IsInRole("QA Lead") | HttpContext.Current.User.IsInRole("Account Manager")) & (drv.close_reason.IndexOf("Send to QA") > -1))
+                    {
+                        ActionButton ab = new ActionButton();
+                        ab.Action = "Reassign Notification";
+                        ab.Endpoint = "ReassignNotification";
+                        abs.Add(ab);
+                    }
                 }
                 if (HttpContext.Current.User.IsInRole("Admin"))
                 {
@@ -718,7 +712,6 @@ namespace WebApi.DataLayer
         /// </summary>
         /// <param name="xcc_id"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public static List<string> GetAvailableAudios(string xcc_id) // List(Of ScorePerf)
         {
             List<string> audios = new List<string>();
@@ -739,12 +732,11 @@ namespace WebApi.DataLayer
         }
 
         /// <summary>
-        /// 
+        /// GetNotificationSteps
         /// </summary>
         /// <param name="form_id"></param>
         /// <returns></returns>
-        //[OperationContract()]
-        public string GetNotificationSteps(string form_id) // List(Of ScorePerf)
+        public string GetNotificationSteps(string form_id)
         {
             string dest_list = "Notes Only";
             string[] @internal = new[] { "QA", "Calibrator", "Recalibrator", "Center Manager", "Tango TL", "QA Lead", "Team Lead", "Account Manager", "Admin" };
@@ -851,17 +843,17 @@ namespace WebApi.DataLayer
         /// <param name="hdnAgentFilter"></param>
         /// <param name="filter_array"></param>
         /// <returns></returns>
-        //[OperationContract()]
+
         public string GetNotificationStatus(string start_date, string end_date, string hdnAgentFilter, string filter_array = "") // List(Of ScorePerf)
         {
 
             string ret_data = "";
             int row_count = 0;
-          
+
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
                 var avg_dt = dataContext.Database.SqlQuery<NotificationStatus>(
-                " "+ Messages.getNotificationStatus +" '" + start_date + "', '" + end_date + "',' " + hdnAgentFilter.Replace("'", "''") + "', '" + filter_array.Replace("'", "''") + "'"
+                " " + Messages.getNotificationStatus + " '" + start_date + "', '" + end_date + "',' " + hdnAgentFilter.Replace("'", "''") + "', '" + filter_array.Replace("'", "''") + "'"
                 ).ToList();
 
                 foreach (var dr in avg_dt)
@@ -930,7 +922,7 @@ namespace WebApi.DataLayer
                     var isExist = dataContext.UpdateUserExtraInfo(field, value.Replace("'", "''"), HttpContext.Current.User.Identity.Name.Replace("'", "''"));
                 }
             }
-                return update_result.ToString();
+            return update_result.ToString();
         }
 
         /// <summary>
@@ -980,22 +972,22 @@ namespace WebApi.DataLayer
                 // DataTable stats_dt = Common.GetTable("SELECT distinct AGent FROM [XCC_REPORT_NEW]  where scorecard in (select user_scorecard from userapps where " +
                 //"username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "') " + filter + " and agent is not null and agent != '' " +
                 // "and max_reviews > -1 and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + "  order by AGent");
-                var xcc_REPORT_NEW = dataContext.GetCDServiceXccReportNew(agentGroup, scoreCard, UserName, agent, end_date, end_date, user_dt.special_filter,"Agent").ToList();
-                    foreach (var dr in xcc_REPORT_NEW)
-                    {
-                        DBOptions _mi = new DBOptions();
-                        _mi.text = dr.AGent;
-                        _mi.value = dr.AGent;
+                var xcc_REPORT_NEW = dataContext.GetCDServiceXccReportNew(agentGroup, scoreCard, UserName, agent, end_date, end_date, user_dt.special_filter, "Agent").ToList();
+                foreach (var dr in xcc_REPORT_NEW)
+                {
+                    DBOptions _mi = new DBOptions();
+                    _mi.text = dr.AGent;
+                    _mi.value = dr.AGent;
 
-                        if (HttpContext.Current.Session["Agent"].ToString() == dr.AGent)
-                        {
-                            _mi.selected = "selected";
-                        }
-                        else
-                        {
-                            _mi.selected = "";
-                        }
-                        mi_items.Add(_mi);
+                    if (HttpContext.Current.Session["Agent"].ToString() == dr.AGent)
+                    {
+                        _mi.selected = "selected";
+                    }
+                    else
+                    {
+                        _mi.selected = "";
+                    }
+                    mi_items.Add(_mi);
                 }
             }
             return mi_items;
@@ -1034,8 +1026,9 @@ namespace WebApi.DataLayer
             {
                 //DataTable user_col_count_dt = Common.GetTable("select * from available_columns join user_columns on user_columns.column_id = available_columns.id where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' order by col_order");
                 var AvailableColumns = (from availableColumns in dataContext.available_columns
-                                     join userColumns in dataContext.user_columns on availableColumns.id equals userColumns.column_id
-                                     where userColumns.username == HttpContext.Current.User.Identity.Name.Replace("'", "''") select new { availableColumns.column_required, availableColumns.column_name, userColumns.col_order }).OrderBy(x => x.col_order).ToList();
+                                        join userColumns in dataContext.user_columns on availableColumns.id equals userColumns.column_id
+                                        where userColumns.username == HttpContext.Current.User.Identity.Name.Replace("'", "''")
+                                        select new { availableColumns.column_required, availableColumns.column_name, userColumns.col_order }).OrderBy(x => x.col_order).ToList();
 
                 if (AvailableColumns.Count == 0)
                 {
@@ -1072,13 +1065,13 @@ namespace WebApi.DataLayer
                 gvQADetails.UseAccessibleHeader = false;
                 string this_user = HttpContext.Current.User.Identity.Name;
                 if (Sort_statement == "undefined" | Strings.Trim(Sort_statement) == "order by [] desc")
-                { 
+                {
                     Sort_statement = "";
                 }
                 string myRole = "";
                 string[] user_roles = Roles.GetRolesForUser(this_user);
                 foreach (var role in user_roles)
-                { 
+                {
                     myRole = role;
                 }
                 if (hdnAgentFilter.IndexOf("and vwform.agent =") > -1 & HttpContext.Current.User.Identity.Name.ToLower() == "agent")
@@ -1092,13 +1085,13 @@ namespace WebApi.DataLayer
                     if (Convert.ToInt32(pagenum) == 0)
                     {
                         dt = Common.GetTable(called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','1','1','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'");
-                        
+
                     }
                     else
                     {
                         dt = Common.GetTable(called_sp + " '" + this_user.Replace("'", "''") + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user.Replace("'", "''") + "','" + myRole + "','" + 1 + "','10000','" + Sort_statement + "','" + rowstart + "','" + rowend + "','" + filter_array.Replace("'", "''") + "'");
                     }
-                    }
+                }
                 else if (filter_array != "")
                 {
                     dt = Common.GetTable(called_sp + " '" + this_user + "','" + start_date + "','" + end_date + "','" + Strings.Replace(hdnAgentFilter, "'", "''") + "','" + this_user + "','" + myRole + "','" + pagenum + "','" + pagerows + "','" + Sort_statement + "','" + rowstart + "','" + rowend + "'");
@@ -1109,7 +1102,7 @@ namespace WebApi.DataLayer
                 }
                 gvQADetails.DataSource = dt;
                 gvQADetails.DataBind();
-                
+
                 HtmlTextWriter hw = new HtmlTextWriter(sw);
 
                 if (Convert.ToInt32(pagenum) == 0 | Convert.ToInt32(pagenum) == -1)
@@ -1137,7 +1130,7 @@ namespace WebApi.DataLayer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e) // Handles gvQADetails.RowCreated
+        protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
         {
             GridView gvQADetails = (GridView)sender;
             if (e.Row.RowType == DataControlRowType.Pager)
@@ -1202,29 +1195,28 @@ namespace WebApi.DataLayer
         /// <param name="end_date"></param>
         /// <param name="scorecard"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public List<DBOptions> GetQualityA(string start_date, string end_date, string scorecard)
         {
 
             List<DBOptions> mi_items = new List<DBOptions>();
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
-                DateTime startDate =new DateTime();
-                if(start_date !="")
+                DateTime startDate = new DateTime();
+                if (start_date != "")
                 {
                     startDate = Convert.ToDateTime(start_date);
                 }
-                DateTime etartDate = new DateTime() ;
+                DateTime etartDate = new DateTime();
                 if (end_date != "")
                 {
                     etartDate = Convert.ToDateTime(end_date);
                 }
                 //DataTable stats_dt;
                 //stats_dt = Common.GetTable("Select distinct reviewer from vwform  where call_date between '" + start_date + "' and '" + end_date + "'  order by reviewer");
-                var  stats_dt = (from x in dataContext.vwForms
-                                       where x.call_date >= startDate && x.call_date <= etartDate
-                                 select new { x.reviewer }).Distinct().ToList();
-            foreach (var dr in stats_dt)
+                var stats_dt = (from x in dataContext.vwForms
+                                where x.call_date >= startDate && x.call_date <= etartDate
+                                select new { x.reviewer }).Distinct().ToList();
+                foreach (var dr in stats_dt)
                 {
                     DBOptions _mi = new DBOptions();
                     _mi.text = dr.reviewer;
@@ -1243,7 +1235,6 @@ namespace WebApi.DataLayer
         /// <param name="scorecard"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        //[OperationContract()]
         public List<DBOptions> GetCampaigns(string start_date, string end_date, string scorecard, string group)
         {
             List<DBOptions> mi_items = new List<DBOptions>();
@@ -1288,7 +1279,7 @@ namespace WebApi.DataLayer
                             _mi.selected = "selected";
                         }
                         else
-                        { 
+                        {
                             _mi.selected = "";
                         }
                         mi_items.Add(_mi);
@@ -1342,38 +1333,13 @@ namespace WebApi.DataLayer
             List<DBOptions> mi_items = new List<DBOptions>();
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
-              
+
                 string userName = HttpContext.Current.User.Identity.Name.Replace("'", "''");
                 int scoreCard = 0;
                 if (scorecard != null && scorecard != "")
                 {
                     scoreCard = Convert.ToInt32(scorecard);
                 }
-                //if (scorecard == "0" | scorecard == "")
-                //{
-                //    scorecard = " in (select user_scorecard from userapps  where username =  '" + HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''") + "') ";
-                //}
-                //else
-                //{
-                //    scorecard = " in (" + scorecard + ") ";
-                //}
-                //DataTable sup_test = Common.GetTable("select user_group,user_role from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''") + "'");
-                ////var sup_test = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Replace("'", "''").Replace("'", "''")).FirstOrDefault();
-                //if (sup_test != null)
-                //{
-                //    if (sup_test.user_role == "supervisor" & sup_test.user_group != "")
-                //    {
-                //        scorecard = scorecard + " and agent_group = '" + sup_test.user_group + "' ";
-                //        my_group = sup_test.user_group;
-                //    }
-                //}
-                //if (HttpContext.Current.User.IsInRole("Agent"))
-                //{
-                //    scorecard += " and agent ='" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' ";
-                //}
-                //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
-                //stats_dt = Common.GetTable("SELECT distinct agent_group FROM [XCC_REPORT_NEW]  where scorecard " + scorecard + " and call_date between '" + start_date + "' and '" + end_date + "'  " + Strings.Replace(Strings.Replace(user_dt.Rows[0]["special_filter"].ToString(), "''", "'"), "vwform", "xcc_report_new") + " order by agent_group");
-               
                 var stats_dt = dataContext.GetCDGetGroups(scoreCard, userName, start_date, end_date).ToList();
                 foreach (var dr in stats_dt)
                 {
@@ -1386,7 +1352,7 @@ namespace WebApi.DataLayer
                         _mi.selected = "selected";
                     }
                     else
-                    { 
+                    {
                         _mi.selected = "";
                     }
 
@@ -1431,13 +1397,13 @@ namespace WebApi.DataLayer
         /// <param name="scorecard"></param>
         public void UpdateScorecard(string scorecard)
         {
-           
-                //Common.UpdateTable("delete from sc_update where reviewer = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' and sc_id = '" + scorecard + "'");
-                //Common.UpdateTable("insert into sc_update (reviewer, sc_id, date_reviewed) select '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + scorecard + "', dbo.getMTDate()");
+
+            //Common.UpdateTable("delete from sc_update where reviewer = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "' and sc_id = '" + scorecard + "'");
+            //Common.UpdateTable("insert into sc_update (reviewer, sc_id, date_reviewed) select '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "','" + scorecard + "', dbo.getMTDate()");
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
                 int Id = Convert.ToInt32(scorecard.Trim());
-                var isExist = dataContext.sc_update.Where(x => x.reviewer == HttpContext.Current.User.Identity.Name.Replace("'", "''") && x.sc_id== Id).FirstOrDefault();
+                var isExist = dataContext.sc_update.Where(x => x.reviewer == HttpContext.Current.User.Identity.Name.Replace("'", "''") && x.sc_id == Id).FirstOrDefault();
                 if (isExist != null)
                 {
                     dataContext.sc_update.Remove(isExist);
@@ -1453,7 +1419,7 @@ namespace WebApi.DataLayer
                     tblsc_update.sc_id = Id;
                     tblsc_update.date_reviewed = Date;
                     dataContext.sc_update.Add(tblsc_update);
-                   int Result=dataContext.SaveChanges();
+                    int Result = dataContext.SaveChanges();
                 }
 
             }
@@ -1465,13 +1431,13 @@ namespace WebApi.DataLayer
         /// <returns></returns>
         public UserInfo getUserInfo()
         {
-          
+
             using (CC_ProdEntities dataContext = new CC_ProdEntities())
             {
                 UserInfo ui = new UserInfo();
                 //DataTable user_dt = Common.GetTable("select * from userextrainfo where username = '" + HttpContext.Current.User.Identity.Name.Replace("'", "''") + "'");
                 var user_dt = dataContext.UserExtraInfoes.Where(x => x.username == HttpContext.Current.User.Identity.Name.Trim()).FirstOrDefault();
-                if (user_dt !=null)
+                if (user_dt != null)
                 {
                     ui.username = HttpContext.Current.User.Identity.Name;
                     ui.SpeedInc = user_dt.speed_increment.ToString();
@@ -1510,7 +1476,7 @@ namespace WebApi.DataLayer
                         comment_header = x;
                     }
                     if (e.Row.Cells[x].Text == "MISSED ITEMS")
-                    { 
+                    {
                         missed_list_header = x;
                     }
                     if (e.Row.Cells[x].Text == "CALL ID")
@@ -1555,22 +1521,18 @@ namespace WebApi.DataLayer
                 {
                     e.Row.Cells[call_id_header].Attributes.Add("data-text", sort_class);
                 }
-                    try
+                if (dr["Result"].ToString() == "Pass")
                 {
-                    if (dr["Result"].ToString() == "Pass")
-                        e.Row.Cells[call_result_header].Text = "<span class='final-result'>PASS <i class='fa fa-check'></i></span>";
-
-                    if (dr["Result"].ToString() == "N/A")
-                        e.Row.Cells[call_result_header].Text = "<span class='final-result' title='" + dr["bad_call_reason"].ToString().Replace("'", "").Replace("\"", "") + "' style='color:darkgray'>N/A &nbsp;&nbsp;<i class='fa fa-question-circle'></i></span>";
-
-                    if (dr["Result"].ToString() == "Fail")
-                    {
-                        dr[call_result_header] = "<span class='final-result' " + sort_class + ">FAIL <i class='fa fa-times'></i></span>";
-                        e.Row.Attributes.Add("class", "fail-row");
-                    }
+                    e.Row.Cells[call_result_header].Text = "<span class='final-result'>PASS <i class='fa fa-check'></i></span>";
                 }
-                catch (Exception ex)
+                if (dr["Result"].ToString() == "N/A")
                 {
+                    e.Row.Cells[call_result_header].Text = "<span class='final-result' title='" + dr["bad_call_reason"].ToString().Replace("'", "").Replace("\"", "") + "' style='color:darkgray'>N/A &nbsp;&nbsp;<i class='fa fa-question-circle'></i></span>";
+                }
+                if (dr["Result"].ToString() == "Fail")
+                {
+                    dr[call_result_header] = "<span class='final-result' " + sort_class + ">FAIL <i class='fa fa-times'></i></span>";
+                    e.Row.Attributes.Add("class", "fail-row");
                 }
 
                 if (dr[comment_header].ToString() != "&nbsp;" & (dr[comment_header].ToString().Trim()) != "-")
@@ -1585,46 +1547,52 @@ namespace WebApi.DataLayer
                         foreach (var comment in comments)
                         {
                             if (Strings.Trim(comment) != "")
+                            {
                                 dr[comment_header] += "<i class='fa fa-file comment" + comment_id + "'></i><span style='white-space: normal;'>" + Strings.Trim(comment.Replace("&lt;br&gt;", "<br>")) + "</span>";
+                            }
                             comment_id += 1;
                         }
                     }
                     else
+                    {
                         dr[comment_header] = "<i class='fa fa-file comment1'></i><span style='white-space: normal;'>" + dr[comment_header].ToString().Replace("&lt;br&gt;", "<br>").Trim() + "</span>";
+                    }
                 }
 
                 string noti_owned = "1";
                 if (dr["non_edit"].ToString() == "1")
+                {
                     noti_owned = "0";
-
+                }
                 if (dr["NotificationID"].ToString() != "" & dr["Notificationstep"].ToString() != "")
+                {
                     dr[comment_header] += " <img class='noti-click yellow-ex-mark noti-click" + dr["OwnedNotification"].ToString() + "' src='img/yellow_exclamation.png' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Open " + dr["Notificationstep"].ToString() + " Notification' data-notiid='" + dr["NotificationID"].ToString() + "' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='" + dr["Notificationstep"].ToString() + "' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
+                }
                 else
                 {
                     if (HttpContext.Current.User.IsInRole("Client") | HttpContext.Current.User.IsInRole("Supervisor") | HttpContext.Current.User.IsInRole("Admin"))
+                    {
                         dr[comment_header] += " <img class='noti-click yellow-ex-mark' src='img/yellow-plus.PNG' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Create Notification' data-source='callDetails' data-notiid='0' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='Supervisor' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
-
-
-                    try
-                    {
-                        if (HttpContext.Current.User.IsInRole("Agent") & dr["agent"].ToString() == HttpContext.Current.User.Identity.Name)
-                            dr[comment_header] += " <img class='noti-click yellow-ex-mark' src='img/yellow-plus.PNG' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Create Notification' data-source='callDetails' data-notiid='0' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='Agent' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
                     }
-                    catch (Exception ex)
+                    if (HttpContext.Current.User.IsInRole("Agent") & dr["agent"].ToString() == HttpContext.Current.User.Identity.Name)
                     {
+                        dr[comment_header] += " <img class='noti-click yellow-ex-mark' src='img/yellow-plus.PNG' alt='Open " + dr["Notificationstep"].ToString() + " Notification' title='Create Notification' data-source='callDetails' data-notiid='0' data-formid='" + dr["Call ID"].ToString() + "' data-notiowned='" + noti_owned + "' data-notistep='Agent' data-phone='" + dr["phone"].ToString() + "' onclick='pop_notification($(this).attr(\"data-notiid\"),$(this).attr(\"data-notistep\"),\"\",\"" + dr["Call ID"].ToString() + "\");'>";
                     }
                 }
-               
-                if (dr["play_btn_class"].ToString() == "")
-                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'><div></div></button></a>";
-                else
-                    // If HttpContext.Current.User.IsInRole("Agent") Then
-                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'  class='cali_class' title='Calibrated Call'><div></div></button></a>";
 
+                if (dr["play_btn_class"].ToString() == "")
+                {
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'><div></div></button></a>";
+                }
+                else
+                {
+                    dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button'  class='cali_class' title='Calibrated Call'><div></div></button></a>";
+                }
 
                 if (dr["wasEdited"].ToString() == "True" & dr["play_btn_class"].ToString() == "")
+                {
                     dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "' target='_blank'><button type='button' class='edit_class'  title='Edited Call'><div></div></button></a>";
-
+                }
                 if (dr["website"].ToString() != "")
                     dr[call_id_header] = "<a href='review/" + dr["call id"].ToString() + "'  target='_blank'><button type='button' class='website_class'  title='Website Call'><div></div></button></a>";
                 e.Row.Attributes.Add("class", "playBtn");
@@ -1643,7 +1611,6 @@ namespace WebApi.DataLayer
             {
                 WebRequest request = WebRequest.Create(uri);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
                     return sr.ReadToEnd();
@@ -1656,34 +1623,11 @@ namespace WebApi.DataLayer
         }
     }
 
-   
+
 
 
     public class JsonStringResult
     {
         public string JsonString { get; set; }
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    public class NotificationStatus
-    {
-        public string Reviewer { get; set; }
-        public int? TN { get; set; }
-        public int? AB { get; set; }
-        public int? AA { get; set; }
-        public int? AD { get; set; }
-        public int? SB { get; set; }
-        public int? SA { get; set; }
-        public int? SD { get; set; }
-        public int? QB { get; set; }
-        public int? QA { get; set; }
-        public int? QD { get; set; }
-        public int? LB { get; set; }
-        public int? LA { get; set; }
-        public int? LD { get; set; }
-        public int? TD { get; set; }
-
-    }
-
 }

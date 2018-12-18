@@ -5,11 +5,11 @@ using System.Web;
 
 namespace WebApi.Models.DBModel
 {
-    public class vwFOrm_Result
+    public class getTemplateItemsAllComplex_Result
     {
-        public string comment { get; set; }
-        public int? comment_points { get; set; }
-        public int? id { get; set; }
+        public int id { get; set; }
         public int? question_id { get; set; }
+        public string option_value { get; set; }
+        public string value { get; set; }
     }
 }

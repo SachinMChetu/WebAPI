@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApi.Models.CCInternalAPI
 {
-    public struct UserObject
+    public class UserObject
     {
         public string UserRole;
         public List<LinkList> UserLinks;

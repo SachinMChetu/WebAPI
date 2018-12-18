@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// MyScorecards
     /// </summary>
-    public struct MyScorecards
+    public class MyScorecards
     {
         public int scorecard;
         public string scorcard_name;

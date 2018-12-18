@@ -8,7 +8,7 @@ namespace WebApi.Models.CCInternalAPI
     /// <summary>
     /// UserModule
     /// </summary>
-    public struct UserModule
+    public class UserModule
     {
         public string module_title;
         public string module_width;

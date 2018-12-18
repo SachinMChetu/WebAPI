@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.ServiceModel.Web;
 using System.Web;
 using System.Web.Security;
 using System.Xml.Serialization;
@@ -43,9 +42,17 @@ namespace WebApi.DataLayer
                 using (CC_ProdEntities dataContext = new CC_ProdEntities())
                 {
                     List<CallRecord> SubCallRecord = new List<CallRecord>();
-
-                    ObjectResult<GetAllRecords_Result> objGetAllRecords = dataContext.GetAllRecords(Convert.ToDateTime(call_date), appname, Convert.ToInt32(use_review));
-
+                    DateTime? dateTime = null;
+                    int? useReview=0;
+                    if (call_date !="")
+                    {
+                        dateTime = Convert.ToDateTime(call_date);
+                    }
+                    if(use_review !="")
+                    {
+                        useReview = Convert.ToInt32(use_review);
+                    }
+                    var objGetAllRecords = dataContext.GetAllRecords(dateTime, appname, useReview);
                     SubCallRecord = (from records in objGetAllRecords
                                      select new CallRecord
                                      {
@@ -191,11 +198,6 @@ namespace WebApi.DataLayer
                 string username = HttpContext.Current.User.Identity.Name;
                 string sessionId1 = HttpContext.Current.Session.SessionID;
                 string sessionId = null;
-                //if (HttpContext.Current.Session["session_id"].ToString() != null)
-                //{
-                //    sessionId = HttpContext.Current.Session["UserInfo"].ToString();
-                //}
-                //string username = "Joris";
                 var getNextCallComplex = GetNextCallComplex(username, sessionId, 0, 0).ToList();
                 if (getNextCallComplex.Equals(0))
                 {
@@ -205,7 +207,7 @@ namespace WebApi.DataLayer
                 var NextCallAPIQAQA = getNextCallComplex[0].Cast<getNextCallAPIQAQA_Result>();
                 var dr = NextCallAPIQAQA.FirstOrDefault();
                 List<School_X_Data_Result> school_X_Data = getNextCallComplex[1].Cast<School_X_Data_Result>().ToList();
-                List<getotherformdata_Result> getotherformdata = getNextCallComplex[2].Cast<getotherformdata_Result>().ToList();
+                List<getotherformdataComplex_Result> getotherformdata = getNextCallComplex[2].Cast<getotherformdataComplex_Result>().ToList();
                 List<rejection_reasons_Result> section_dt = getNextCallComplex[3].Cast<rejection_reasons_Result>().ToList();
 
                 ListenData ld = new ListenData();
@@ -287,27 +289,17 @@ namespace WebApi.DataLayer
                 ld.rejection_reasons = rej_list;
                 objListenCall.ListenData = ld;
                 getSCRecData gd = new getSCRecData();
-                //if (dr.isQAQACard == false)
-                //{
-
+             
                 if (gd.xcc_id != null)
                 {
                     gd.scorecard_ID = scorecard_id.ToString();
                     gd.xcc_id = dr.ID.ToString();
                     objListenCall.Scorecard = GetScorecardRecordListen(gd.scorecard_ID, gd.xcc_id, username);
                 }
-                // }
-                // else
-                // {
-                // gd.scorecard_ID = dr.qaqasc.ToString();
-                // gd.xcc_id = dr.orig_ID.ToString();
-                // }
-
-                //objListenCall.ListenData.audio_merge = CDService.GetAvailableAudios(dr["ID"].ToString());
+                
+                objListenCall.ListenData.audio_merge = CDServiceLayer.GetAvailableAudios(dr.ID.ToString());
                 var dateQuery = dataContext.Database.SqlQuery<DateTime>("SELECT dbo.getMTdate()");
                 DateTime mtdate = dateQuery.AsEnumerable().First();
-                //if (HttpContext.Current.Session["session_id"].ToString() == "" | HttpContext.Current.Session["session_id"] == null)
-                //{
                 //Common.UpdateTable("update XCC_REPORT_NEW set review_started = dbo.getMTDate() where ID = " + dr.ID.ToString());
                 if (dr != null)
                 {
@@ -321,21 +313,21 @@ namespace WebApi.DataLayer
                         xccReportNew.review_started = mtdate;
                         dataContext.SaveChanges();
                     }
-                    //}
-                    //else
-                    //{
-                    //    //Common.UpdateTable("insert into session_viewed (agent, date_viewed, session_id, page_viewed) select '" + username + "',dbo.getMTDate(), " + dr["ID"].ToString() + ",'listen'");
-                    //    //HttpContext.Current.Session["session_id"] = null;
-                    //    session_viewed objsession_viewed = new session_viewed();
-                    //    // Save form_score3 data
-                    //    objsession_viewed.session_id = dr.ID;
-                    //    objsession_viewed.page_viewed = "listen";
-                    //    objsession_viewed.date_viewed = mtdate;
-                    //    objsession_viewed.agent = username;
-                    //    dataContext.session_viewed.Add(objsession_viewed);
-                    //    int result1 = dataContext.SaveChanges();
-                    //}
                 }
+                else
+                {
+                    //Common.UpdateTable("insert into session_viewed (agent, date_viewed, session_id, page_viewed) select '" + username + "',dbo.getMTDate(), " + dr["ID"].ToString() + ",'listen'");
+                    //HttpContext.Current.Session["session_id"] = null;
+                    session_viewed objsession_viewed = new session_viewed();
+                    // Save form_score3 data
+                    objsession_viewed.session_id = dr.ID;
+                    objsession_viewed.page_viewed = "listen";
+                    objsession_viewed.date_viewed = mtdate;
+                    objsession_viewed.agent = username;
+                    dataContext.session_viewed.Add(objsession_viewed);
+                    int result1 = dataContext.SaveChanges();
+                }
+
             }
             return objListenCall;
         }
@@ -374,7 +366,7 @@ namespace WebApi.DataLayer
                     result = dataContext.MultipleResults(command)
                                    .With<getNextCallAPIQAQA_Result>()
                                    .With<School_X_Data_Result>()
-                                   .With<getotherformdata_Result>()
+                                   .With<getotherformdataComplex_Result>()
                                    .With<rejection_reasons_Result>()
                                    .Execute();
                 }
@@ -446,12 +438,12 @@ namespace WebApi.DataLayer
                     var result = dataContext.UserExtraInfoes.Where(x => x.username == alt_user.Replace("'", "''") && x.active != 0 && x.user_role != "inactive").ToList();
                     if (result.Count > 0)
                     {
-                        //HttpCookie cookie = HttpContext.Current.Request.Cookies["filter"];
-                        //if (cookie != null)
-                        //{
-                        //    cookie.Expires = DateTime.Now.AddYears(-1);
-                        //  HttpContext.Current.Response.Cookies.Add(cookie);
-                        //}
+                        HttpCookie cookie = HttpContext.Current.Request.Cookies["filter"];
+                        if (cookie != null)
+                        {
+                            cookie.Expires = DateTime.Now.AddYears(-1);
+                            HttpContext.Current.Response.Cookies.Add(cookie);
+                        }
                         ba.ActionRedirect = "dashboard";
                         ba.ActionResult = "Success";
                         ba.ActionTask = "Redirect";
@@ -516,10 +508,10 @@ namespace WebApi.DataLayer
                     pw_item.num_calibrations = dr.num_calibrations.ToString();
                     pw_item.num_calls = dr.num_calls.ToString();
                     pw_item.num_disputes = dr.num_disputes.ToString();
-                    pw_item.reviewer = dr.reviewer.ToString();
-                    pw_item.reviewtime = dr.reviewtime.ToString();
+                    pw_item.reviewer = dr.reviewer;
+                    pw_item.reviewtime = dr.reviewtime;
                     pw_item.scorecard = dr.scorecard.ToString();
-                    pw_item.sc_date = dr.sc_date.ToString();
+                    pw_item.sc_date = dr.sc_date;
                     pw_item.short_name = dr.short_name;
                     pw_item.startdate = dr.startdate.ToString();
                     pw_item.websites = dr.websites.ToString();
@@ -633,25 +625,26 @@ namespace WebApi.DataLayer
 
                         case "Call":
                             {
+
                                 scorecardDataList.Add(getRecordSCCall(item.call_id.ToString(), userName));
                                 break;
                             }
 
                         case "Calibration":
                             {
-                                //scorecardDataList.Add(getRecordSCCalibration(item.call_id.ToString(), userName));
+                                scorecardDataList.Add(getRecordSCCalibration(item.call_id.ToString(), userName));
                                 break;
                             }
 
                         case "ClientCalibration":
                             {
-                                //scorecardDataList.Add(getRecordSCClientCalibration(item.call_id.ToString(), userName));
+                                scorecardDataList.Add(getRecordSCClientCalibration(item.call_id.ToString(), userName));
                                 break;
                             }
 
                         case "EditedCall":
                             {
-                                //scorecardDataList.Add(getRecordSCEdited(item.call_id.ToString(), userName, item.call_username.ToString()));
+                                scorecardDataList.Add(getRecordSCEdited(item.call_id.ToString(), userName, item.call_username));
                                 break;
                             }
                     }
@@ -671,12 +664,12 @@ namespace WebApi.DataLayer
                 {
 
                     scr.F_ID = res.F_ID.ToString();
-                    scr.client_logo = res.client_logo.ToString();
+                    scr.client_logo = res.client_logo;
                     scr.review_ID = res.review_ID.ToString();
-                    scr.Comments = res.Comments.ToString();
-                    scr.autofail = res.autofail.ToString();
-                    scr.reviewer = res.reviewer.ToString();
-                    scr.appname = res.appname.ToString();
+                    scr.Comments = res.Comments;
+                    scr.autofail = res.autofail;
+                    scr.reviewer = res.reviewer;
+                    scr.appname = res.appname;
                     scr.total_score = res.total_score.ToString();
                     scr.total_score_with_fails = res.total_score_with_fails.ToString();
                     scr.call_length = res.call_length.ToString();
@@ -684,9 +677,9 @@ namespace WebApi.DataLayer
                     scr.fs_audio = res.fs_audio;
                     scr.week_ending_date = res.week_ending_date.ToString();
                     scr.num_missed = res.num_missed.ToString();
-                    scr.missed_list = res.missed_list.ToString();
+                    scr.missed_list = res.missed_list;
                     scr.call_made_date = res.call_made_date.ToString();
-                    scr.AGENT = res.AGENT.ToString();
+                    scr.AGENT = res.AGENT;
                     scr.ANI = res.ANI;
                     scr.DNIS = res.DNIS;
                     scr.TIMESTAMP = res.TIMESTAMP;
@@ -766,17 +759,25 @@ namespace WebApi.DataLayer
                     // Try
                     bool nonEdit = isExist.HasValue ? true : false;
                     if (nonEdit)
+                    {
                         scr.editable = false;
+                    }
                     if ((HttpContext.Current.User.IsInRole("QA") & (res.calib_score.ToString() != "" | res.edited_score.ToString() != "")) | non_edit == "True" | (HttpContext.Current.User.IsInRole("Agent")))
+                    {
                         scr.editable = false;
-
+                    }
                     if ((HttpContext.Current.User.IsInRole("QA") & userName != res.reviewer))
+                    {
                         scr.editable = false;
-
+                    }
                     if ((HttpContext.Current.User.IsInRole("calibrator") & userName == res.reviewer))
+                    {
                         scr.editable = false;
+                    }
                     if (bad_call)
+                    {
                         scr.editable = false;
+                    }
                     var clerkDataTemp = (from collected_data in dataContext.collected_data
                                          join sc_inputs in dataContext.sc_inputs on collected_data.value_id equals sc_inputs.id
                                          where collected_data.form_id == res.F_ID
@@ -899,7 +900,7 @@ namespace WebApi.DataLayer
                 if (buttons.Count > 0)
                     scr.dispute_buttons = buttons;
                 CDServiceLayer objCDService = new CDServiceLayer();
-                List<ActionButton> abs = objCDService.GetActionButtons(userName, si.ToString());
+                List<ActionButton> abs = objCDService.GetActionButtons(userName, si.ToString()).ToList();
                 if (abs.Count > 0)
                 {
                     scr.ActionButtons = abs;
@@ -924,8 +925,9 @@ namespace WebApi.DataLayer
                     }
                 }
                 else
+                {
                     scr.showSpotCheck = false;
-
+                }
                 var resultcalipendingclient = dataContext.cali_pending_client.Where(x => x.form_id == si && x.date_completed == null).ToList();
                 //reply = new SqlCommand("select assigned_to from cali_pending_client where date_completed is null and form_id = @id");
                 List<string> incom_list = new List<string>();
@@ -960,7 +962,6 @@ namespace WebApi.DataLayer
                 var getPopulatedScorecard = getRecordSCCSCall1(fId, username).ToList();
                 //SqlCommand sq = new SqlCommand("getCompletedSCCSCall");
                 ScorecardData scd = populateScorecard(getPopulatedScorecard);
-
                 app_settings_Result dr = getPopulatedScorecard[4].Cast<app_settings_Result>().FirstOrDefault();
                 //DataRow dr = ds.Tables[4].Rows[0];
 
@@ -979,7 +980,7 @@ namespace WebApi.DataLayer
                 {
                     cs.score = Convert.IsDBNull(dr.original_qa_score) ? (Convert.IsDBNull(dr.total_score) ? "N/A" : dr.total_score.ToString()) : dr.original_qa_score.ToString();
                 }
-                cs.reviewer = dr.reviewer.ToString();
+                cs.reviewer = dr.reviewer;
                 cs.scoredate = Convert.ToDateTime(dr.review_date).ToShortDateString();
                 if (!Convert.IsDBNull(dr.qa_cali_score))
                 {
@@ -992,8 +993,10 @@ namespace WebApi.DataLayer
         }
         #endregion  getRecordSCCSCall
 
+
+        #region getRecordSCCSCall1
         /// <summary>
-        /// 
+        /// getRecordSCCSCall1
         /// </summary>
         /// <param name="f_id"></param>
         /// <param name="username"></param>
@@ -1027,7 +1030,6 @@ namespace WebApi.DataLayer
                                    .With<vwFOrm_Result>()
                                    .With<getTemplateItemsAll_Result>()
                                    .With<app_settings_Result>()
-
                                    .Execute();
                 }
                 return result;
@@ -1042,6 +1044,7 @@ namespace WebApi.DataLayer
             }
         }
 
+        #endregion getRecordSCCSCall1
 
         #region Private populateScorecard
         /// <summary>
@@ -1080,7 +1083,6 @@ namespace WebApi.DataLayer
                     qr.OptionVerb = qdr.options_verb;
                     qr.LeftColumnQuestion = Convert.ToBoolean(qdr.left_column_question);
                     qr.QAPoints = Convert.ToInt32(qdr.QA_points);
-
                     qr.QType = qdr.q_type;
                     qr.ViewLink = qdr.view_link;
                     qr.comments_allowed = Convert.ToBoolean(qdr.comments_allowed);
@@ -1111,8 +1113,6 @@ namespace WebApi.DataLayer
                                 cmt.CommentText = ans_dr.comment;
                                 cmt.CommentID = Convert.ToInt32(ans_dr.id);
                                 //cmt.CommentPoints = Convert.IsDBNull(ans_dr["comment_points"]) ? new float() : (float)(ans_dr["comment_points"]);
-
-                                //cmt.NavigateQuestion = ans_dr["origin_qid"].ToString();
                                 cmt_list.Add(cmt);
                             }
                             qr.QComments = ans_comment;
@@ -1158,8 +1158,104 @@ namespace WebApi.DataLayer
         }
         #endregion populateScorecard
 
+
+        #region Private populateScorecardComplex
         /// <summary>
-        /// 
+        /// populateScorecard
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        private ScorecardData populateScorecardComplex(List<IEnumerable> ds)
+        {
+            ScorecardData scd = new ScorecardData();
+            //DataTable section_dt = ds.Tables[0];
+            //DataTable qdt = ds.Tables[1];
+            //DataTable ans_dt = ds.Tables[2];
+            //DataTable temp_dt = ds.Tables[3];
+            List<getCompletedSCCSCall_Result> section_dt = ds[0].Cast<getCompletedSCCSCall_Result>().ToList();
+            List<form_q_scores_Complex_Result> qdt = ds[1].Cast<form_q_scores_Complex_Result>().ToList();
+            List<vwFOrm_Result> ans_dt = ds[2].Cast<vwFOrm_Result>().ToList();
+            List<getTemplateItemsAllComplex_Result> temp_dt = ds[3].Cast<getTemplateItemsAllComplex_Result>().ToList();
+            List<SectionData> sections = new List<SectionData>();
+            foreach (var section_dr in section_dt)
+            {
+                SectionData section_data = new SectionData();
+                section_data.SectionTitle = section_dr.section;
+                List<ScorecardResponse> qrs = new List<ScorecardResponse>();
+
+                //filteredq_dt = qdt.Select("section_id = " + section_dr["ID"]);
+                var qdt1 = qdt.Where(x => x.section_id == section_dr.ID).ToList();
+                foreach (var qdr in qdt1)
+                {
+                    ScorecardResponse qr = new ScorecardResponse();
+                    qr.question = qdr.q_short_name;
+                    qr.result = qdr.answer_text;
+                    qr.QID = Convert.ToInt32(qdr.q_id);
+                    qr.sentence = qdr.sentence;
+                    qr.OptionVerb = qdr.options_verb;
+                    qr.LeftColumnQuestion = Convert.ToBoolean(qdr.left_column_question);
+                    qr.QType = qdr.q_type;
+                    qr.ViewLink = qdr.view_link;
+                    List<Comment> cmt_list = new List<Comment>();
+                    try
+                    {
+                        //filteredans_dt = ans_dt.Select("question_id = '" + qdr.q_id.ToString() + "'");
+                        var filteredans_dt = ans_dt.Where(x => x.question_id == qdr.q_id).ToList();
+                        if (filteredans_dt.Count() > 0)
+                        {
+                            List<string> ans_comment = new List<string>();
+                            foreach (var ans_dr in filteredans_dt)
+                            {
+                                ans_comment.Add(ans_dr.comment);
+                                Comment cmt = new Comment();
+                                cmt.CommentText = ans_dr.comment;
+                                cmt.CommentID = Convert.ToInt32(ans_dr.id);
+                                cmt_list.Add(cmt);
+                            }
+                            qr.QComments = ans_comment;
+                            qr.SCRComments = cmt_list;
+                        }
+
+                        //DataRow[] filteredtemp_dt;
+                        //filteredtemp_dt = temp_dt.Select("question_id = " + qdr["q_id"]);
+                        var filteredtemp_dt = temp_dt.Where(x => x.question_id == qdr.q_id).ToList();
+                        if (filteredtemp_dt.Count() > 0)
+                        {
+                            List<CheckItems> temp_items = new List<CheckItems>();
+                            foreach (var temp_dr in filteredtemp_dt)
+                            {
+                                CheckItems temp_item = new CheckItems();
+                                if (temp_dr.value.Trim() == temp_dr.option_value.Trim())
+                                {
+                                    temp_item.Checked = true;
+                                }
+                                else
+                                {
+                                    temp_item.Checked = false;
+                                }
+                                temp_item.Item = temp_dr.value;
+                                temp_item.ID = temp_dr.id.ToString();
+                                temp_items.Add(temp_item);
+                            }
+                            qr.QTemplate = temp_items;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    qrs.Add(qr);
+                }
+                section_data.QList = qrs;
+                sections.Add(section_data);
+            }
+            scd.Sections = sections;
+
+            return scd;
+        }
+        #endregion populateScorecardComplex
+
+        /// <summary>
+        /// getRecordSCCallComplexType
         /// </summary>
         /// <param name="f_id"></param>
         /// <param name="username"></param>
@@ -1186,7 +1282,6 @@ namespace WebApi.DataLayer
                     };
 
                     command.Parameters.AddRange(parameters.ToArray());
-
                     result = dataContext.MultipleResults(command)
                                    .With<getCompletedSCCSCall_Result>()
                                    .With<form_q_scores_Result>()
@@ -1257,83 +1352,326 @@ namespace WebApi.DataLayer
         #endregion  getRecordSCCall
 
 
-        //#region Private getRecordSCCall
-        ///// <summary>
-        ///// getRecordSCCalibration
-        ///// </summary>
-        ///// <param name="f_id"></param>
-        ///// <param name="username"></param>
-        ///// <returns></returns>
-        //private ScorecardData getRecordSCCalibration(string f_id, string username)
-        //{
-        //    SqlCommand sq = new SqlCommand("getCompletedSCCalibration");
-        //    sq.CommandType = CommandType.StoredProcedure;
-        //    sq.Parameters.AddWithValue("id", f_id);
-        //    sq.Parameters.AddWithValue("username", username);
-        //    DataSet ds = Common.getTables(sq);
-        //    ScorecardData scd = populateScorecard(ds);
-        //    DataRow dr = ds.Tables[4].Rows[0];
-        //    UserObject scu = new UserObject();
-        //    if (dr["active_cali"].ToString() == "1" & Convert.ToInt32(dr["golden_count"]) == 0)
-        //        scu.isGolden = true;
-        //    else
-        //        scu.isGolden = false;
 
-        //    if (dr["user_role"].ToString() == "Calibrator")
-        //        scu.UserTitle = "Calibrator";
-        //    else
-        //        scu.UserTitle = "Recalibrator";
-        //    scu.UserRole = dr["user_role"] + " Response";
-        //    scd.ScorecardUser = scu;
-        //    CallScores cs = new CallScores();
-        //    cs.score = Convert.IsDBNull(dr["cali_form_score"]) ? "0" : dr["cali_form_score"].ToString();
-        //    cs.reviewer = dr["reviewed_by"].ToString();
-        //    if (dr["user_role"].ToString() == "Calibrator")
-        //        cs.calibrationscore = dr["cal_recal_score"].ToString();
-        //    else
-        //        cs.calibrationscore = dr["total_score"].ToString();
-        //    cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToString();
-        //    cs.role = dr["user_role"].ToString();
-        //    scd.CallScore = cs;
-        //    return scd;
-        //}
-        //#endregion  getRecordSCCall
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f_id"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public List<IEnumerable> getCompletedSCCalibrationComplexType(int f_id, string username)
+        {
+            try
+            {
+                List<IEnumerable> result = new List<IEnumerable>();
+                //second way to get multiple result set in entity
+                using (CC_ProdEntities dataContext = new CC_ProdEntities())
+                {
+                    var command = new SqlCommand()
+                    {
+                        CommandText = "[dbo].[getCompletedSCCalibration]",
+                        CommandType = CommandType.StoredProcedure
+                    };
 
-        //#region Private getRecordSCClientCalibration
-        ///// <summary>
-        ///// getRecordSCClientCalibration
-        ///// </summary>
-        ///// <param name="f_id"></param>
-        ///// <param name="username"></param>
-        ///// <returns></returns>
-        //private ScorecardData getRecordSCClientCalibration(string f_id, string username)
-        //{
-        //    SqlCommand sq = new SqlCommand("getCompletedSCClientCalibration");
-        //    sq.CommandType = CommandType.StoredProcedure;
-        //    sq.Parameters.AddWithValue("id", f_id);
-        //    sq.Parameters.AddWithValue("username", username);
-        //    DataSet ds = Common.getTables(sq);
-        //    ScorecardData scd = populateScorecard(ds);
-        //    DataRow dr = ds.Tables[4].Rows[0];
-        //    UserObject scu = new UserObject();
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@id",f_id),
+                        new SqlParameter("@username",username)
 
-        //    scu.UserRole = dr["user_role"] + " - Client Calib";
-        //    scu.UserTitle = dr["reviewed_by"].ToString();
-        //    if (dr["golden"] == dr["reviewed_by"])
-        //        scu.isGolden = true;
-        //    else
-        //        scu.isGolden = false;
-        //    CallScores cs = new CallScores();
-        //    cs.score = Convert.IsDBNull(dr["total_score"]) ? "0" : dr["total_score"].ToString();
-        //    cs.calibrationscore = Convert.IsDBNull(dr["cali_form_score"]) ? "0" : dr["cali_form_score"].ToString();
-        //    cs.reviewer = dr["reviewed_by"].ToString();
-        //    cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
-        //    cs.role = dr["user_role"].ToString();
-        //    scd.CallScore = cs;
-        //    scd.ScorecardUser = scu;
-        //    return scd;
-        //}
-        //#endregion getRecordSCClientCalibration
+                    };
+
+                    command.Parameters.AddRange(parameters.ToArray());
+
+                    result = dataContext.MultipleResults(command)
+                                   .With<getCompletedSCCSCall_Result>()
+                                   .With<form_q_scores_Complex_Result>()
+                                   .With<vwFOrm_Result>()
+                                   .With<getTemplateItemsAllComplex_Result>()
+                                   .With<Models.DBModel.getCompletedSCCalibration_Result>()
+                                   .Execute();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+
+            }
+        }
+
+        #region Private getRecordSCCall
+        /// <summary>
+        /// getRecordSCCalibration
+        /// </summary>
+        /// <param name="f_id"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private ScorecardData getRecordSCCalibration(string f_id, string username)
+        {
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                int fId = 0;
+                if (f_id != "" && f_id != null)
+                {
+                    fId = Convert.ToInt32(f_id);
+                }
+                var getPopulatedScorecard = getCompletedSCCalibrationComplexType(fId, username).ToList();
+                ScorecardData scd = populateScorecardComplex(getPopulatedScorecard);
+                Models.DBModel.getCompletedSCCalibration_Result dr = getPopulatedScorecard[4].Cast<Models.DBModel.getCompletedSCCalibration_Result>().FirstOrDefault();
+                //DataRow dr = ds.Tables[4].Rows[0];
+                UserObject scu = new UserObject();
+                if (dr.active_cali == 1 & dr.golden_count == 0)
+                {
+                    scu.isGolden = true;
+                }
+                else
+                {
+                    scu.isGolden = false;
+                }
+                if (dr.user_role == "Calibrator")
+                {
+                    scu.UserTitle = "Calibrator";
+                }
+                else
+                {
+                    scu.UserTitle = "Recalibrator";
+                }
+                scu.UserRole = dr.user_role + " Response";
+                scd.ScorecardUser = scu;
+                CallScores cs = new CallScores();
+                //cs.score = dr.cali_form_score.ToString();
+                cs.reviewer = dr.reviewed_by;
+                if (dr.user_role == "Calibrator")
+                {
+                   // cs.calibrationscore = dr.cali_form_score.ToString();
+                }
+                else
+                {
+                    cs.calibrationscore = dr.total_score.ToString();
+                }
+                cs.scoredate = dr.review_date.ToString();
+                cs.role = dr.user_role;
+                scd.CallScore = cs;
+                return scd;
+            }
+        }
+        #endregion  getRecordSCCall
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f_id"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public List<IEnumerable> getCompletedSCClientCalibrationComplexType(int f_id, string username)
+        {
+            try
+            {
+
+                List<IEnumerable> result = new List<IEnumerable>();
+                //second way to get multiple result set in entity
+                using (CC_ProdEntities dataContext = new CC_ProdEntities())
+                {
+                    var command = new SqlCommand()
+                    {
+                        CommandText = "[dbo].[getCompletedSCClientCalibration]",
+                        CommandType = CommandType.StoredProcedure
+                    };
+
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@id",f_id),
+                        new SqlParameter("@username",username)
+                    };
+                    command.Parameters.AddRange(parameters.ToArray());
+                    result = dataContext.MultipleResults(command)
+                                   .With<getCompletedSCCSCall_Result>()
+                                   .With<form_q_scores_Complex_Result>()
+                                   .With<vwFOrm_Result>()
+                                   .With<getTemplateItemsAllComplex_Result>()
+                                   .With<Models.DBModel.getCompletedSCCalibration_Result>()
+                                   .Execute();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+
+            }
+        }
+
+        #region Private getRecordSCClientCalibration
+        /// <summary>
+        /// getRecordSCClientCalibration
+        /// </summary>
+        /// <param name="f_id"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private ScorecardData getRecordSCClientCalibration(string f_id, string username)
+        {
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                int fId = 0;
+                if (f_id != "" && f_id != null)
+                {
+                    fId = Convert.ToInt32(f_id);
+                }
+                var getPopulatedScorecard = getCompletedSCClientCalibrationComplexType(fId, username).ToList();
+                ScorecardData scd = populateScorecardComplex(getPopulatedScorecard);
+                Models.DBModel.getCompletedSCCalibration_Result dr = getPopulatedScorecard[4].Cast<Models.DBModel.getCompletedSCCalibration_Result>().FirstOrDefault();
+
+                //DataRow dr = ds.Tables[4].Rows[0];
+                UserObject scu = new UserObject();
+                scu.UserRole = dr.user_role + " - Client Calib";
+                scu.UserTitle = dr.reviewed_by;
+                if (dr.golden == dr.reviewed_by)
+                {
+                    scu.isGolden = true;
+                }
+                else
+                {
+                    scu.isGolden = false;
+                }
+                CallScores cs = new CallScores();
+                cs.score = Convert.IsDBNull(dr.total_score) ? "0" : dr.total_score.ToString();
+                cs.reviewer = dr.reviewed_by.ToString();
+                cs.scoredate = Convert.ToDateTime(dr.review_date).ToShortDateString();
+                cs.role = dr.user_role.ToString();
+                scd.CallScore = cs;
+                scd.ScorecardUser = scu;
+                return scd;
+            }
+        }
+        #endregion getRecordSCClientCalibration
+
+
+        /// <summary>
+        /// getCompletedSCEditedComplexType
+        /// </summary>
+        /// <param name="f_id"></param>
+        /// <param name="username"></param>
+        /// <param name="call_username"></param>
+        /// <returns></returns>
+        public List<IEnumerable> getCompletedSCEditedComplexType(int f_id, string username, string call_username)
+        {
+            try
+            {
+
+                List<IEnumerable> result = new List<IEnumerable>();
+                //second way to get multiple result set in entity
+                using (CC_ProdEntities dataContext = new CC_ProdEntities())
+                {
+                    var command = new SqlCommand()
+                    {
+                        CommandText = "[dbo].[getCompletedSCEdited]",
+                        CommandType = CommandType.StoredProcedure
+                    };
+
+                    var parameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@f_id",f_id),
+                        new SqlParameter("@username",username),
+                        new SqlParameter("@call_username",call_username)
+                    };
+
+                    command.Parameters.AddRange(parameters.ToArray());
+                    result = dataContext.MultipleResults(command)
+                                   .With<getCompletedSCCSCall_Result>()
+                                   .With<form_q_scores_Complex_Result>()
+                                   .With<vwFOrm_Result>()
+                                   .With<getTemplateItemsAllComplex_Result>()
+                                   .With<getRecordSCEdited_Result>()
+                                   .Execute();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+
+            }
+        }
+
+
+
+        #region Private getCompletedEditedComplex
+        /// <summary>
+        /// getCompletedEditedComplex
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        private ScorecardData getCompletedEditedComplex(List<IEnumerable> ds)
+        {
+            ScorecardData scd = new ScorecardData();
+            List<getCompletedSCCSCall_Result> section_dt = ds[0].Cast<getCompletedSCCSCall_Result>().ToList();
+            List<form_q_scores_Complex_Result> qdt = ds[1].Cast<form_q_scores_Complex_Result>().ToList();
+            List<vwFOrm_Result> ans_dt = ds[2].Cast<vwFOrm_Result>().ToList();
+            List<getRecordSCEdited_Result> temp_dt = ds[3].Cast<getRecordSCEdited_Result>().ToList();
+            List<SectionData> sections = new List<SectionData>();
+            foreach (var section_dr in section_dt)
+            {
+                SectionData section_data = new SectionData();
+                section_data.SectionTitle = section_dr.section;
+                List<ScorecardResponse> qrs = new List<ScorecardResponse>();
+
+                //filteredq_dt = qdt.Select("section_id = " + section_dr["ID"]);
+                var qdt1 = qdt.Where(x => x.section_id == section_dr.ID).ToList();
+                foreach (var qdr in qdt1)
+                {
+                    ScorecardResponse qr = new ScorecardResponse();
+                    qr.question = qdr.q_short_name;
+                    qr.result = qdr.answer_text;
+                    qr.QID = Convert.ToInt32(qdr.q_id);
+                    qr.sentence = qdr.sentence;
+                    qr.OptionVerb = qdr.options_verb;
+                    qr.LeftColumnQuestion = Convert.ToBoolean(qdr.left_column_question);
+                    //qr.QAPoints = Convert.ToInt32(qdr.QA_points);
+                    qr.QType = qdr.q_type;
+                    qr.ViewLink = qdr.view_link;
+                    List<Comment> cmt_list = new List<Comment>();
+                    try
+                    {
+                        //filteredans_dt = ans_dt.Select("question_id = '" + qdr.q_id.ToString() + "'");
+                        var filteredans_dt = ans_dt.Where(x => x.question_id == qdr.q_id).ToList();
+                        if (filteredans_dt.Count() > 0)
+                        {
+                            List<string> ans_comment = new List<string>();
+                            foreach (var ans_dr in filteredans_dt)
+                            {
+                                ans_comment.Add(ans_dr.comment);
+                                Comment cmt = new Comment();
+                                cmt.CommentText = ans_dr.comment;
+                                cmt.CommentID = Convert.ToInt32(ans_dr.id);
+                                cmt_list.Add(cmt);
+                            }
+                            qr.QComments = ans_comment;
+                            qr.SCRComments = cmt_list;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    qrs.Add(qr);
+                }
+                section_data.QList = qrs;
+                sections.Add(section_data);
+            }
+            scd.Sections = sections;
+
+            return scd;
+        }
+        #endregion getCompletedEditedComplex
 
         #region Private getRecordSCEdited
         /// <summary>
@@ -1343,31 +1681,36 @@ namespace WebApi.DataLayer
         /// <param name="username"></param>
         /// <param name="call_username"></param>
         /// <returns></returns>
-        //private ScorecardData getRecordSCEdited(string f_id, string username, string call_username)
-        //{
-        //    SqlCommand sq = new SqlCommand("getCompletedSCEdited");
-        //    sq.CommandType = CommandType.StoredProcedure;
-        //    sq.Parameters.AddWithValue("f_id", f_id);
-        //    sq.Parameters.AddWithValue("username", username);
-        //    sq.Parameters.AddWithValue("call_username", call_username);
+        private ScorecardData getRecordSCEdited(string f_id, string username, string call_username)
+        {
+            using (CC_ProdEntities dataContext = new CC_ProdEntities())
+            {
+                int fId = 0;
+                if (f_id != "" && f_id != null)
+                {
+                    fId = Convert.ToInt32(f_id);
+                }
+                var getPopulatedScorecard = getCompletedSCEditedComplexType(fId, username, call_username).ToList();
+                ScorecardData scd = getCompletedEditedComplex(getPopulatedScorecard);
+                getRecordSCEdited_Result dr = getPopulatedScorecard[4].Cast<Models.DBModel.getRecordSCEdited_Result>().FirstOrDefault();
+                if (dr != null)
+                {
+                    //DataRow dr = ds.Tables[4].Rows[0];
+                    UserObject scu = new UserObject();
+                    scu.UserRole = dr.user_role;
+                    scu.UserTitle = dr.username + " (Edit)";
 
-        //    DataSet ds = Common.getTables(sq);
-        //    ScorecardData scd = populateScorecard(ds);
-        //    DataRow dr = ds.Tables[4].Rows[0];
-        //    UserObject scu = new UserObject();
-        //    scu.UserRole = dr["user_role"].ToString();
-        //    scu.UserTitle = dr["username"] + " (Edit)";
-
-        //    CallScores cs = new CallScores();
-        //    cs.score = Convert.IsDBNull(dr["total_score"]) ? "0" : dr["total_score"].ToString();
-        //    cs.reviewer = dr["username"].ToString();
-        //    cs.scoredate = Convert.ToDateTime(dr["review_date"]).ToShortDateString();
-        //    cs.role = dr["user_role"].ToString();
-        //    scd.CallScore = cs;
-        //    scd.ScorecardUser = scu;
-
-        //    return scd;
-        //}
+                    CallScores cs = new CallScores();
+                    cs.score = Convert.IsDBNull(dr.total_score) ? "0" : dr.total_score.ToString();
+                    cs.reviewer = dr.username;
+                    cs.scoredate = Convert.ToDateTime(dr.review_date).ToShortDateString();
+                    cs.role = dr.user_role.ToString();
+                    scd.CallScore = cs;
+                    scd.ScorecardUser = scu;
+                }
+                return scd;
+            }
+        }
         #endregion  getRecordSCEdited
 
         #region Private CheckForS3
@@ -1429,8 +1772,7 @@ namespace WebApi.DataLayer
                     }
                     //Common.UpdateTable("exec makeBlankForm '" + x_id + "'");
 
-                    //var isExist1 = dataContext.makeBlankForm(x_id);
-
+                    var isExist1 = dataContext.makeBlankForm(x_id).ToList();
                     //Common.UpdateTable("update vwForm set review_date = bad_call_date, calib_score = null, total_score=null, total_score_with_fails = null, display_score = null,  pass_fail='N/A',original_qa_score=null where review_id = '" + x_id + "'");
                     var isExist2 = dataContext.vwForms.Where(x => x.review_ID == x_id).FirstOrDefault();
                     var tblscore = dataContext.form_score3.Where(x => x.review_ID == x_id).FirstOrDefault();
@@ -1639,8 +1981,8 @@ namespace WebApi.DataLayer
                     if (isUserExtraInfo != null)
                     {
                         nonEdit = isUserExtraInfo.non_edit.ToString();
-                        objUserObject.UserRole = isUserExtraInfo.user_role.ToString();
-                        objUserObject.UserName = isUserExtraInfo.username.ToString();
+                        objUserObject.UserRole = isUserExtraInfo.user_role;
+                        objUserObject.UserName = isUserExtraInfo.username;
                         objUserObject.SpeedInc = isUserExtraInfo.speed_increment.ToString();
                         objUserObject.StartImmediately = Convert.ToBoolean(isUserExtraInfo.calls_start_immediately);
                         //DataTable links_dt =Common.GetTable("exec getMyMenu '" + userName + "'");
@@ -2838,7 +3180,7 @@ namespace WebApi.DataLayer
                                 ret_resp = Messages.Updated;
                             }
                         }
-                      
+
                     }
                     foreach (int removeitem in updateAllItems.removeother)
                     {
@@ -2867,7 +3209,7 @@ namespace WebApi.DataLayer
         {
             try
             {
-              
+
                 int x_id = changeScorecardData.x_id;
                 int new_scorecard = Convert.ToInt32(changeScorecardData.new_scorecard);
                 if (!HttpContext.Current.User.Identity.IsAuthenticated)
@@ -2884,7 +3226,7 @@ namespace WebApi.DataLayer
                         tblXCC_REPORT_NEW = dataContext.XCC_REPORT_NEW.Find(isExist.ID);
                         dataContext.Entry(tblXCC_REPORT_NEW).State = EntityState.Modified;
                         tblXCC_REPORT_NEW.scorecard = new_scorecard;
-                       int result = dataContext.SaveChanges();
+                        int result = dataContext.SaveChanges();
                     }
                     return Messages.Updated;
                 }
@@ -2930,7 +3272,7 @@ namespace WebApi.DataLayer
 
         #region Public CompleteReview
         /// <summary>
-        /// 
+        /// CompleteReview
         /// </summary>
         /// <param name="simpleID"></param>
         /// <returns></returns>
@@ -3054,7 +3396,7 @@ namespace WebApi.DataLayer
                     int reviewId = 0;
                     if (isvwForm != null)
                     {
-                        reviewId =Convert.ToInt32(isvwForm.review_ID);
+                        reviewId = Convert.ToInt32(isvwForm.review_ID);
                     }
                     var isExist = dataContext.XCC_REPORT_NEW.Where(x => x.ID == reviewId).FirstOrDefault();
                     XCC_REPORT_NEW tblXCC_REPORT_NEW = new XCC_REPORT_NEW();
@@ -3694,19 +4036,28 @@ namespace WebApi.DataLayer
         private CompleteScorecard populateScorecardData(List<IEnumerable> ds, string xcc_id)
         {
             CompleteScorecard sc = new CompleteScorecard();
-            var getPopulatedScorecard = ds[0].Cast<getPopulatedScorecard_Result>();
+            var getPopulatedScorecard = ds[0].Cast<getPopulatedScorecardComplex_Result>();
             var sc_dt = getPopulatedScorecard.FirstOrDefault();
-
             List<section_order_Result> section_dt = ds[1].Cast<section_order_Result>().ToList();
             List<getListenQuestionsAll_Result> q_dt = ds[2].Cast<getListenQuestionsAll_Result>().ToList();
             List<question_options_Result> ti_dt = ds[3].Cast<question_options_Result>().ToList();
             List<question_answers_Result> ans_dt = ds[4].Cast<question_answers_Result>().ToList();
-            List<q_instructions> instr_dt = ds[5].Cast<q_instructions>().ToList();
-            List<q_faqs> faq_dt = ds[6].Cast<q_faqs>().ToList();
-            List<getotherformdata_Result> cq_dt = ds[7].Cast<getotherformdata_Result>().ToList();
-            List<sc_inputs> clerk_dt = ds[8].Cast<sc_inputs>().ToList();
-            List<answer_comments> cmt_dt = ds[9].Cast<answer_comments>().ToList();
-
+            List<q_instructions_Result> instr_dt = ds[5].Cast<q_instructions_Result>().ToList();
+            List<q_faqs_Result> faq_dt = ds[6].Cast<q_faqs_Result>().ToList();
+            List<getotherformdataComplex_Result> cq_dt = ds[7].Cast<getotherformdataComplex_Result>().ToList();
+            List<sc_inputs_Result> clerk_dt = ds[8].Cast<sc_inputs_Result>().ToList();
+            List<answer_comments_Result> cmt_dt = ds[9].Cast<answer_comments_Result>().ToList();
+            List<dropDownItem_Result> ddl_dt = ds[10].Cast<dropDownItem_Result>().ToList();
+            //DataTable section_dt = ds.Tables[1];
+            //DataTable q_dt = ds.Tables[2];
+            //DataTable ti_dt = ds.Tables[3];
+            //DataTable ans_dt = ds.Tables[4];
+            //DataTable instr_dt = ds.Tables[5];
+            //DataTable faq_dt = ds.Tables[6];
+            //DataTable cq_dt = ds.Tables[7];
+            //DataTable clerk_dt = ds.Tables[8];
+            //DataTable cmt_dt = ds.Tables[9];
+            //DataTable ddl_dt = ds.Tables[10];
             string other_sort_order = string.Empty;
             if (sc_dt.meta_sort == "Alphbetical")
             {
@@ -3719,16 +4070,6 @@ namespace WebApi.DataLayer
             sc.ReviewType = sc_dt.review_type;
 
             List<WebApi.Models.CCInternalAPI.Section> sec_list = new List<WebApi.Models.CCInternalAPI.Section>();
-            //DataTable section_dt = ds.Tables[1];
-            //DataTable q_dt = ds.Tables[2];
-            //DataTable ti_dt = ds.Tables[3];
-            //DataTable ans_dt = ds.Tables[4];
-            //DataTable instr_dt = ds.Tables[5];
-            //DataTable faq_dt = ds.Tables[6];
-            //DataTable cq_dt = ds.Tables[7];
-            //DataTable clerk_dt = ds.Tables[8];
-            //DataTable cmt_dt = ds.Tables[9];
-            //DataTable ddl_dt = ds.Tables[10];
             foreach (var item in section_dt)
             {
                 WebApi.Models.CCInternalAPI.Section sec = new WebApi.Models.CCInternalAPI.Section();
@@ -3736,14 +4077,6 @@ namespace WebApi.DataLayer
                 sec.description = item.descrip;
                 List<WebApi.Models.CCInternalAPI.Question> ques_list = new List<WebApi.Models.CCInternalAPI.Question>();
 
-                //if (item.ID.ToString() == "0")
-                //{
-                //    filteredq_dt = q_dt.Select("1=1", "q_order");
-                //}
-                //else
-                //{
-                //    filteredq_dt = q_dt.Select("section = " + item.id, "q_order");
-                //}
                 foreach (var drq in q_dt)
                 {
                     WebApi.Models.CCInternalAPI.Question ques = new WebApi.Models.CCInternalAPI.Question();
@@ -3833,18 +4166,19 @@ namespace WebApi.DataLayer
                         // Comments from dropdowns are simply answer comments presented in drop down form for YES answer only
                         if (dra.answer_text == "Yes")
                         {
-                            // DataRow[] filteredddl_dt = ddl_dt.Select("question_id = " + drq["id"]);
-                            // List<string> ddlList = new List<string>();
-                            // foreach (var drcmt in filteredddl_dt)
-                            // {
-                            //    ddlList.Add(drcmt["value"].ToString());
-                            // }
-                            // ans.DropdownItems = ddlList;
+                            //DataRow[] filteredddl_dt = ddl_dt.Select("question_id = " + drq["id"]);
+                            var filteredddl_dt = ddl_dt.Where(x => x.question_id == drq.id).ToList();
+                            List<string> ddlList = new List<string>();
+                            foreach (var drcmt in filteredddl_dt)
+                            {
+                                ddlList.Add(drcmt.value);
+                            }
+                            ans.DropdownItems = ddlList;
                         }
                         ans.Comments = cmt_list;
                         ans_list.Add(ans);
                     }
-                    //        ques.answers = ans_list;
+                    ques.answers = ans_list;
                     var filteredinstr_dt = instr_dt.Where(x => x.question_id == drq.id).ToList();
                     List<Instruction> instr_list = new List<Instruction>();
                     foreach (var drinst in filteredinstr_dt)
@@ -3993,18 +4327,18 @@ namespace WebApi.DataLayer
                     };
 
                     command.Parameters.AddRange(parameters.ToArray());
-
                     result = dataContext.MultipleResults(command)
-                                   .With<getPopulatedScorecard_Result>()
+                                   .With<getPopulatedScorecardComplex_Result>()
                                    .With<section_order_Result>()
                                    .With<getListenQuestionsAll_Result>()
                                    .With<question_options_Result>()
                                    .With<question_answers_Result>()
-                                   .With<q_instructions>()
-                                   .With<q_faqs>()
-                                   .With<getotherformdata_Result>()
-                                   .With<sc_inputs>()
-                                   .With<answer_comments>()
+                                   .With<q_instructions_Result>()
+                                   .With<q_faqs_Result>()
+                                   .With<getotherformdataComplex_Result>()
+                                   .With<sc_inputs_Result>()
+                                   .With<answer_comments_Result>()
+                                   .With<dropDownItem_Result>()
                                    .Execute();
                 }
                 return result;
@@ -4066,16 +4400,20 @@ namespace WebApi.DataLayer
         #endregion Public getCoachingQueueJson
 
         /// <summary>
-        /// 
+        /// clean_string
         /// </summary>
         /// <param name="dirty_string"></param>
         /// <returns></returns>
         private string clean_string(string dirty_string)
         {
             if (dirty_string != null)
+            {
                 return dirty_string.Replace("+", " ").Replace("%20", " ");
+            }
             else
+            {
                 return dirty_string;
+            }
         }
 
         #region Public AddRecord
@@ -4290,10 +4628,6 @@ namespace WebApi.DataLayer
                             {
                                 Message = Messages.Insert;
                             }
-                            //string sql_school = "insert into school_data(pending_id,";
-                            //string param_scure = " @pending_id,";
-                            // SqlCommand reply_school = new SqlCommand(sql_school, cn);
-                            //reply_school.Parameters.AddWithValue("pending_id", new_id);
                         }
                     }
 
@@ -4464,7 +4798,7 @@ namespace WebApi.DataLayer
         }
 
         /// <summary>
-        /// 
+        /// UpdateQuestionsOrder
         /// </summary>
         /// <param name="questions"></param>
         public string UpdateQuestionsOrder(List<ScorecardQuestion> questions)
@@ -4622,7 +4956,9 @@ namespace WebApi.DataLayer
                     {
                         listen_dr["Comments"] = "";
                         foreach (CommentData sc_comment in Comments)
+                        {
                             listen_dr["Comments"] = listen_dr["Comments"] + sc_comment.comment;
+                        }
                     }
                     else
                     {
@@ -5997,17 +6333,6 @@ namespace WebApi.DataLayer
                     x = x + 1;
                 }
                 File.Delete(server_root + @"\audio\" + appname + @"\" + new_call + @"\" + session_id + "_TEST2.mp3");
-                //foreach (var LR in LAresult)
-                //{
-                //    try
-                //    {
-                //        File.Delete(LR.local_audio);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        HttpContext.Current.Response.Write(LR.local_audio + "<br>");
-                //    }
-                //}
                 File.Delete(server_root + @"\audio\" + appname + @"\" + new_call + @"\" + session_id + ".mp3");
                 File.Move(server_root + @"\audio\" + appname + @"\" + new_call + @"\" + session_id + "_TEST.mp3", server_root + @"\audio\" + appname + @"\" + new_call + @"\" + session_id + ".mp3");
                 if (System.IO.File.Exists(server_root + @"\audio\" + appname + @"\" + new_call + @"\" + session_id + ".mp3"))

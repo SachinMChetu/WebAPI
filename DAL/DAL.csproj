@@ -95,7 +95,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebApi">
+    <Reference Include="WebApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\WebApi\bin\WebApi.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -178,10 +179,10 @@
     <Compile Include="Models\CallShortInfo.cs" />
     <Compile Include="Models\CallsLeft.cs" />
     <Compile Include="Models\CampaignPerformance.cs" />
+    <Compile Include="Models\CCInternalAPIModels\BaseResponse.cs" />
     <Compile Include="Models\CCInternalAPIModels\ButtonActionResponseData.cs" />
     <Compile Include="Models\CCInternalAPIModels\CalibrationHoursResponseData.cs" />
     <Compile Include="Models\CCInternalAPIModels\CallRecordResponseData.cs" />
-    <Compile Include="Models\CCInternalAPIModels\BaseResponse.cs" />
     <Compile Include="Models\CCInternalAPIModels\PayHistoryResponseData.cs" />
     <Compile Include="Models\CCInternalAPIModels\PayworksheetResponseData.cs" />
     <Compile Include="Models\ConversionModels\ConversionDailyData.cs" />

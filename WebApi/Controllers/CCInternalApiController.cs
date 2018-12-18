@@ -32,22 +32,23 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/AddExistingSchool")]
         [HttpPost]
-        [ResponseType(typeof(object))]
+        [ResponseType(typeof(AddExistingSchoolRequest))]
         [Description("Add more data to an existing record after it has been received and processed.")]
-        public dynamic AddExistingSchool(AddExistingSchoolRequest AES)
+        public string AddExistingSchool(AddExistingSchoolRequest AES)
         {
+            string Message = "";
             //string SESSION_ID = "743042";
             string SESSION_ID = AES.SESSION_ID;
             SchoolItem[] Schools = AES.Schools;
             try
             {
-                objCCInternalLayer.AddExistingSchool(Schools, SESSION_ID);
+                Message= objCCInternalLayer.AddExistingSchool(Schools, SESSION_ID);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return Ok("success");
+            return Message;
         }
         #endregion Public AddExistingSchool
 
@@ -327,7 +328,7 @@ namespace WebApi.Controllers
         [Route("CCInternal/GetAllRecords")]
         [HttpPost]
         [ResponseType(typeof(CallRecordResponseData))]
-        public dynamic GetAllRecords(GetAllRecordData GARD)
+        public CallRecordResponseData GetAllRecords(GetAllRecordData GARD)
         {
             CallRecordResponseData crrd = new CallRecordResponseData();
 
@@ -338,7 +339,9 @@ namespace WebApi.Controllers
             List<CallRecord> cr = new List<CallRecord>();
             bool rev_date = false;
             if (use_review == null)
+            {
                 rev_date = false;
+            }
             switch (use_review)
             {
                 case "1":
@@ -359,7 +362,7 @@ namespace WebApi.Controllers
             {
                 throw ex;
             }
-            return Ok(crrd);
+            return crrd;
         }
         #endregion Public GetAllRecords
 
@@ -371,19 +374,20 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/UpdateQuestionsOrder")]
         [HttpPost]
-        [ResponseType(typeof(BaseResponse))]
+        [ResponseType(typeof(object))]
         [Description("Changes order of questions for specific scorecard")]
-        public dynamic UpdateQuestionsOrder(List<ScorecardQuestion> questions)
+        public string UpdateQuestionsOrder(List<ScorecardQuestion> questions)
         {
+            string Messages = string.Empty;
             try
             {
-                bres = new BaseResponse(true, status, objCCInternalLayer.UpdateQuestionsOrder(questions));
+                Messages = objCCInternalLayer.UpdateQuestionsOrder(questions);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return Ok(bres);
+            return Messages;
         }
         #endregion UpdateQuestionsOrder
 
@@ -394,7 +398,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/GetNextCall")]
         [HttpPost]
-        [ResponseType(typeof(object))]
+        [ResponseType(typeof(ListenCall))]
         public ListenCall GetNextCall() // List(Of CallRecord)
         {
             ListenCall objListenCall = new ListenCall();
@@ -578,11 +582,10 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/GetRecordID")]
         [HttpPost]
-        [ResponseType(typeof(CalibrationHoursResponseData))]
+        [ResponseType(typeof(AllCallRecord))]
 
         public AllCallRecord GetRecordID(SimpleID SI)
         {
-            CalibrationHoursResponseData chResData = new CalibrationHoursResponseData();
             AllCallRecord scr = new AllCallRecord();
             try
             {
@@ -612,17 +615,18 @@ namespace WebApi.Controllers
         [ResponseType(typeof(SimpleID))]
         public string AcceptAsBad(SimpleID SI)
         {
+            string Message = string.Empty;
             try
             {
                 int x_id = Convert.ToInt32(SI.ID);
                 string user = HttpContext.Current.User.Identity.Name;
-                objCCInternalLayer.AcceptAsBad(x_id, user);
+                Message= objCCInternalLayer.AcceptAsBad(x_id, user);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return "Updated.";
+            return Message;
         }
         #endregion AcceptAsBad
 
@@ -665,12 +669,12 @@ namespace WebApi.Controllers
             UserObject objUserObject = new UserObject();
             try
             {
-                //if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                //{
-                //    objUserObject.UserName = "Not Authenticated";
-                //    return objUserObject;
-                //}
-                string username = "Courtney"; //HttpContext.Current.User.Identity.Name; //Courtney
+                if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                  objUserObject.UserName = "Not Authenticated";
+                  return objUserObject;
+                }
+                string username =HttpContext.Current.User.Identity.Name; //Courtney
 
                 objUserObject = objCCInternalLayer.GetUserData(username);
             }
@@ -695,8 +699,8 @@ namespace WebApi.Controllers
             List<CallLoaded> objCallLoaded = new List<CallLoaded>();
             try
             {
-                //string appname = HttpContext.Current.Request["appname"];
-                string appname = "83bar";
+                string appname = HttpContext.Current.Request["appname"];
+                //string appname = "83bar";
                 objCallLoaded = objCCInternalLayer.GetCallsLoaded(CL, appname);
             }
             catch (Exception ex)
@@ -743,11 +747,10 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/UpdateSpotcheck")]
         [HttpPost]
-        [ResponseType(typeof(SpotCheckData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction UpdateSpotcheck(SpotCheckData SCD)
         {
             ButtonAction objButtonAction = new ButtonAction();
-            List<CallLoaded> objCallLoaded = new List<CallLoaded>();
             try
             {
                 objButtonAction = objCCInternalLayer.UpdateSpotcheck(SCD);
@@ -768,7 +771,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/getScore")]
         [HttpPost]
-        [ResponseType(typeof(getScoreData))]
+        [ResponseType(typeof(SessionStatus))]
         public List<SessionStatus> getScore(getScoreData gsd)
         {
             List<SessionStatus> objSessionStatus = new List<SessionStatus>();
@@ -793,7 +796,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/AddDispute")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction AddDispute(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -817,10 +820,10 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/UpdateCallComment")]
         [HttpPost]
-        [ResponseType(typeof(UpdateComment))]
+        [ResponseType(typeof(string))]
         public string UpdateCallComment(UpdateComment updateComment)
         {
-            string Message = "";
+            string Message =string.Empty;
             try
             {
                 Message = objCCInternalLayer.UpdateCallComment(updateComment);
@@ -845,7 +848,7 @@ namespace WebApi.Controllers
         [ResponseType(typeof(SimpleID))]
         public string DeleteComment(SimpleID simpleID)
         {
-            string Message = "";
+            string Message = string.Empty;
             try
             {
                 Message = objCCInternalLayer.DeleteComment(simpleID);
@@ -890,7 +893,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/ReassignNotification")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction ReassignNotification(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -914,7 +917,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/RecreateCall")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction RecreateCall(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -938,7 +941,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/HideCall")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction HideCall(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -962,7 +965,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/ResetCall")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction ResetCall(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -1034,7 +1037,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/AddCalibration")]
         [HttpPost]
-        [ResponseType(typeof(EndPointData))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction AddCalibration(EndPointData endPointData)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -1058,7 +1061,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/UpdateMetaData")]
         [HttpPost]
-        [ResponseType(typeof(UpdateAllItems))]
+        [ResponseType(typeof(string))]
         public string UpdateMetaData(UpdateAllItems updateAllItems)
         {
             string Message = "";
@@ -1082,7 +1085,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/ChangeCallScorecard")]
         [HttpPost]
-        [ResponseType(typeof(ChangeScorecardData))]
+        [ResponseType(typeof(string))]
         public string ChangeCallScorecard(ChangeScorecardData changeScorecardData)
         {
             string message = string.Empty;
@@ -1107,7 +1110,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/RemoveCalibrator")]
         [HttpPost]
-        [ResponseType(typeof(RemoveCalib))]
+        [ResponseType(typeof(string))]
         public string RemoveCalibrator(RemoveCalib removeCalib)
         {
             string message = string.Empty;
@@ -1138,7 +1141,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/CompleteReview")]
         [HttpPost]
-        [ResponseType(typeof(SimpleID))]
+        [ResponseType(typeof(string))]
         public string CompleteReview(SimpleID simpleID)
         {
             string message = "";
@@ -1162,7 +1165,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/MarkCalibrationBad")]
         [HttpPost]
-        [ResponseType(typeof(MarkCaliBad))]
+        [ResponseType(typeof(string))]
         public string MarkCalibrationBad(MarkCaliBad markCaliBad)
         {
             string message = string.Empty ;
@@ -1187,7 +1190,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/MarkCallBad2")]
         [HttpPost]
-        [ResponseType(typeof(MarkBadCallData2))]
+        [ResponseType(typeof(ButtonAction))]
         public ButtonAction MarkCallBad2(MarkBadCallData2 markBadCallData2)
         {
             ButtonAction objButtonAction = new ButtonAction();
@@ -1212,6 +1215,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/MarkCallBad")]
         [HttpPost]
+        [ResponseType(typeof(string))]
         public string MarkCallBad(MarkBadCallData markBadCallData)
         {
             string Message = string.Empty;
@@ -1236,7 +1240,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/GetScorecardRecordID")]
         [HttpPost]
-        [ResponseType(typeof(getSCRecData))]
+        [ResponseType(typeof(CompleteScorecard))]
         public CompleteScorecard GetScorecardRecordID(SimpleID simpleID)
         {
             CompleteScorecard objCompleteScorecard = new CompleteScorecard();
@@ -1293,6 +1297,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/getCoachingQueueJson")]
         [HttpPost]
+        [ResponseType(typeof(CoachingQueue))]
         public List<CoachingQueue> getCoachingQueueJson(string filter)
         {
             List<CoachingQueue> coachingQueueLst = new List<CoachingQueue>();
@@ -1318,7 +1323,7 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [Route("CCInternal/AddRecord")]
         [HttpPost]
-        [ResponseType(typeof(AddRecordData))]
+        [ResponseType(typeof(string))]
         public string AddRecord(AddRecordData addRecordData)
         {
             string Message = "";

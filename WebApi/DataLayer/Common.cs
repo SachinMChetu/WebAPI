@@ -74,7 +74,7 @@ namespace WebApi.DataLayer
             }
             catch (Exception ex)
             {
-                //Email_Error(sql + "<br><br>" + ex.Message);
+                throw;
             }
             cn.Close();
             cn.Dispose();
